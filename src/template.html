@@ -25,7 +25,7 @@
   --edge:#4b5563; --hot:#f3f4f6; --hot-fg:#0e1013; --mast:#000000; --mast-fg:#ffffff; --mast-mut:#9ca3af; color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1480px;margin:0 auto;padding-left:var(--gut-l);padding-right:var(--gut-r)}
+.wrap{width:100%;padding-left:var(--gut-l);padding-right:var(--gut-r)}
 .mono{font-family:var(--f-mono)}
 
 /* masthead */
@@ -234,8 +234,8 @@ Object.entries(N).forEach(([id,n])=>{
   mk("rect",{class:"box",x:x-W/2,y:y-H/2,width:W,height:H,rx:1},g);
   mk("text",{x:x-W/2+12,y:y-4,class:"nl"},g).textContent=n.label;
   mk("text",{x:x-W/2+12,y:y+14,class:"nt"},g).textContent=n.tag;
-  g.addEventListener("click",()=>selectNode(id));
-  g.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();selectNode(id)}});
+  g.addEventListener("click",()=>toggleNode(id));
+  g.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();toggleNode(id)}});
   nodeEl[id]=g;
 });
 
@@ -246,7 +246,7 @@ LY.layers.forEach((l,i)=>{
   Object.entries(N).filter(([,n])=>n.layer===i).sort((a,b)=>a[1].y-b[1].y).forEach(([id,n])=>{
     const b=document.createElement("button");b.type="button";b.className="nd";
     b.innerHTML=`${n.label.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}<small>${n.tag.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}</small>`;
-    b.onclick=()=>{selectNode(id);reveal()};sec.lastChild.appendChild(b);stackEl[id]=b;
+    b.onclick=()=>{toggleNode(id);reveal()};sec.lastChild.appendChild(b);stackEl[id]=b;
   });
   stack.appendChild(sec);
 });
@@ -264,6 +264,11 @@ function highlight(edgeIds,nodeIds,selId){
   Object.keys(N).forEach(id=>[nodeEl[id],stackEl[id]].forEach(g=>{g.classList.toggle("on",ns.has(id));g.classList.toggle("dim",!ns.has(id));g.classList.toggle("sel",id===selId)}));
   edgeIds.forEach(id=>gE.appendChild(edgeEl[id]));
 }
+// Nothing selected: every box and link at rest
+function clearHighlight(){
+  E.forEach(e=>{edgeEl[e.id].classList.remove("on","dim");edgeEl[e.id].setAttribute("marker-end","url(#ah)");signEl[e.id].classList.remove("on","dim")});
+  Object.keys(N).forEach(id=>[nodeEl[id],stackEl[id]].forEach(g=>g.classList.remove("on","dim","sel")));
+}
 
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const TAGS={sourced:"sourced",weak:"verify",unsourced:"unsourced"};
@@ -274,8 +279,20 @@ function sayBlock(t){return `<div class="say"><h3>Say it · about 60 seconds</h3
 function selectScript(){const p=document.getElementById("script");const r=document.createRange();r.selectNodeContents(p);const s=getSelection();s.removeAllRanges();s.addRange(r)}
 function wireCopy(t){const b=document.getElementById("copy");if(!b)return;b.onclick=()=>{const done=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy text",1500)};try{navigator.clipboard.writeText(t).then(done,selectScript)}catch(_){selectScript()}}}
 
+let selected=null;
+function toggleNode(id){selected===id?unselect():selectNode(id)}
+function unselect(){
+  selected=null;
+  document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false"));
+  clearHighlight();
+  panel.innerHTML=`<div><span class="kicker">Nothing selected</span><h2>Pick a chain or tap a box</h2></div>
+   <div><h3>Chains</h3><ul class="src">${C.map((c,i)=>`<li><button type="button" class="lk" data-c="${c.key}">${String.fromCharCode(65+i)} · ${esc(c.name)}</button> <span class="note">${c.edges.length} steps</span></li>`).join("")}</ul></div>
+   <p class="note" style="margin:0">Tap a box to see what drives it and what it drives. Tap it again to clear it.</p>`;
+  panel.querySelectorAll(".lk").forEach(b=>b.onclick=()=>{selectChain(b.dataset.c);reveal()});
+}
 function selectChain(k){
   const c=C.find(x=>x.key===k),ci=C.indexOf(c);
+  selected=null;
   document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===k));
   const edges=c.edges.map(id=>EBY[id]);
   const nodes=[...new Set(edges.flatMap(e=>[e.from,e.to]))];
@@ -291,6 +308,7 @@ function selectChain(k){
 }
 function selectNode(id){
   const n=N[id];
+  selected=id;
   document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false"));
   const ins=E.filter(e=>e.to===id),outs=E.filter(e=>e.from===id);
   highlight([...ins,...outs].map(e=>e.id),[id,...ins.map(e=>e.from),...outs.map(e=>e.to)],id);

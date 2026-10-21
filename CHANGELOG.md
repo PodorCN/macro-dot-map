@@ -10,6 +10,7 @@ Design-only release requested by Max: the page now uses the Thematic Tracker hou
 - Follow-up (Max): removed the headline and intro paragraph; the page now opens on the chain picker.
 - Phone layout (under 760px): chain picker in two columns, the reading panel comes right after it, and the map defaults to a list of drivers grouped by stage (tap one to open it). A List / Diagram switch brings back the full diagram.
 - "Driven by" and "Drives" names in the panel are now links that open that driver.
+- Follow-up (Max): the page is full width (no 1480px cap). Tapping a selected box again clears it; the panel then lists the chains.
 
 Warnings left open: unchanged from version 2 (V07 `hormuz`, V07 `metacompute`, three V15 weak-source script numbers); see below.
 
