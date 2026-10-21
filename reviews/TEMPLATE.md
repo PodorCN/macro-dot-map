@@ -13,7 +13,7 @@ render_check: auto
 
 **Verdict:** PASS / FAIL
 **Map version:** vN (meta.asOf YYYY-MM-DD)
-**Diff reviewed:** <last release tag>..<this commit or working tree>
+**Diff reviewed:** <last released commit from RELEASES.md>..<this commit or working tree>
 
 ## A. Mechanical gate
 - validate.py: N errors, N warnings, N flags

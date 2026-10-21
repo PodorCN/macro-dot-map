@@ -30,6 +30,7 @@ The map is an interview-prep tool for a buy-side multi-asset analyst. A reader s
 | `reviews/LESSONS.md` | Ledger of past mistakes and their guards. | Reviewer |
 | `reviews/lesson_patterns.json` | Risky phrasings that require reviewer acknowledgement. | Reviewer |
 | `reviews/records/` | One file per review, never deleted or edited after the fact. | Reviewer |
+| `reviews/RELEASES.md` | One row per release: the commit to roll back to. | Updater, after release |
 | `CHANGELOG.md` | What changed each day, including what was retired and why. | Updater |
 
 The published page lives at the URL in `meta.artifactUrl`. Always update that same artifact; never create a new one.
@@ -243,7 +244,7 @@ Warnings left open: V-code — justification
 ## 10. Hand-off, and what to do on FAIL
 
 - The reviewer must be a separate agent or session that has **not** seen your reasoning. Give it only the repository and the instruction "Review today's update using REVIEWER.md." Do not summarize your work for it beyond the changelog.
-- **FAIL means regenerate, not patch.** Start from the last approved data (`git checkout <last release tag> -- data/map.json`), then redo the run with every finding fixed. Re-check every item of the same type as each finding, not just the one quoted. (If the reviewer found one wrong date, re-verify every date.)
+- **FAIL means regenerate, not patch.** Start from the last approved data (`git checkout <commit of the last row in reviews/RELEASES.md> -- data/map.json`), then redo the run with every finding fixed. Re-check every item of the same type as each finding, not just the one quoted. (If the reviewer found one wrong date, re-verify every date.)
 - After two FAILs in one day, stop. The last released version stays live. Commit your work on a branch named `failed/YYYY-MM-DD` and leave a note at the top of `CHANGELOG.md` saying the day's update was not released and why.
 
 ---
@@ -253,7 +254,7 @@ Warnings left open: V-code — justification
 1. `python3 scripts/release_check.py` must print `RELEASE OK`.
 2. Publish `dist/macro-dot-map.html` to the existing artifact URL in `meta.artifactUrl` (Artifact tool, `url` set to that URL). If you cannot publish, still commit, and say so in the changelog.
 3. Commit everything (data, dist, changelog, review record) in one commit: `update: YYYY-MM-DD vN`.
-4. Tag it: `git tag release-YYYY-MM-DD` and push the branch and the tag.
+4. Push the commit, then add a row to `reviews/RELEASES.md` (date, version, commit, content hash, review id) in a second commit and push it. That file, not git tags, is the record of what was released, because tag pushes can be blocked.
 
 ---
 

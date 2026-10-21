@@ -11,7 +11,7 @@ You did not write this update. Do not ask the updater for its reasoning. Judge o
 1. Read `AGENT.md` so you know the rules the updater had to follow.
 2. Read `reviews/LESSONS.md` in full. You will check every lesson.
 3. Read the previous review record in `reviews/records/` and the newest `CHANGELOG.md` entry.
-4. See what changed: `git diff <last release tag> -- data/map.json src/ scripts/`.
+4. See what changed: `git diff <commit of the last row in reviews/RELEASES.md> -- data/map.json src/ scripts/`.
 
 ---
 
