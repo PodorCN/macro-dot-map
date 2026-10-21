@@ -7,6 +7,9 @@ Design-only release requested by Max: the page now uses the Thematic Tracker hou
 - Column headers are numbered 01–05 because the map reads left to right as a causal sequence.
 - Side panel is 350px from 1240px and 400px from 1500px, so the full map still fits at desktop width (L-011; render_check 0 failures across 6 views).
 - `scripts/build.py` also writes `index.html`, the same page as a full HTML document, for GitHub Pages at https://podor.org/macro-dot-map/. `dist/macro-dot-map.html` is unchanged in role and is still what the artifact publishes.
+- Follow-up (Max): removed the headline and intro paragraph; the page now opens on the chain picker.
+- Phone layout (under 760px): chain picker in two columns, the reading panel comes right after it, and the map defaults to a list of drivers grouped by stage (tap one to open it). A List / Diagram switch brings back the full diagram.
+- "Driven by" and "Drives" names in the panel are now links that open that driver.
 
 Warnings left open: unchanged from version 2 (V07 `hormuz`, V07 `metacompute`, three V15 weak-source script numbers); see below.
 
