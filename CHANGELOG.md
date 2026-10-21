@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-21 (version 2, design refresh)
+Design-only release requested by Max: the page now uses the Thematic Tracker house style. `data/map.json` is byte-identical to the 2026-10-20 release, so no fact, link, sign or chain changed.
+- New look: black masthead with the red-square brand, date rule, Georgia headline, monospace kickers, square boxes, no web fonts. Light and dark themes.
+- Chain steps in the side panel use the Thematic Tracker event-chain pattern (numbered steps, the final effect shown filled).
+- Column headers are numbered 01–05 because the map reads left to right as a causal sequence.
+- Side panel is 350px from 1240px and 400px from 1500px, so the full map still fits at desktop width (L-011; render_check 0 failures across 6 views).
+- `scripts/build.py` also writes `index.html`, the same page as a full HTML document, for GitHub Pages at https://podor.org/macro-dot-map/. `dist/macro-dot-map.html` is unchanged in role and is still what the artifact publishes.
+
+Warnings left open: unchanged from version 2 (V07 `hormuz`, V07 `metacompute`, three V15 weak-source script numbers); see below.
+
 ## 2026-10-20 (version 2)
 Restructure into a maintained project; no market data changed from version 1.
 - Content moved to `data/map.json`; the page is built from `src/template.html`.

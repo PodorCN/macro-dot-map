@@ -1,108 +1,175 @@
 <title>Macro Dot Map</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="macro-dot-map:content-hash" content="__CONTENT_HASH__">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: a five-stage transmission map (shock → portfolio) on the left, a reading panel on the right that explains the selected chain or box */
+/* Layout: Thematic Tracker house style. Black masthead, date rule, editorial headline,
+   chain picker, then the five-stage map (shock → portfolio) with a reading panel beside it. */
 :root{
-  --bg:#eceff3; --surface:#ffffff; --ink:#14202b; --muted:#566370; --line:#c4ccd5; --soft:#dfe4ea;
-  --l0:#b4441f; --l1:#9a6400; --l2:#0d6c76; --l3:#2b4e9c; --l4:#6c3c8b;
-  --edge:#9aa6b2; --hot:#14202b; --warn:#9a5b00;
-  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
-  --f-body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --paper:#ffffff; --ink:#111111; --mut:#6b7280; --body:#374151; --line:#e3e3e3; --line-2:#d1d5db;
+  --soft:#f6f6f4; --red:#e51503; --up:#0a7d44; --warn:#b45309;
+  --edge:#b4bcc8; --hot:#111827; --hot-fg:#ffffff; --mast:#000000; --mast-fg:#ffffff; --mast-mut:#9ca3af;
+  --f-display:Georgia,"Times New Roman","Songti SC",serif;
+  --f-body:Georgia,"Times New Roman","Songti SC",serif;
+  --f-sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --gut-l:max(clamp(16px,3vw,56px),env(safe-area-inset-left,0px));
+  --gut-r:max(clamp(16px,3vw,56px),env(safe-area-inset-right,0px));
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0c1117; --surface:#141b23; --ink:#e4eaf0; --muted:#8e9ba8; --line:#2c3743; --soft:#1c2530;
-  --l0:#e57a52; --l1:#d9a43c; --l2:#40b5bf; --l3:#86a2ea; --l4:#bb8edb;
-  --edge:#4a5868; --hot:#e4eaf0; --warn:#e0a54a; color-scheme:dark}}
+  --paper:#0e1013; --ink:#ececea; --mut:#9ca3af; --body:#c9ccd1; --line:#24282e; --line-2:#3a3f47;
+  --soft:#171a1f; --red:#ff4b3a; --up:#3fbf7f; --warn:#e0a54a;
+  --edge:#4b5563; --hot:#f3f4f6; --hot-fg:#0e1013; --mast:#000000; --mast-fg:#ffffff; --mast-mut:#9ca3af; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0c1117; --surface:#141b23; --ink:#e4eaf0; --muted:#8e9ba8; --line:#2c3743; --soft:#1c2530;
-  --l0:#e57a52; --l1:#d9a43c; --l2:#40b5bf; --l3:#86a2ea; --l4:#bb8edb;
-  --edge:#4a5868; --hot:#e4eaf0; --warn:#e0a54a; color-scheme:dark}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
-.page{max-width:1440px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px;display:grid;gap:18px}
-header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
-h1{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,5vw,52px);line-height:.95;letter-spacing:.01em;margin:0;text-transform:uppercase}
-.lede{margin:6px 0 0;color:var(--muted);max-width:62ch}
-.asof{font-family:var(--f-mono);font-size:12px;color:var(--muted);border:1px solid var(--line);padding:4px 10px;border-radius:3px;white-space:nowrap}
-.chains{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font:600 13px/1 var(--f-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:9px 12px;border-radius:999px;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
-.chip .k{font-family:var(--f-mono);font-size:11px;color:var(--muted)}
-.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.chip[aria-pressed="true"] .k{color:var(--bg);opacity:.7}
-.chip:focus-visible,.node:focus-visible,button:focus-visible{outline:2px solid var(--l2);outline-offset:2px}
-.main{display:grid;gap:18px;grid-template-columns:minmax(0,1fr)}
-@media (min-width:1240px){.main{grid-template-columns:minmax(0,1fr) 360px;align-items:start}}
-.mapbox{background:var(--surface);border:1px solid var(--line);border-radius:6px;min-width:0}
+  --paper:#0e1013; --ink:#ececea; --mut:#9ca3af; --body:#c9ccd1; --line:#24282e; --line-2:#3a3f47;
+  --soft:#171a1f; --red:#ff4b3a; --up:#3fbf7f; --warn:#e0a54a;
+  --edge:#4b5563; --hot:#f3f4f6; --hot-fg:#0e1013; --mast:#000000; --mast-fg:#ffffff; --mast-mut:#9ca3af; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1480px;margin:0 auto;padding-left:var(--gut-l);padding-right:var(--gut-r)}
+.mono{font-family:var(--f-mono)}
+
+/* masthead */
+header.mast{background:var(--mast);color:var(--mast-fg);border-bottom:1px solid var(--line)}
+header.mast .wrap{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;justify-content:space-between;padding-block:16px}
+.brand{font:800 15px var(--f-mono);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.brand i{display:inline-block;width:10px;height:10px;background:var(--red)}
+.mast nav{display:flex;flex-wrap:wrap;gap:4px 20px}
+.mast nav a{color:var(--mast-mut);font:700 12px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
+.mast nav a:hover{color:var(--mast-fg)}
+
+/* date rule + headline */
+.dateline{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 14px;border-bottom:2px solid var(--ink);padding:8px 0;font:12px var(--f-mono);color:var(--mut)}
+.dateline b{color:var(--ink)}
+.dateline .pill{margin-left:auto}
+.pill{font:700 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.kicker{position:relative;padding-left:11px;font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.kicker::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:6px;background:var(--red)}
+.lead{border-bottom:1px solid var(--line);padding:26px 0 24px}
+h1.display{font-family:var(--f-display);font-size:clamp(28px,3.4vw,40px);line-height:1.12;letter-spacing:-.01em;margin:12px 0 0;max-width:24ch;text-wrap:balance;font-weight:700}
+.dek{font-size:17px;line-height:1.6;color:var(--body);margin:12px 0 0;max-width:68ch}
+
+/* chain picker */
+.picker{padding:20px 0 22px;border-bottom:1px solid var(--line);display:grid;gap:12px}
+.chains{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+@media (min-width:560px){.chains{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:960px){.chains{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.chip{display:flex;align-items:baseline;gap:10px;text-align:left;font:700 15px/1.3 var(--f-body);color:var(--ink);background:var(--paper);border:1px solid var(--line-2);padding:11px 14px;cursor:pointer;transition:border-color .15s}
+.chip .k{font:700 11px var(--f-mono);letter-spacing:.14em;color:var(--mut);flex:none}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--hot);border-color:var(--hot);color:var(--hot-fg)}
+.chip[aria-pressed="true"] .k{color:var(--red)}
+.chip:focus-visible,.node:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+/* map + panel */
+.main{display:grid;gap:24px;grid-template-columns:minmax(0,1fr);padding:22px 0 8px}
+@media (min-width:1240px){.main{grid-template-columns:minmax(0,1fr) 350px;align-items:start}}
+@media (min-width:1500px){.main{grid-template-columns:minmax(0,1fr) 400px}}
+.mapbox{min-width:0;border-top:1px solid var(--ink)}
+.maphead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding:8px 0 4px}
 .mapscroll{overflow-x:auto}
 svg.map{display:block;width:100%;min-width:820px;height:auto}
-.legend{display:flex;flex-wrap:wrap;gap:6px 18px;padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend svg{flex:none}
-.colhead{font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;fill:var(--muted)}
+.colnum{font:700 10.5px var(--f-mono);letter-spacing:.14em;fill:var(--red)}
+.colhead{font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;fill:var(--mut)}
+.colrule{stroke:var(--line-2);stroke-width:1}
 .edge{fill:none;stroke:var(--edge);stroke-width:1.6;transition:opacity .2s,stroke .2s}
 .edge.unsourced{stroke-dasharray:3 4}
 .edge.on{stroke:var(--hot);stroke-width:2.4}
-.sign circle{fill:var(--surface);stroke:var(--edge);stroke-width:1.2}
-.sign text{font:600 11px var(--f-mono);fill:var(--muted);text-anchor:middle;dominant-baseline:central}
+.sign circle{fill:var(--paper);stroke:var(--edge);stroke-width:1.2}
+.sign text{font:700 11px var(--f-mono);fill:var(--mut);text-anchor:middle;dominant-baseline:central}
 .sign.on circle{stroke:var(--hot)} .sign.on text{fill:var(--ink)}
 .node{cursor:pointer;transition:opacity .2s}
-.node rect.box{fill:var(--surface);stroke:var(--line);stroke-width:1.2}
+.node rect.box{fill:var(--paper);stroke:var(--line-2);stroke-width:1.2}
+.node:hover rect.box{stroke:var(--ink)}
 .node.on rect.box{stroke:var(--hot);stroke-width:2}
-.node.sel rect.box{fill:var(--soft)}
-.node .nl{font:700 13px var(--f-body);fill:var(--ink)}
-.node .nt{font:400 10.5px var(--f-mono);fill:var(--muted)}
-.dim{opacity:.22}
+.node .nl{font:700 13px var(--f-sans);fill:var(--ink)}
+.node .nt{font:400 10.5px var(--f-mono);fill:var(--mut)}
+.node.sel rect.box{fill:var(--hot);stroke:var(--hot)}
+.node.sel .nl{fill:var(--hot-fg)} .node.sel .nt{fill:var(--hot-fg);opacity:.75}
+.dim{opacity:.2}
 .arrow{fill:var(--edge)} .arrow-on{fill:var(--hot)}
-aside{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;display:grid;gap:16px;min-width:0}
-@media (min-width:1240px){aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);max-height:calc(100vh - 32px);overflow:auto}}
-.eyebrow{font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px}
-.eyebrow i{width:10px;height:10px;border-radius:2px;display:inline-block}
-aside h2{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1;margin:4px 0 0;text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
-.big{font-family:var(--f-mono);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
-aside h3{font:600 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
-aside ul,aside ol{margin:0;padding-left:20px;display:grid;gap:8px}
-aside ol li::marker{font-family:var(--f-mono);color:var(--muted)}
-.step b{font-weight:600}
-.tag{font:500 10.5px var(--f-mono);border:1px solid var(--line);color:var(--muted);padding:1px 6px;border-radius:3px;margin-left:6px;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:6px 22px;padding:10px 0;border-top:1px solid var(--line);font:12px var(--f-mono);color:var(--mut)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend svg{flex:none}
+
+/* reading panel */
+aside{min-width:0;border-top:2px solid var(--ink);padding-top:14px;display:grid;gap:22px}
+@media (min-width:1240px){aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);max-height:calc(100vh - 32px);overflow:auto;padding-right:4px}}
+aside h2{font-family:var(--f-display);font-size:28px;line-height:1.15;margin:8px 0 0;text-wrap:balance}
+.big{font:700 15px var(--f-mono);font-variant-numeric:tabular-nums;margin-top:10px;color:var(--ink)}
+aside h3{font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+aside ul{margin:0;padding-left:18px;display:grid;gap:10px;color:var(--body)}
+aside ul b{color:var(--ink)}
+.note{font:12.5px var(--f-mono);color:var(--mut)}
+.tag{font:700 10px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line-2);color:var(--mut);padding:1px 6px;margin-left:6px;white-space:nowrap;vertical-align:1px}
+.tag.sourced{color:var(--up);border-color:currentColor}
 .tag.unsourced{border-style:dashed}
 .tag.weak{border-color:var(--warn);color:var(--warn)}
-.say{background:var(--soft);border-radius:4px;padding:14px 16px;display:grid;gap:10px}
-.say p{margin:0}
-.say button{justify-self:start;font:600 12px var(--f-body);background:var(--surface);color:var(--ink);border:1px solid var(--line);padding:6px 12px;border-radius:3px;cursor:pointer}
-.topics{display:flex;flex-wrap:wrap;gap:6px}
-.topics span{font-size:12px;border:1px solid var(--line);padding:3px 9px;border-radius:999px}
-.src a{color:var(--l3);word-break:break-word}
-.src li{font-size:13px}
-.note{font-size:12.5px;color:var(--muted)}
+/* chain steps, same pattern as the Thematic Tracker event chain */
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.steps li{display:flex;flex-direction:column;min-width:0}
+.steps .st{border:1px solid var(--line-2);padding:11px 14px;font:700 15px/1.4 var(--f-sans);color:var(--ink)}
+.steps .st small{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:5px;font:700 11px var(--f-mono);letter-spacing:.14em;color:var(--mut)}
+.steps .st p{margin:5px 0 0;font:400 14px/1.55 var(--f-sans);color:var(--body)}
+.steps .st .v{display:block;margin-top:6px;font:12px var(--f-mono);color:var(--mut)}
+.steps .end{background:var(--hot);border-color:var(--hot);color:var(--hot-fg)}
+.steps .end small,.steps .end p,.steps .end .v{color:var(--hot-fg)} .steps .end p,.steps .end .v{opacity:.8}
+.steps .end .tag{color:var(--hot-fg);border-color:var(--hot-fg)}
+.steps .arr{display:flex;align-items:center;justify-content:center;height:20px;color:var(--mut);font-family:var(--f-mono)}
+.say{background:var(--soft);border-top:2px solid var(--ink);padding:14px 16px;display:grid;gap:12px}
+.say h3{border:0;padding:0;margin:0}
+.say p{margin:0;font-size:16px;line-height:1.65}
+.say button{justify-self:start;font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;background:var(--paper);color:var(--ink);border:1px solid var(--ink);padding:7px 12px;cursor:pointer}
+.say button:hover{background:var(--hot);color:var(--hot-fg)}
+.topics{display:flex;flex-wrap:wrap;gap:6px 16px}
+.topics span{font:700 11px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink)}
+.topics span::before{content:"● ";color:var(--red)}
+.src{list-style:none;padding:0!important;gap:0!important}
+.src li{font:13px var(--f-sans);border-bottom:1px solid var(--line);padding:7px 0}
+.src a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px;word-break:break-word}
+.src a:hover{color:var(--red)}
+footer{border-top:2px solid var(--ink);margin-top:18px;padding-block:14px 56px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px}
+footer a{color:var(--mut)}
+@media (max-width:640px){.dateline .pill{margin-left:0}.dek{font-size:16px}aside h2{font-size:24px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-<div class="page">
-  <header>
-    <div>
-      <h1>Macro Dot Map</h1>
-      <p class="lede">How this month's market stories connect, from the oil shock to portfolio construction. Pick a chain to walk it step by step, or tap any box to see what drives it and what it drives.</p>
-    </div>
-    <span class="asof" id="asof"></span>
-  </header>
+<header class="mast"><div class="wrap">
+  <span class="brand"><i></i>Macro Dot Map</span>
+  <nav aria-label="Sections"><a href="#chains-sec">Chains</a><a href="#map-sec">Map</a><a href="https://podor.org/" target="_blank" rel="noopener">podor.org</a></nav>
+</div></header>
 
-  <nav class="chains" id="chains" aria-label="Chains"></nav>
+<div class="wrap">
+  <div class="dateline"><span id="asof"></span><span id="counts"></span><span class="pill" style="color:var(--red)">Buy-side interview prep</span></div>
 
-  <div class="main">
+  <section class="lead">
+    <span class="kicker">Cause &amp; effect · Multi-asset</span>
+    <h1 class="display">How this month's market stories connect, from the oil shock to the portfolio</h1>
+    <p class="dek">Pick a chain to walk it step by step and get a 60-second answer, or tap any box to see what drives it and what it drives. Every number links to its source.</p>
+  </section>
+
+  <section class="picker" id="chains-sec">
+    <span class="kicker">Chains · the questions an interviewer asks</span>
+    <nav class="chains" id="chains" aria-label="Chains"></nav>
+  </section>
+
+  <div class="main" id="map-sec">
     <section class="mapbox">
+      <div class="maphead"><span class="kicker">Transmission map · left to right</span><span class="note">Tap a box</span></div>
       <div class="mapscroll"><svg class="map" id="map" role="img" aria-label="Cause and effect map of current market drivers"></svg></div>
       <div class="legend">
-        <span><svg width="26" height="10"><line x1="0" y1="5" x2="26" y2="5" stroke="var(--edge)" stroke-width="2"/></svg>Sourced link</span>
-        <span><svg width="26" height="10"><line x1="0" y1="5" x2="26" y2="5" stroke="var(--edge)" stroke-width="2" stroke-dasharray="3 4"/></svg>Unsourced (my reasoning)</span>
-        <span><span class="tag weak" style="margin:0">verify</span> only a blog or aggregator source</span>
-        <span><b style="font-family:var(--f-mono)">+</b> same direction · <b style="font-family:var(--f-mono)">−</b> opposite direction</span>
+        <span><svg width="26" height="10" aria-hidden="true"><line x1="0" y1="5" x2="26" y2="5" stroke="var(--edge)" stroke-width="2"/></svg>Sourced link</span>
+        <span><svg width="26" height="10" aria-hidden="true"><line x1="0" y1="5" x2="26" y2="5" stroke="var(--edge)" stroke-width="2" stroke-dasharray="3 4"/></svg>Unsourced (my reasoning)</span>
+        <span><span class="tag weak" style="margin:0">verify</span>only a blog or aggregator source</span>
+        <span><b style="color:var(--ink)">+</b> same direction · <b style="color:var(--ink)">−</b> opposite direction</span>
       </div>
     </section>
     <aside id="panel" aria-live="polite"></aside>
   </div>
+
+  <footer class="note">
+    <span>Sources inline · Solid lines are sourced, dashed lines are reasoning · Not investment advice</span>
+    <span id="ver"></span>
+  </footer>
 </div>
 
 <script>const DATA=/*__DATA__*/null;</script>
@@ -111,14 +178,21 @@ const {layout:LY,nodes:N,edges:E,chains:C,sources:S,meta:M}=DATA;
 const W=LY.nodeW,H=LY.nodeH;
 const svg=document.getElementById("map"),NS="http://www.w3.org/2000/svg";
 svg.setAttribute("viewBox",`0 0 ${LY.viewBox[0]} ${LY.viewBox[1]}`);
-document.getElementById("asof").textContent="Data as of "+new Date(M.asOf+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+document.getElementById("asof").innerHTML="Data as of <b>"+new Date(M.asOf+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})+"</b>";
+document.getElementById("counts").textContent=`${C.length} chains · ${Object.keys(N).length} drivers · ${E.length} links`;
+document.getElementById("ver").textContent="Version "+M.version;
 const mk=(t,a={},p=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
 const pos=id=>({x:LY.columns[N[id].layer],y:N[id].y});
-const layerColor=i=>`var(--l${i})`;
+const num=i=>String(i+1).padStart(2,"0");
 
 const defs=mk("defs");
 [["ah","arrow"],["ahOn","arrow-on"]].forEach(([id,c])=>{const m=mk("marker",{id,viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",markerHeight:"7",orient:"auto-start-reverse"},defs);mk("path",{d:"M0,1 L9,5 L0,9 z",class:c},m)});
-LY.layers.forEach((l,i)=>{const t=mk("text",{x:LY.columns[i],y:LY.headerY,class:"colhead","text-anchor":"middle"});t.textContent=l});
+LY.layers.forEach((l,i)=>{
+  const x=LY.columns[i];
+  const t=mk("text",{x,y:LY.headerY,class:"colhead","text-anchor":"middle"});
+  const n=document.createElementNS(NS,"tspan");n.setAttribute("class","colnum");n.textContent=num(i)+"  ";t.appendChild(n);t.appendChild(document.createTextNode(l));
+  mk("line",{x1:x-W/2,x2:x+W/2,y1:LY.headerY+9,y2:LY.headerY+9,class:"colrule"});
+});
 
 const gE=mk("g"),gS=mk("g"),gN=mk("g");
 const edgeEl={},signEl={},EBY={};
@@ -132,10 +206,9 @@ const nodeEl={};
 Object.entries(N).forEach(([id,n])=>{
   const {x,y}=pos(id);
   const g=mk("g",{class:"node",tabindex:"0",role:"button","aria-label":n.label},gN);
-  mk("rect",{class:"box",x:x-W/2,y:y-H/2,width:W,height:H,rx:5},g);
-  mk("rect",{x:x-W/2,y:y-H/2,width:4,height:H,rx:1.5,style:`fill:${layerColor(n.layer)}`},g);
-  mk("text",{x:x-W/2+14,y:y-4,class:"nl"},g).textContent=n.label;
-  mk("text",{x:x-W/2+14,y:y+14,class:"nt"},g).textContent=n.tag;
+  mk("rect",{class:"box",x:x-W/2,y:y-H/2,width:W,height:H,rx:1},g);
+  mk("text",{x:x-W/2+12,y:y-4,class:"nl"},g).textContent=n.label;
+  mk("text",{x:x-W/2+12,y:y+14,class:"nt"},g).textContent=n.tag;
   g.addEventListener("click",()=>selectNode(id));
   g.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();selectNode(id)}});
   nodeEl[id]=g;
@@ -154,19 +227,20 @@ const TAGS={sourced:"sourced",weak:"verify",unsourced:"unsourced"};
 const basis=b=>`<span class="tag ${b}">${TAGS[b]}</span>`;
 const srcList=keys=>{const ks=[...new Set(keys)].filter(k=>S[k]);return ks.length?'<ul class="src">'+ks.map(k=>`<li><a href="${S[k].url}" target="_blank" rel="noopener">${esc(S[k].name)}</a>${S[k].tier===3?basis("weak"):""}</li>`).join("")+"</ul>":'<p class="note" style="margin:0">No sources.</p>'};
 const nodeSrc=n=>n.facts.flatMap(f=>f.src);
-function sayBlock(t){return `<div class="say"><h3 style="margin:0">Say it (~60 sec)</h3><p id="script">${esc(t)}</p><button type="button" id="copy">Copy text</button></div>`}
+function sayBlock(t){return `<div class="say"><h3>Say it · about 60 seconds</h3><p id="script">${esc(t)}</p><button type="button" id="copy">Copy text</button></div>`}
 function selectScript(){const p=document.getElementById("script");const r=document.createRange();r.selectNodeContents(p);const s=getSelection();s.removeAllRanges();s.addRange(r)}
 function wireCopy(t){const b=document.getElementById("copy");if(!b)return;b.onclick=()=>{const done=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy text",1500)};try{navigator.clipboard.writeText(t).then(done,selectScript)}catch(_){selectScript()}}}
 
 function selectChain(k){
-  const c=C.find(x=>x.key===k);
+  const c=C.find(x=>x.key===k),ci=C.indexOf(c);
   document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===k));
   const edges=c.edges.map(id=>EBY[id]);
   const nodes=[...new Set(edges.flatMap(e=>[e.from,e.to]))];
   highlight(c.edges,nodes,null);
-  const steps=edges.map(e=>`<li class="step"><b>${esc(N[e.from].label)} → ${esc(N[e.to].label)}</b> <span class="note">(${e.sign})</span>${basis(e.basis)}<br>${esc(e.why)} <span class="note">${esc(N[e.to].value)}</span></li>`).join("");
-  panel.innerHTML=`<div><div class="eyebrow">Chain</div><h2>${esc(c.name)}</h2></div>
-   <div><h3>Step by step</h3><ol>${steps}</ol></div>
+  const steps=edges.map((e,i)=>{const last=i===edges.length-1;
+    return `<li><div class="st${last?" end":""}"><small><span>${num(i)} · ${e.sign==="+"?"same way":"opposite"}</span>${basis(e.basis)}</small>${esc(N[e.from].label)} → ${esc(N[e.to].label)}<p>${esc(e.why)}</p><span class="v">${esc(N[e.to].value)}</span></div>${last?"":'<span class="arr" aria-hidden="true">↓</span>'}</li>`}).join("");
+  panel.innerHTML=`<div><span class="kicker">Chain ${String.fromCharCode(65+ci)} · ${edges.length} steps</span><h2>${esc(c.name)}</h2></div>
+   <div><h3>Step by step</h3><ol class="steps">${steps}</ol></div>
    ${sayBlock(c.script)}
    <div><h3>Interview topics</h3><div class="topics">${c.topics.map(t=>`<span>${esc(t)}</span>`).join("")}</div></div>
    <div><h3>Sources</h3>${srcList(nodes.flatMap(id=>nodeSrc(N[id])).concat(edges.flatMap(e=>e.src)))}</div>`;
@@ -178,7 +252,7 @@ function selectNode(id){
   const ins=E.filter(e=>e.to===id),outs=E.filter(e=>e.from===id);
   highlight([...ins,...outs].map(e=>e.id),[id,...ins.map(e=>e.from),...outs.map(e=>e.to)],id);
   const li=arr=>arr.length?`<ul>${arr.map(([e,o])=>`<li><b>${esc(N[o].label)}</b> <span class="note">(${e.sign})</span>${basis(e.basis)}<br>${esc(e.why)}</li>`).join("")}</ul>`:'<p class="note" style="margin:0">Nothing on this map.</p>';
-  panel.innerHTML=`<div><div class="eyebrow"><i style="background:${layerColor(n.layer)}"></i>${esc(LY.layers[n.layer])}</div><h2>${esc(n.label)}</h2><div class="big" style="margin-top:8px">${esc(n.value)}</div></div>
+  panel.innerHTML=`<div><span class="kicker">${num(n.layer)} · ${esc(LY.layers[n.layer])}</span><h2>${esc(n.label)}</h2><div class="big">${esc(n.value)}</div></div>
    <div><h3>What's happening</h3><ul>${n.facts.map(f=>`<li>${esc(f.text)}${basis(f.basis)}</li>`).join("")}</ul></div>
    <div><h3>Driven by</h3>${li(ins.map(e=>[e,e.from]))}</div>
    <div><h3>Drives</h3>${li(outs.map(e=>[e,e.to]))}</div>

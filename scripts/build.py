@@ -4,6 +4,8 @@
 Usage: python3 scripts/build.py
 The build embeds precomputed edge paths and sign positions, plus a content
 hash that release_check.py compares against the approved review.
+It also writes index.html: the same page wrapped in a full HTML document,
+served by GitHub Pages at https://podor.org/macro-dot-map/.
 """
 import hashlib, json, pathlib, sys
 
@@ -36,7 +38,12 @@ def main():
     out = ROOT / "dist/macro-dot-map.html"
     out.parent.mkdir(exist_ok=True)
     out.write_text(html, encoding="utf-8")
-    print(f"built {out.relative_to(ROOT)}  content_hash={digest}")
+    head, sep, body = html.partition("</style>")
+    page = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+            '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+            f"{head}{sep}\n</head>\n<body>{body}</body>\n</html>\n")
+    (ROOT / "index.html").write_text(page, encoding="utf-8")
+    print(f"built {out.relative_to(ROOT)} and index.html  content_hash={digest}")
 
 
 if __name__ == "__main__":
