@@ -1,0 +1,7 @@
+[
+  { "lesson": "L-001", "pattern": "\\b(record|all-time|new) high\\b|\\bhighest ever\\b", "rule": "A 'record' claim must state the peak it beats and its date (e.g. 2026 high of $126.41 on Apr 30). Check it against the node's own facts." },
+  { "lesson": "L-004", "pattern": "\\butilit(y|ies)\\b", "rule": "Utilities trade on rates and AI power demand, not oil. Check the period and do not call them an oil winner." },
+  { "lesson": "L-005", "pattern": "\\brisk[- ]parity\\b", "rule": "Risk parity means equalizing risk contribution across asset classes. It is not a word for concentration risk." },
+  { "lesson": "L-006", "pattern": "\\b(this month|all sectors|most sectors|every sector)\\b", "rule": "Sector and breadth claims must name the period. September and October 2026 had opposite leadership." },
+  { "lesson": "L-007", "pattern": "\\b(XLK|tech sector|technology sector)\\b.*%|%.*\\b(XLK|tech sector|technology sector)\\b", "rule": "Weekly sector returns differ by proxy (XLK vs S&P 500 IT index). Name the proxy and use one consistently." }
+]
