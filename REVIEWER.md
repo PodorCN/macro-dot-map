@@ -21,8 +21,8 @@ You did not write this update. Do not ask the updater for its reasoning. Judge o
 
 Run:
 ```
-python3 scripts/build.py
-python3 scripts/validate.py
+python scripts/build.py
+python scripts/validate.py
 ```
 - Any ERROR is a **blocker**.
 - Every WARN must be justified in the changelog. An unjustified WARN is a **major** finding.
@@ -58,7 +58,7 @@ For each chain:
 
 ### Step E — Readability
 
-Run `python3 scripts/render_check.py --shots <scratch dir>`. Any failure is a **blocker**. Then open the screenshots (desktop about 1300px and phone about 400px, light and dark) and check by eye. If Playwright is not available, render the page by hand and set `render_check: manual` in your record. Check:
+Run `python scripts/render_check.py --shots <scratch dir>`. Any failure is a **blocker**. Then open the screenshots (desktop about 1300px and phone about 400px, light and dark) and check by eye. If Playwright is not available, render the page by hand and set `render_check: manual` in your record. Check:
 - No overlapping boxes, lines through boxes, overlapping +/− markers, or clipped text.
 - The map is no denser than the previous release unless the additions earned it.
 - Each panel reads cleanly: headline value, facts, driven by, drives, script, sources.

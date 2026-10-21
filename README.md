@@ -2,7 +2,7 @@
 
 An interactive cause-and-effect map of what is driving markets right now: the oil shock, inflation, rates, AI, credit, gold and FX, through to portfolio construction. It is built for buy-side interview prep. Pick a chain to walk through a story step by step and get a ready-to-say 60-second answer, or tap any box to see what drives it and what it drives. Every number links to its source.
 
-Live page: https://podor.org/macro-dot-map/ (GitHub Pages, serves `index.html`) and https://claude.ai/artifact/GnDR8esNpiSLzq6ki3r8dT
+Live page: https://podor.org/macro-dot-map/ (GitHub Pages, serves `index.html`). The claude.ai artifact URL in `meta.artifactUrl` is a legacy mirror and is not updated by the daily run.
 
 ## How it stays current and clean
 
@@ -34,10 +34,10 @@ CHANGELOG.md               daily changes, including what was retired and why
 ## Commands
 
 ```
-python3 scripts/build.py           # build the page
-python3 scripts/validate.py        # content checks (add --today YYYY-MM-DD to test a date)
-python3 scripts/render_check.py    # layout checks (needs: pip install playwright && playwright install chromium)
-python3 scripts/release_check.py   # must print RELEASE OK before publishing
+python scripts/build.py           # build the page
+python scripts/validate.py        # content checks (add --today YYYY-MM-DD to test a date)
+python scripts/render_check.py    # layout checks (needs: pip install playwright && playwright install chromium)
+python scripts/release_check.py   # must print RELEASE OK before publishing
 ```
 
 ## Legend on the page

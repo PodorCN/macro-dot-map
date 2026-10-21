@@ -1,0 +1,5 @@
+# Keep working-tree bytes identical to git blobs on every OS.
+# scripts/validate.py hashes the raw bytes of data/map.json and
+# src/template.html; CRLF conversion on Windows would otherwise produce a
+# different content_hash for identical content and break the review gate.
+* text=auto eol=lf
