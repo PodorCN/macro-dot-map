@@ -48,14 +48,15 @@ The published page lives at the URL in `meta.artifactUrl`. Always update that sa
 7. Set `meta.asOf` to today and bump `meta.version` by 1.
 8. Run:
    ```
-   python3 scripts/build.py
-   python3 scripts/validate.py
+   python scripts/build.py
+   python scripts/validate.py
    ```
+   On this Windows host there is no `python3`: use `python` (3.14). Playwright and Chromium are installed for it, so V16 runs automatically.
    Fix every ERROR. Read every WARN and FLAG and either fix it or be ready to justify it in the changelog.
-9. **Look at the page.** Run `python3 scripts/render_check.py --shots <scratch dir>` (V16: script errors, sideways scrolling, clipped map, chain buttons). Then open the desktop and phone screenshots yourself and check nothing overlaps or is clipped. The validator only approximates text width; your eyes are the final check.
+9. **Look at the page.** Run `python scripts/render_check.py --shots <scratch dir>` (V16: script errors, sideways scrolling, clipped map, chain buttons). Then open the desktop and phone screenshots yourself and check nothing overlaps or is clipped. The validator only approximates text width; your eyes are the final check.
 10. **Write the changelog entry** (section 9).
 11. **Hand off to the reviewer** (section 10). Do not publish.
-12. On **PASS**: run `python3 scripts/release_check.py`. Only if it prints `RELEASE OK`, publish and commit (section 11).
+12. On **PASS**: run `python scripts/release_check.py`. Only if it prints `RELEASE OK`, publish and commit (section 11).
 13. On **FAIL**: regenerate (section 10). Never publish a version the gate blocks.
 
 ---
@@ -251,10 +252,10 @@ Warnings left open: V-code — justification
 
 ## 11. Publish and commit (only after `RELEASE OK`)
 
-1. `python3 scripts/release_check.py` must print `RELEASE OK`.
-2. Publish `dist/macro-dot-map.html` to the existing artifact URL in `meta.artifactUrl` (Artifact tool, `url` set to that URL). If you cannot publish, still commit, and say so in the changelog.
-3. Commit everything (data, dist, changelog, review record) in one commit: `update: YYYY-MM-DD vN`.
-4. Push the commit, then add a row to `reviews/RELEASES.md` (date, version, commit, content hash, review id) in a second commit and push it. That file, not git tags, is the record of what was released, because tag pushes can be blocked.
+1. `python scripts/release_check.py` must print `RELEASE OK`.
+2. Publishing is the git push itself: GitHub Pages serves `index.html` from `main` at https://podor.org/macro-dot-map/. `dist/macro-dot-map.html` is committed as the artifact copy. `meta.artifactUrl` is a legacy claude.ai mirror and is not updated by this process.
+3. Commit everything (data, dist, index.html, changelog, review record) in one commit: `update: YYYY-MM-DD vN`.
+4. Push the commit; GitHub Pages redeploys within about a minute. Then add a row to `reviews/RELEASES.md` (date, version, commit, content hash, review id) in a second commit and push it. That file, not git tags, is the record of what was released, because tag pushes can be blocked.
 
 ---
 
