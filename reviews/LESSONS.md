@@ -83,9 +83,10 @@ Guard levels:
 
 ### L-013 — Syndicated copy given the wire's tier, or the wrong publisher
 - **What happened:** The v3 draft gave tier 1 to a Reuters story read on za.investing.com and an AP story read on finance.yahoo.com, against AGENT.md section 3 (Yahoo Finance, Investing.com and syndicating outlets are tier 2) and the existing `edge_kimi` precedent. The `yahoo_boc` source ("Yahoo Finance") is a Baystreet.ca article hosted on Yahoo, not Yahoo or Reuters reporting.
+- **Recurred (2026-10-26, review 002):** the regenerated v3 still named two Yahoo-hosted pieces "Yahoo Finance". `yahoo_chips` (the Lam Research supply warning on `semis`) is a 24/7 Wall St. article by David Moadel. `yahoo_growth` (the only source for the sourced edge `y10-semis`, chain `fund`) is a StockStory piece about Yelp, by Radek Strnad. Both kept Yahoo's tier 2 instead of their own publisher's tier, so `y10-semis` was `sourced` on an AI-assisted stock-content site.
 - **Rule:** Tier a source by the page you cite. A wire story on a syndicating host is tier 2; for tier 1, cite the original publisher's own URL. Name the original publisher in the source name and judge its own tier.
-- **Guard:** validator (V17: sources on syndicating hosts cannot be tier 1) + manual (Step B: open each new source and check the byline).
-- **First seen:** 2026-10-26 · **Occurrences:** 1
+- **Guard:** validator (V17: sources on syndicating hosts cannot be tier 1; V18: an article on a syndicating host is named "<Publisher> via <Host>: ..." or carries a `publisher` field, copied from the byline, that its name starts with; tradingview.com added to the syndicating hosts) + manual (Step B: open each source and check the byline).
+- **First seen:** 2026-10-26 · **Occurrences:** 2
 
 ### L-014 — "Sourced" edge whose source states only the facts
 - **What happened:** Spot check on 2026-10-26: `oil-energy` ("higher realized prices lift producer earnings") is `sourced` to James Investment's September recap, which gives energy returns and FactSet earnings growth but does not link them to oil prices. It had passed review since v2.

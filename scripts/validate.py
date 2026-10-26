@@ -25,8 +25,13 @@ CAPS = {
 }
 TTL_DAYS = {"price": 4, "weekly": 8, "monthly": 35, "policy": 50, "event": 60, "structural": 120}
 EVENT_RETIRE_DAYS = 90
-# Hosts that republish other publishers' stories (V17, lesson L-013)
-SYNDICATOR_HOSTS = ("yahoo.com", "investing.com", "msn.com", "theedgesingapore.com", "marketscreener.com")
+# Hosts that republish other publishers' stories (V17, V18, lesson L-013)
+SYNDICATOR_HOSTS = ("yahoo.com", "investing.com", "msn.com", "theedgesingapore.com", "marketscreener.com", "tradingview.com")
+# The name each host goes by in a source name, e.g. "Reuters via Yahoo Finance" (V18)
+HOST_BRANDS = {"yahoo.com": "Yahoo Finance", "investing.com": "Investing.com", "msn.com": "MSN",
+               "theedgesingapore.com": "The Edge", "marketscreener.com": "MarketScreener", "tradingview.com": "TradingView"}
+# Host-made data pages (quotes, performance tables), not articles: exempt from V18
+DATA_PAGE = re.compile(r"/(quote|quotes|commodities|currencies|indices|rates-bonds|etfs|equities)/")
 NODE_KEYS = {"label", "tag", "layer", "y", "kind", "asOf", "value", "facts", "say"}
 EDGE_KEYS = {"id", "from", "to", "sign", "why", "src", "basis"}
 CHAIN_KEYS = {"key", "name", "edges", "script", "topics"}
@@ -200,6 +205,26 @@ def main():
         host = re.sub(r"^https://([^/]+).*$", r"\1", s["url"]).lower()
         if any(host == d or host.endswith("." + d) for d in SYNDICATOR_HOSTS) and s["tier"] < 2:
             err("V17", f"source {k}: {host} hosts syndicated or partner copy, so tier must be 2 or 3 (name the original publisher and judge its tier)")
+
+    # V18 an article on a syndicating host names its real publisher (lesson L-013, recurred).
+    # Either the name reads "<Publisher> via <Host brand>: ...", or the host's own staff wrote it
+    # and the source carries "publisher" (copied from the byline) that the name starts with.
+    # "Yahoo Finance: ..." for a 24/7 Wall St. or StockStory piece is exactly the mistake.
+    for k, s in S.items():
+        host = re.sub(r"^https://([^/]+).*$", r"\1", s["url"]).lower()
+        dom = next((d for d in SYNDICATOR_HOSTS if host == d or host.endswith("." + d)), None)
+        if not dom or DATA_PAGE.search(s["url"]):
+            continue
+        brand = HOST_BRANDS[dom]
+        if f" via {brand}" in s["name"]:
+            continue
+        pub = str(s.get("publisher", "")).strip()
+        if not pub:
+            err("V18", f"source {k}: article on {host}; open it, read the byline, and either name it '<Publisher> via {brand}: ...' or add \"publisher\": \"{brand}\" if {brand} staff wrote it")
+        elif not s["name"].startswith(pub):
+            err("V18", f"source {k}: name must start with its publisher '{pub}'")
+        elif pub != brand:
+            err("V18", f"source {k}: publisher '{pub}' is not {brand}, so name it '{pub} via {brand}: ...'")
 
     # V06 display text must be English, no internal labels (lesson L-008)
     def texts():
