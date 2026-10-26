@@ -74,3 +74,33 @@ Guard levels:
 - **Rule:** With the side panel visible, the whole map fits without sideways scrolling. Look at the rendered page before every release.
 - **Guard:** validator (V16 in `scripts/render_check.py`, run by `release_check.py` R7).
 - **First seen:** 2026-10-20 · **Occurrences:** 1
+
+### L-012 — Chain rewritten with new numbers but its story not re-tested
+- **What happened:** In the v3 draft (2026-10-26) every script got fresh numbers, but two chains kept a story the latest data no longer supports. `bonds` still said bonds aren't hedging, resting on a Nationwide 40-day correlation dated 06/10/2026 that was not re-verified, while Treasuries rallied as a haven on the October tech selloff days (Oct 14–15, Oct 22: Nasdaq −2.6%, 10-year closed below 5%). `ai` explained the Oct 22 chip drop as a supply squeeze, a cause that no edge on the chain carries (its edge is demand doubt → semis).
+- **Rule:** Before rewriting a script, re-test the chain's mechanism against the latest week: the biggest moves must go the way the edges say, for the reason the edges say. If not, rewrite the chain or retire it (AGENT.md 5.2, rule 3). A node that carries a chain's key claim must be re-verified on the day the chain is rewritten.
+- **Guard:** pattern (stock–bond correlation, "bonds aren't hedging", "supply squeeze", "rather than demand") + manual (REVIEWER.md Step C, "Does the story still hold given today's data?").
+- **First seen:** 2026-10-26 · **Occurrences:** 1
+
+### L-013 — Syndicated copy given the wire's tier, or the wrong publisher
+- **What happened:** The v3 draft gave tier 1 to a Reuters story read on za.investing.com and an AP story read on finance.yahoo.com, against AGENT.md section 3 (Yahoo Finance, Investing.com and syndicating outlets are tier 2) and the existing `edge_kimi` precedent. The `yahoo_boc` source ("Yahoo Finance") is a Baystreet.ca article hosted on Yahoo, not Yahoo or Reuters reporting.
+- **Rule:** Tier a source by the page you cite. A wire story on a syndicating host is tier 2; for tier 1, cite the original publisher's own URL. Name the original publisher in the source name and judge its own tier.
+- **Guard:** validator (V17: sources on syndicating hosts cannot be tier 1) + manual (Step B: open each new source and check the byline).
+- **First seen:** 2026-10-26 · **Occurrences:** 1
+
+### L-014 — "Sourced" edge whose source states only the facts
+- **What happened:** Spot check on 2026-10-26: `oil-energy` ("higher realized prices lift producer earnings") is `sourced` to James Investment's September recap, which gives energy returns and FactSet earnings growth but does not link them to oil prices. It had passed review since v2.
+- **Rule:** A `sourced` edge needs a tier-1/2 source that states the causal link itself. Otherwise add one that does, or mark the edge `unsourced`.
+- **Guard:** manual (REVIEWER.md Step C, "Does a sourced edge's source actually state the causal link?"), now applied to spot-checked edges as well as new ones.
+- **First seen:** 2026-10-26 · **Occurrences:** 1
+
+### L-015 — Status claim contradicted by the node's own source
+- **What happened:** The v3 `hormuz` value said "Hormuz largely shut since Feb 28". Its own Lloyd's List source (Oct 22) says "Hormuz traffic remains relatively elevated", and Trading Economics (Oct 26) says flows are recovering to near prewar levels. Reuters (Oct 26) still says "largely shut". The disagreement was not stated.
+- **Rule:** A headline status (shut, closed, halted) must agree with every source on the node for today's date. When tier-1/2 sources disagree, say so (AGENT.md section 3).
+- **Guard:** pattern (`largely shut`, `closed`, `near-closure`, `shut since`).
+- **First seen:** 2026-10-26 · **Occurrences:** 1
+
+### L-016 — Small caps used as a stand-in for equal weight
+- **What happened:** The v3 `breadth` node ("Equal vs cap weight") replaced its equal-weight data with the Russell 2000 vs S&P 500 for the week to Oct 23, and the `ai` script concluded that this "argues for equal weight". Size and equal weighting are different exposures.
+- **Rule:** A node measures the concept on its label. Equal vs cap weight needs an equal-weight proxy (RSP or S&P 500 Equal Weight), named, against the cap-weighted S&P 500 for a stated period.
+- **Guard:** pattern (`small cap`, `Russell 2000`).
+- **First seen:** 2026-10-26 · **Occurrences:** 1

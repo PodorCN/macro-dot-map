@@ -25,6 +25,8 @@ CAPS = {
 }
 TTL_DAYS = {"price": 4, "weekly": 8, "monthly": 35, "policy": 50, "event": 60, "structural": 120}
 EVENT_RETIRE_DAYS = 90
+# Hosts that republish other publishers' stories (V17, lesson L-013)
+SYNDICATOR_HOSTS = ("yahoo.com", "investing.com", "msn.com", "theedgesingapore.com", "marketscreener.com")
 NODE_KEYS = {"label", "tag", "layer", "y", "kind", "asOf", "value", "facts", "say"}
 EDGE_KEYS = {"id", "from", "to", "sign", "why", "src", "basis"}
 CHAIN_KEYS = {"key", "name", "edges", "script", "topics"}
@@ -190,6 +192,14 @@ def main():
             err("V14", f"source {k}: url must start with https://")
         if urls[s["url"]] > 1:
             err("V14", f"source {k}: duplicate url")
+
+    # V17 syndicated copies are tiered by their host, never tier 1 (lesson L-013).
+    # A Reuters/AP/Bloomberg story read on Yahoo Finance or Investing.com is tier 2
+    # (AGENT.md section 3); cite the original publisher's own URL to claim tier 1.
+    for k, s in S.items():
+        host = re.sub(r"^https://([^/]+).*$", r"\1", s["url"]).lower()
+        if any(host == d or host.endswith("." + d) for d in SYNDICATOR_HOSTS) and s["tier"] < 2:
+            err("V17", f"source {k}: {host} hosts syndicated or partner copy, so tier must be 2 or 3 (name the original publisher and judge its tier)")
 
     # V06 display text must be English, no internal labels (lesson L-008)
     def texts():
