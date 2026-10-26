@@ -54,11 +54,6 @@
       "url": "https://www.cnbc.com/2026/07/01/meta-stock-cloud-ai-compute.html",
       "tier": 1
     },
-    "intel": {
-      "name": "Intellectia: overcapacity selloff",
-      "url": "https://intellectia.ai/blog/ai-infrastructure-overcapacity-concerns-2026",
-      "tier": 3
-    },
     "edge_kimi": {
       "name": "The Edge (Bloomberg): Kimi K3 selloff",
       "url": "https://www.theedgesingapore.com/news/us-stocks/us-stocks-plunge-concerns-deepseek-20-hit-chipmakers",
@@ -114,30 +109,15 @@
       "url": "https://fred.stlouisfed.org/series/bamlh0a0hym2",
       "tier": 1
     },
-    "nation": {
-      "name": "Nationwide: stocks and bonds together",
-      "url": "https://www.nationwide.com/financial-professionals/blog/markets-economy/articles/stocks-and-bonds-are-moving-together-now-what-for-portfolios",
-      "tier": 2
-    },
     "aqr": {
       "name": "AQR: positive stock-bond correlation",
       "url": "https://www.aqr.com/Insights/Perspectives/A-Positive-Stock-Bond-Correlation-Is-a-Terrible-Reason-to-Add-More-Equity-Risk-to-Your-Portfolio",
       "tier": 1
     },
-    "datap": {
-      "name": "Dataporium: correlation 2022-2026",
-      "url": "https://dataporium.tech/articles/do-bonds-still-diversify-stocks-stock-bond-correlation-from-2022-to-2026",
-      "tier": 3
-    },
     "conf": {
       "name": "Confluence: Q3 2026 factors",
       "url": "https://www.confluence.com/report/q3-2026-factor-performance-analysis/",
       "tier": 1
-    },
-    "biggo": {
-      "name": "BigGo: Goldman quality vs momentum",
-      "url": "https://finance.biggo.com/news/1c368df6-17cf-4bd9-b5f2-5d97cb6d6e79",
-      "tier": 3
     },
     "factset": {
       "name": "FactSet on X: Q3 earnings concentration",
@@ -175,9 +155,9 @@
       "tier": 2
     },
     "reuters_houthi": {
-      "name": "Reuters: Houthis claim Saudi pipeline attack",
+      "name": "Reuters via Investing.com: Houthis claim Saudi pipeline attack",
       "url": "https://za.investing.com/news/world-news/houthis-say-they-attacked-saudi-oil-pumping-stations-riyadh-airport-as-fighting-intensifies-4524874",
-      "tier": 1
+      "tier": 2
     },
     "lloyds": {
       "name": "Lloyd's List Intelligence: Hormuz brief Oct 22",
@@ -219,11 +199,6 @@
       "url": "https://www.fxstreet.com/news/gold-rebounds-from-three-month-low-and-retakes-4-000-on-weak-usd-focus-remains-on-fomc-202610260434",
       "tier": 2
     },
-    "yahoo_boc": {
-      "name": "Yahoo Finance: BoC expected to hike Oct 28",
-      "url": "https://ca.finance.yahoo.com/news/bank-canada-expected-raise-rates-140600608.html",
-      "tier": 2
-    },
     "yahoo_xle": {
       "name": "Yahoo Finance: XLE performance",
       "url": "https://finance.yahoo.com/quote/XLE/performance/",
@@ -233,11 +208,6 @@
       "name": "Yahoo Finance: chip stocks fall on supply warning",
       "url": "https://finance.yahoo.com/technology/articles/chip-stocks-fall-supply-warning-154508313.html",
       "tier": 2
-    },
-    "ap_week": {
-      "name": "AP: how major US indexes fared Oct 23",
-      "url": "https://finance.yahoo.com/markets/world-indices/articles/major-us-stock-indexes-fared-201458598.html",
-      "tier": 1
     },
     "factset_oct23": {
       "name": "FactSet: earnings season update Oct 23",
@@ -258,6 +228,46 @@
       "name": "CNBC: CoreWeave bond yields near 15%",
       "url": "https://www.cnbc.com/2026/10/14/coreweave-stock-bond-yields-ai-debt.html",
       "tier": 1
+    },
+    "reuters_boc": {
+      "name": "Reuters via Yahoo Finance: BoC expected to hike",
+      "url": "https://ca.finance.yahoo.com/news/bank-canada-expected-hike-rate-100130149.html",
+      "tier": 2
+    },
+    "il_boc": {
+      "name": "InvestingLive: BoC preview, 81% hike odds",
+      "url": "https://investinglive.com/central-banks/bank-of-canada-preview-81-chance-of-first-hike-in-a-year-to-2-50-economists-split/",
+      "tier": 2
+    },
+    "boc_rate": {
+      "name": "Bank of Canada: policy interest rate",
+      "url": "https://www.bankofcanada.ca/core-functions/monetary-policy/key-interest-rate/",
+      "tier": 1
+    },
+    "ria": {
+      "name": "Real Investment Advice: stock-bond correlation",
+      "url": "https://realinvestmentadvice.com/resources/blog/stock-bond-correlation-oil-broke-the-hedge-oil-will-fix-it/",
+      "tier": 2
+    },
+    "inv_nasdaq": {
+      "name": "Investing.com: Nasdaq's worst day since June",
+      "url": "https://www.investing.com/news/stock-market-news/us-stock-futures-fall-as-investors-weigh-tesla-meta-earnings-4964498",
+      "tier": 2
+    },
+    "sa_rsp": {
+      "name": "Seeking Alpha via TradingView: equal weight vs S&P 500",
+      "url": "https://www.tradingview.com/news/seekingalpha:d8ff08a2a094b:0-s-p-500-equal-weight-on-track-for-best-weighted-index-outperformance-since-2009/",
+      "tier": 2
+    },
+    "kitco": {
+      "name": "Kitco: Jefferies on real yields and gold",
+      "url": "https://www.kitco.com/news/article/2026-08-07/golds-biggest-headwind-may-finally-be-peaking",
+      "tier": 2
+    },
+    "oilprice_q2": {
+      "name": "OilPrice via Yahoo Finance: Big Oil profits",
+      "url": "https://finance.yahoo.com/energy/articles/big-oil-companies-report-record-190000465.html",
+      "tier": 2
     }
   },
   "nodes": {
@@ -268,7 +278,7 @@
       "y": 120,
       "kind": "event",
       "asOf": "2026-10-26",
-      "value": "Hormuz largely shut since Feb 28; attacks at a peak",
+      "value": "Disrupted since Feb 28; October attacks at a war high",
       "facts": [
         {
           "text": "US and Israeli strikes on Iran on Feb 28 led to the near-closure of the Strait of Hormuz, which normally carries about a fifth of world oil.",
@@ -285,14 +295,22 @@
           "basis": "sourced"
         },
         {
-          "text": "Oct 26: the Houthis said they hit pumping stations on Saudi Arabia's East-West pipeline, a key export route while Hormuz is largely shut. Saudi Arabia did not confirm.",
+          "text": "Reports on traffic conflict: Lloyd's List said transits were 'relatively elevated' in early October, while Reuters on Oct 26 called Hormuz largely shut.",
+          "src": [
+            "lloyds",
+            "reuters_houthi"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "Oct 26: the Houthis said they hit pumping stations on Saudi Arabia's East-West pipeline, an export route around Hormuz. Saudi Arabia did not confirm.",
           "src": [
             "reuters_houthi"
           ],
           "basis": "sourced"
         }
       ],
-      "say": "The root shock is still the Middle East: Hormuz is largely shut, and the Houthis are now targeting Saudi Arabia's bypass pipeline.",
+      "say": "The root shock is still the Middle East: attacks around Hormuz are at a war high, and the Houthis claim strikes on Saudi export routes.",
       "eventDate": "2026-02-28",
       "keepReason": "Ongoing: October has the most Hormuz attacks of the war, and Houthi strikes on Saudi export routes lifted Brent to a six-month high on Oct 23."
     },
@@ -329,34 +347,6 @@
       ],
       "say": "Cheaper models keep raising the question of how many chips future AI really needs.",
       "eventDate": "2026-10-17"
-    },
-    "metacompute": {
-      "label": "Meta sells compute",
-      "tag": "Jul 1",
-      "layer": 0,
-      "y": 400,
-      "kind": "event",
-      "asOf": "2026-10-20",
-      "value": "Meta Compute announced Jul 1, 2026",
-      "facts": [
-        {
-          "text": "Meta said it would sell excess AI compute to outside customers. Meta's own shares rose about 9% on the news.",
-          "src": [
-            "cnbc_meta"
-          ],
-          "basis": "sourced"
-        },
-        {
-          "text": "Micron fell 10.57% and AMD 6.89%, with about $200B erased from chip and cloud stocks.",
-          "src": [
-            "intel"
-          ],
-          "basis": "weak"
-        }
-      ],
-      "say": "When one of the biggest buyers starts renting out spare capacity, the market reads it as possible overbuilding.",
-      "eventDate": "2026-07-01",
-      "keepReason": "Origin of the overbuild fear, which neocloud debt stress in October keeps alive. Re-assess for retirement by 2026-11-15."
     },
     "aicapex": {
       "label": "AI capex boom",
@@ -553,9 +543,10 @@
           "basis": "sourced"
         },
         {
-          "text": "It closed at 5.00% on Oct 23, down from 5.13% on Oct 21.",
+          "text": "It fell to 4.96% on Oct 22, its first close below 5% since Sep 22, as investors bought Treasuries in the tech selloff. It was 5.00% on Oct 23.",
           "src": [
-            "fred_dgs10"
+            "fred_dgs10",
+            "inv_nasdaq"
           ],
           "basis": "sourced"
         },
@@ -600,12 +591,20 @@
       "y": 530,
       "kind": "policy",
       "asOf": "2026-10-26",
-      "value": "2.25% since Oct 2025 · ~78% hike odds for Oct 28",
+      "value": "2.25% since Oct 29, 2025 · ~81% hike odds for Oct 28",
       "facts": [
         {
-          "text": "Futures put the odds of a quarter-point hike on Oct 28 at 78%, and most economists in a Reuters poll expect one.",
+          "text": "The policy rate has been 2.25% since Oct 29, 2025.",
           "src": [
-            "yahoo_boc"
+            "boc_rate"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "Markets price about an 81% chance of a hike to 2.50% on Oct 28, and 19 of 34 economists in a Reuters poll expect one.",
+          "src": [
+            "il_boc",
+            "reuters_boc"
           ],
           "basis": "sourced"
         },
@@ -650,7 +649,7 @@
           "basis": "sourced"
         },
         {
-          "text": "FactSet: higher energy EPS estimates are among the biggest reasons Q3 S&P 500 earnings growth rose to 29.5%.",
+          "text": "FactSet: upward revisions to energy EPS estimates were among the largest contributors to the rise in Q3 blended growth since Sep 30; it is now 29.5%.",
           "src": [
             "factset_oct23"
           ],
@@ -688,6 +687,13 @@
             "te_gold"
           ],
           "basis": "sourced"
+        },
+        {
+          "text": "Jefferies (Aug): 10-year TIPS yields rising from 1.94% to about 2.41% helped drive gold roughly 25% below its peak.",
+          "src": [
+            "kitco"
+          ],
+          "basis": "sourced"
         }
       ],
       "say": "Gold is near $4,000, far below its January record of $5,608, which tells you real yields are in charge."
@@ -716,7 +722,7 @@
           "basis": "sourced"
         },
         {
-          "text": "CoreWeave's bonds yielded near 15% on Oct 14 on concern about AI borrowing.",
+          "text": "CoreWeave's bonds yielded near 15% in mid-October on concern about AI borrowing.",
           "src": [
             "cnbc_cw"
           ],
@@ -727,22 +733,23 @@
     },
     "semis": {
       "label": "Semis & tech",
-      "tag": "SOXX −6% Oct 22",
+      "tag": "SOX −6.7% Oct 22",
       "layer": 3,
       "y": 430,
       "kind": "weekly",
       "asOf": "2026-10-26",
-      "value": "SOXX fell about 6% on Oct 22 on Lam's supply warning",
+      "value": "Chips' worst day since June on Oct 22 (SOX −6.7%)",
       "facts": [
         {
-          "text": "Oct 22: Lam Research said supply constraints for some components will limit chipmakers, and the iShares Semiconductor ETF (SOXX) fell about 6%.",
+          "text": "Oct 22: the Philadelphia Semiconductor Index (SOX) fell 6.7%, chip stocks' worst day since June 23, as Meta's negative free cash flow revived AI financing worries.",
           "src": [
-            "yahoo_chips"
+            "ria",
+            "inv_nasdaq"
           ],
           "basis": "sourced"
         },
         {
-          "text": "Lam framed it as a supply squeeze, not weaker demand, and expects the industry to catch up soon.",
+          "text": "Lam Research also warned that supply constraints will limit chipmakers, and framed it as a supply squeeze, not weaker demand.",
           "src": [
             "yahoo_chips"
           ],
@@ -756,7 +763,7 @@
           "basis": "sourced"
         }
       ],
-      "say": "Chips fell about 6% on Oct 22, this time on a supply squeeze rather than demand doubts."
+      "say": "Chips had their worst day since June on Oct 22 as AI financing worries returned."
     },
     "cad": {
       "label": "Canadian dollar",
@@ -791,26 +798,33 @@
     },
     "sbcorr": {
       "label": "Stock–bond corr.",
-      "tag": "Positive",
+      "tag": "Turning negative",
       "layer": 4,
       "y": 200,
       "kind": "monthly",
-      "asOf": "2026-10-20",
-      "value": "40-day correlation most positive since 1999",
+      "asOf": "2026-10-26",
+      "value": "Positive most of 2026; 20-day SPY–TLT −0.24 (Oct 23)",
       "facts": [
         {
-          "text": "The rolling 40-day S&P 500 vs US Aggregate correlation is at its most positive since 1999.",
+          "text": "Since March, SPY and long Treasuries have mostly fallen together as headline CPI rose from 2.4% to 3.7%. The 60-day correlation reached +0.56 in early June.",
           "src": [
-            "nation"
+            "ria"
           ],
           "basis": "sourced"
         },
         {
-          "text": "One estimate: +0.42 in 2026 through Aug 7, versus −0.36 over 2016–2021.",
+          "text": "Oct 22: SPY fell 1.2% while long Treasuries rose 1.9%. The 20-day SPY–TLT correlation fell to −0.30, its lowest since early March, and ended the week at −0.24.",
           "src": [
-            "datap"
+            "ria"
           ],
-          "basis": "weak"
+          "basis": "sourced"
+        },
+        {
+          "text": "That day investors 'flocked to the safety of defensive sectors and safe-haven U.S. Treasuries' as the Nasdaq fell 2.6%.",
+          "src": [
+            "inv_nasdaq"
+          ],
+          "basis": "sourced"
         },
         {
           "text": "AQR: a positive correlation is a poor reason to swap bonds for more equity risk.",
@@ -820,16 +834,16 @@
           "basis": "sourced"
         }
       ],
-      "say": "Bonds aren't hedging equities right now, so diversification has to come from somewhere else."
+      "say": "Bonds stopped hedging while oil drove inflation, but the hedge came back on the Oct 22 tech selloff."
     },
     "factor": {
       "label": "Quality > momentum",
-      "tag": "Long Q / short M +55%",
+      "tag": "Quality leads in Q3",
       "layer": 4,
       "y": 360,
       "kind": "monthly",
       "asOf": "2026-10-20",
-      "value": "Goldman long-quality/short-momentum +55% YTD",
+      "value": "Q3: value, yield and quality beat momentum",
       "facts": [
         {
           "text": "In Q3, US value, yield and quality moved ahead of momentum and high-volatility stocks.",
@@ -837,13 +851,6 @@
             "conf"
           ],
           "basis": "sourced"
-        },
-        {
-          "text": "Goldman's long-quality, short-momentum basket is up 55% in 2026 (mid-October).",
-          "src": [
-            "biggo"
-          ],
-          "basis": "weak"
         },
         {
           "text": "Q2 was the exception, when AI euphoria put momentum on top.",
@@ -857,12 +864,12 @@
     },
     "breadth": {
       "label": "Equal vs cap weight",
-      "tag": "Tech ~40% of S&P",
+      "tag": "EW leads (1 month)",
       "layer": 4,
       "y": 470,
       "kind": "weekly",
       "asOf": "2026-10-26",
-      "value": "Tech ~40% of the S&P 500; small caps led last week",
+      "value": "Tech ~40% of S&P 500; equal weight +3.5% vs −0.4% (1M)",
       "facts": [
         {
           "text": "Information technology was 39.7% of the S&P 500 in September.",
@@ -879,9 +886,9 @@
           "basis": "sourced"
         },
         {
-          "text": "Week to Oct 23: the Russell 2000 rose 2% while the S&P 500 fell 0.5% and the Nasdaq Composite 0.7%.",
+          "text": "Over the past month to late October, the equal-weight S&P 500 ETF (RSP) rose 3.5% while the S&P 500 fell 0.4%, on track for its biggest outperformance since April 2009.",
           "src": [
-            "ap_week"
+            "sa_rsp"
           ],
           "basis": "sourced"
         }
@@ -921,7 +928,7 @@
       "sign": "+",
       "why": "Higher realized prices lift producer earnings.",
       "src": [
-        "james"
+        "oilprice_q2"
       ],
       "basis": "sourced",
       "via": 58
@@ -942,10 +949,10 @@
       "from": "inflation",
       "to": "boc",
       "sign": "+",
-      "why": "Gasoline lifted Canadian CPI to 3.1%, so markets price a hike on Oct 28.",
+      "why": "Gasoline lifted Canadian CPI to 3.1%; the BoC is expected to hike to stop it spreading.",
       "src": [
         "statcan_cpi",
-        "yahoo_boc"
+        "reuters_boc"
       ],
       "basis": "sourced"
     },
@@ -1011,6 +1018,7 @@
       "sign": "−",
       "why": "Gold pays no coupon, so higher real yields raise the cost of holding it.",
       "src": [
+        "kitco",
         "te_gold"
       ],
       "basis": "sourced"
@@ -1044,7 +1052,7 @@
       "why": "When inflation drives rates, bonds and stocks fall together.",
       "src": [
         "aqr",
-        "nation"
+        "ria"
       ],
       "basis": "sourced",
       "via": 160
@@ -1078,17 +1086,6 @@
         "bbg_ds"
       ],
       "basis": "sourced"
-    },
-    {
-      "id": "metacompute-overcap",
-      "from": "metacompute",
-      "to": "overcap",
-      "sign": "+",
-      "why": "A big buyer renting out spare capacity signals possible overbuilding.",
-      "src": [
-        "intel"
-      ],
-      "basis": "weak"
     },
     {
       "id": "overcap-semis",
@@ -1137,7 +1134,7 @@
   "chains": [
     {
       "key": "bonds",
-      "name": "Why bonds stopped hedging",
+      "name": "Is the bond hedge back?",
       "edges": [
         "hormuz-oil",
         "oil-inflation",
@@ -1145,7 +1142,7 @@
         "fed-y10",
         "y10-sbcorr"
       ],
-      "script": "The key portfolio issue is that bonds aren't hedging equities. The shock is oil: Houthi attacks on Saudi oil sites lifted Brent to a six-month high of $116.72 on Oct 23. Gasoline drove US inflation to 3.7% in September, and the Fed, which hiked in September, decides again on Oct 28. The 10-year hit 5.31% in early October. When inflation drives rates, a bad day for stocks is often a bad day for bonds too: Nationwide notes the 40-day correlation is the most positive since 1999. I wouldn't abandon bonds. I'd keep duration short and add diversifiers with genuinely low equity beta, such as real assets.",
+      "script": "Bonds are starting to hedge again, but only partly. For most of 2026 oil drove inflation: Brent hit a six-month high of $116.72 on Oct 23 after claimed Houthi attacks on Saudi oil sites, and US CPI reached 3.7%. That pushed the Fed into a September hike and the 10-year to 5.31% on Oct 5, so stocks and bonds fell together. When growth fears took over on Oct 22, the hedge returned: SPY fell 1.2% while long Treasuries rose 1.9%, and the 20-day correlation dropped to −0.30. While oil drives inflation the hedge stays unreliable, so I'd keep duration moderate and add other diversifiers. Watch the Fed on Oct 28.",
       "topics": [
         "Stock–bond correlation",
         "60/40",
@@ -1164,7 +1161,7 @@
         "fed-realy",
         "realy-gold"
       ],
-      "script": "Gold falling during a war looks odd until you follow the chain. Oil lifts inflation, the Fed responds by tightening, and real yields rise: the 10-year TIPS yield is 2.66%, up from 1.72% the day before the war. Gold pays no coupon, so higher real yields raise the cost of holding it. That's why gold is near $4,000, far below its January record of $5,608, even with the Middle East unresolved. In this regime, real rates beat the safe-haven story. Watch the Fed on Oct 28: a December hike is already more than 80% priced.",
+      "script": "Gold falling during a war looks odd until you follow the chain. Oil lifts inflation, the Fed tightens, and real yields rise: the 10-year TIPS yield is 2.66%, up from 1.72% the day before the war. Gold pays no coupon, so higher real yields raise the cost of holding it. That's why gold is near $4,000, far below its January record of $5,608. The latest leg is Fed pricing rather than real yields, which eased in October: a December hike is more than 80% priced. Watch the Fed on Oct 28.",
       "topics": [
         "Real yields",
         "Opportunity cost of gold",
@@ -1181,7 +1178,7 @@
         "y10-aicapex",
         "y10-semis"
       ],
-      "script": "AI capex and rates are pulling against each other. Hyperscalers are borrowing heavily to build data centres: Meta alone guides $135–145B of capex this year, and its free cash flow turned negative. That bond supply is one reason the 10-year hit 5.31% on Oct 5, its highest close since 2002. But higher yields raise the cost of funding the same build-out and lower the value of long-duration growth stocks. So AI is both a cause of higher yields and a victim of them.",
+      "script": "AI capex and rates are pulling against each other. Hyperscalers are spending and borrowing heavily: Meta guides $135–145B of capex this year, and its Q3 free cash flow turned negative. Bond supply like this is one reason the 10-year hit 5.31% on Oct 5, its highest close since 2002. Higher yields then raise the cost of funding the build-out and lower the value of long-duration growth stocks. Investors are testing that squeeze: Meta's shares fell nearly 7% on Oct 22 when its cash flow turned negative.",
       "topics": [
         "Term premium",
         "Bond supply",
@@ -1193,13 +1190,12 @@
       "key": "ai",
       "name": "The AI repricing",
       "edges": [
-        "metacompute-overcap",
         "cheapai-overcap",
         "overcap-semis",
         "semis-breadth",
         "semis-factor"
       ],
-      "script": "The AI scarcity story cracked in July. Meta said it would rent out spare compute, which the market read as overbuilding, and cheaper Chinese models raised doubts about how many chips AI needs. The latest leg was different: on Oct 22 SOXX fell about 6% after Lam Research warned of supply constraints, a supply squeeze rather than weaker demand. Last week small caps rose 2% while the S&P 500 fell. With tech near 40% of the S&P, owning the index is a concentrated AI bet, which argues for equal weight and for quality over momentum.",
+      "script": "The AI scarcity story has been cracking since July. Cheaper Chinese models keep raising doubts about how many chips AI really needs, and DeepSeek's latest update pushed a gauge of Asian chipmakers to its lowest since July on Oct 19. Those doubts weigh on chip stocks, and money is moving to the average stock: over the past month the equal-weight S&P 500 rose 3.5% while the S&P 500 fell 0.4%. With tech near 40% of the S&P, owning the index is a concentrated AI bet, which argues for equal weight and for quality over momentum.",
       "topics": [
         "AI capex cycle",
         "Concentration risk",
@@ -1216,7 +1212,7 @@
         "inflation-boc",
         "boc-cad"
       ],
-      "script": "Oil cuts both ways for Canada. It lifts energy stocks, with XLE up about 58% this year, which helps an energy-heavy TSX. But gasoline pushed Canadian inflation to 3.1% in September while jobs are falling, down 68,000. That's a stagflation bind for the Bank of Canada, and futures put the odds of an Oct 28 hike at 78%. Hike bets are already supporting the loonie, with USD/CAD back below 1.40. Watch whether the BoC looks through gasoline: inflation excluding it is only 2.2%.",
+      "script": "Oil cuts both ways for Canada. It lifts energy stocks, with XLE up about 58% this year, which helps an energy-heavy TSX. But gasoline pushed Canadian inflation to 3.1% in September while jobs are falling, down 68,000. That's a stagflation bind for the Bank of Canada: markets price about an 81% chance of an Oct 28 hike. Hike bets are already supporting the loonie, with USD/CAD back below 1.40. Watch whether the BoC looks through gasoline: inflation excluding it is only 2.2%.",
       "topics": [
         "Stagflation",
         "Central bank policy",
@@ -1232,7 +1228,7 @@
         "credit-factor",
         "y10-factor"
       ],
-      "script": "Expensive money is sorting companies by balance sheet. High-yield spreads widened from 2.66% in September to 3.40% on Oct 22, the widest since March. The weak end is worse: CCC spreads reached 13.56%, wider than at any time since at least 2023, and CoreWeave's bonds yielded near 15%. Leveraged borrowers feel higher rates first. In equities the same logic shows up as quality and value beating momentum, as they did in Q3. I'd favour strong balance sheets in both credit and equity.",
+      "script": "Expensive money is sorting companies by balance sheet. High-yield spreads widened from 2.66% in September to 3.40% on Oct 22, the widest since March. The weak end is worse: CCC spreads reached 13.56%, wider than at any time since at least 2023, and CoreWeave's bonds yielded near 15% in mid-October. Leveraged borrowers feel higher rates first. In equities the same logic shows up as quality and value beating momentum, as they did in Q3. I'd favour strong balance sheets in both credit and equity.",
       "topics": [
         "Credit spreads",
         "Quality factor",
