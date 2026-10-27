@@ -65,9 +65,10 @@ Guard levels:
 
 ### L-010 — Major driver left out of the story
 - **What happened:** The draft explained the 10-year yield move with inflation expectations only and left out the September Fed hike, the first in over three years.
-- **Rule:** The research sweep covers every area in AGENT.md section 3 on every run; the reviewer asks what a PM would expect to see.
-- **Guard:** manual (AGENT.md section 3 sweep, REVIEWER.md Step D "missed drivers").
-- **First seen:** 2026-10-20 · **Occurrences:** 1
+- **Recurred (2026-10-27, review 001):** the 2026-10-27 hand-off kept data as of Oct 26 and its changelog said "the Oct 26 close changed nothing material". On Oct 26 Meta launched a ~$35B stock offering (about $22.5B common plus $12.5B mandatory convertible preferred, SEC FWP; Reuters; AP) to fund its AI build-out, with up to $60B more planned. The map's `aicapex` node and its chain "The AI funding squeeze" left it out and still said hyperscalers fund the build-out by "borrowing heavily".
+- **Rule:** The research sweep covers every area in AGENT.md section 3 on every run, up to the date in `meta.asOf`; the reviewer asks what a PM would expect to see. A chain about funding or a driver must include that driver's latest event, and its channel must still match it.
+- **Guard:** pattern (`funding squeeze`, `borrowing heavily`, `heavy issuance`, `AI debt`/`AI borrowing`, `bond supply`) + manual (AGENT.md section 3 sweep, REVIEWER.md Step D "missed drivers").
+- **First seen:** 2026-10-20 · **Occurrences:** 2
 
 ### L-011 — Map clipped at desktop width
 - **What happened:** In v1, at about 1300px wide with the side panel open, the map needed its own sideways scroll and the Portfolio column was cut off ("Quality > moment…", "Equal vs cap weig…"). Found in the v2 baseline screenshots.

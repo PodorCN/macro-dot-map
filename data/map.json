@@ -265,6 +265,16 @@
       "name": "The Next Web: Kimi K3 and the AI selloff",
       "url": "https://thenextweb.com/news/kimi-k3-china-ai-tech-rout-selloff",
       "tier": 2
+    },
+    "sec_meta": {
+      "name": "SEC: Meta free writing prospectus, Oct 26",
+      "url": "https://www.sec.gov/Archives/edgar/data/0001326801/000119312526431036/d116268dfwp.htm",
+      "tier": 1
+    },
+    "proactive_meta": {
+      "name": "Proactive via Yahoo Finance: Meta launches $35B share offerings",
+      "url": "https://ca.finance.yahoo.com/news/meta-launches-35-billion-share-131100761.html",
+      "tier": 2
     }
   },
   "nodes": {
@@ -353,7 +363,7 @@
       "y": 520,
       "kind": "structural",
       "asOf": "2026-10-26",
-      "value": "Meta guides $135–145B of 2026 capex (Oct 21)",
+      "value": "Meta: $135–145B capex; ~$35B stock sale (Oct 26)",
       "facts": [
         {
           "text": "Meta now guides 2026 capex of $135–145B, mostly for AI infrastructure. Q3 capex was $34.91B.",
@@ -370,6 +380,14 @@
           "basis": "sourced"
         },
         {
+          "text": "Oct 26: Meta launched ~$35B of stock offerings ($22.5B common, ~$12.5B mandatory convertible preferred) and plans a ~$60B at-the-market program, alongside investment-grade debt.",
+          "src": [
+            "sec_meta",
+            "proactive_meta"
+          ],
+          "basis": "sourced"
+        },
+        {
           "text": "Hyperscaler capex plans are expected to keep bond issuance elevated into next year.",
           "src": [
             "cnbc_10y"
@@ -377,7 +395,7 @@
           "basis": "sourced"
         }
       ],
-      "say": "AI capex keeps rising, and at Meta it now exceeds the cash the business generates."
+      "say": "AI capex now outruns Meta's cash flow, so it is raising money in both the bond and the stock market."
     },
     "oil": {
       "label": "Oil",
@@ -389,7 +407,7 @@
       "value": "Brent ~$115 (Oct 26) · settled $116.72 on Oct 23",
       "facts": [
         {
-          "text": "Brent settled at $116.72 on Oct 23, a six-month high, up 6.24% on the week. WTI closed at $103.27.",
+          "text": "Front-month Brent futures settled at $116.72 on Oct 23, a six-month high, up 6.24% on the week. WTI closed at $103.27.",
           "src": [
             "national_oil"
           ],
@@ -936,7 +954,7 @@
       "from": "inflation",
       "to": "fed",
       "sign": "+",
-      "why": "Sticky inflation pushed the Fed into its first hike in over three years.",
+      "why": "Oil-driven inflation pushed the Fed into its first hike in over three years.",
       "src": [
         "james"
       ],
@@ -1174,7 +1192,7 @@
         "y10-aicapex",
         "y10-semis"
       ],
-      "script": "AI capex and rates are pulling against each other. Hyperscalers are spending and borrowing heavily: Meta guides $135–145B of capex this year, and its Q3 free cash flow turned negative. Bond supply like this is one reason the 10-year hit 5.31% on Oct 5, its highest close since 2002. Higher yields then raise the cost of funding the build-out and lower the value of long-duration growth stocks. Investors are testing that squeeze: Meta's shares fell nearly 7% on Oct 22 when its cash flow turned negative.",
+      "script": "AI capex now outruns cash flow, and it has to be funded. Meta guides $135–145B of capex this year, its Q3 free cash flow turned negative, and on Oct 26 it launched about $35B of stock offerings on top of investment-grade debt. Hyperscaler borrowing adds bond supply, one reason the 10-year hit 5.31% on Oct 5, its highest close since 2002. Higher yields then raise the cost of funding the build-out and lower the value of long-duration growth stocks. So AI is both a cause of higher yields and a victim of them, and the funding mix, bonds or stock, is now the thing to watch.",
       "topics": [
         "Term premium",
         "Bond supply",

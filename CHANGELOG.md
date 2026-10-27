@@ -1,7 +1,7 @@
 # Changelog
 
-## 2026-10-27 (version 3, fixes for review 2026-10-26-002)
-Max asked for the two blockers to be fixed and the update released. Regenerated again from release a1b264d (data still as of Oct 26; the Oct 26 close changed nothing material: S&P +0.7%, Brent settled $115.81, 10-yr ~4.98%).
+## 2026-10-27 (version 3, fixes for reviews 2026-10-26-002 and 2026-10-27-001)
+Max asked for the two blockers to be fixed and the update released. Regenerated again from release a1b264d (data as of Oct 26). Review 2026-10-27-001 failed this draft because it said the Oct 26 close "changed nothing material", but on Oct 26 Meta launched a ~$35B stock offering (L-010 recurred). The map now includes it.
 
 Blockers fixed:
 - **L-013 (recurred):** every source hosted on Yahoo, Investing.com or TradingView now names its real publisher, and V18 passes.
@@ -20,6 +20,19 @@ Minors fixed (from record 002):
 - Fixed the name of the Investing.com Nasdaq source.
 
 Still open (minor): `semis` shows only the Oct 22 one-day move (no weekly SOX return found); the Seeking Alpha RSP page is undated; CNBC pages could not be opened.
+
+Fix for review 2026-10-27-001:
+- **Blocker (L-010):** `aicapex` adds Meta's Oct 26 equity raise (SEC FWP; Proactive): ~$35B of offerings ($22.5B common and ~$12.5B mandatory convertible preferred) and a planned ~$60B at-the-market program, alongside investment-grade debt.
+  - The `fund` script was re-tested and rewritten. Bond supply still holds as one channel, since Meta also uses investment-grade debt, but the script now says the funding mix (bonds or stock) is the thing to watch.
+  - A Yahoo-hosted article on the share move (by Fiona Craig, no original publisher named) was not used.
+- Minors:
+  - The `oil` fact names the contract (front-month futures). AP's $110.74 is most likely the next contract after the Oct 25 roll.
+  - The `inflation-fed` edge says "oil-driven" instead of "sticky".
+  - The 24/7 Wall St. source keeps tier 2: it is an established financial news publisher with named reporters, and the fact used quotes Lam executives directly.
+  - `y10` stays at FRED's latest close (5.00%, Oct 23), because FRED has not posted Oct 26.
+  - `semis` keeps only the SOX one-day move. RIA's −16.4% three-week figure uses SMH, and one proxy per node applies (L-007).
+
+> **2026-10-26: not released.** The update failed review twice that day (2026-10-26-001 and 2026-10-26-002), so per AGENT.md section 10 it stopped and v2 stayed live. The failed work stayed on `claude/jolly-curie-dpktl1` (commit d38dfcf), because this session can only push to that branch.
 
 ## 2026-10-26 (version 3, regenerated after review 2026-10-26-001 FAIL)
 First daily data update since v2. The first draft (commit b9191a5) failed review with 3 blockers and 3 majors. This version was regenerated from the last release (a1b264d) with every finding fixed, and every item of the same type was re-checked: every chain against the latest week, every source's publisher and tier, every sourced edge's evidence, and every headline status claim.
