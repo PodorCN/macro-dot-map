@@ -1,6 +1,15 @@
 # Changelog
 
 ## 2026-10-27 (version 3, fixes for reviews 2026-10-27-002, -003 and -004)
+**Released 2026-10-27** after review 2026-10-27-005 PASS (RELEASE OK, content hash b1992750…04b7). Open for the next update:
+- Major (L-019): cite a source for "talks were first reported on Oct 6" on `issuance` (InvestingLive, Oct 7, on the FT report), or drop the clause.
+- Minors:
+  - Source "competes with neoclouds" / "a competitor" in `credit`/`quality`, and keep Musk's claim attributed to him.
+  - The `ai` script's "momentum is crowded" is reasoning; mark it as such or source it.
+  - The Anthropic IPO size still rests on The Herald Business.
+  - Re-verify CNBC Sep 26 (`cnbc_10y`).
+- The Fed and BoC decide Oct 28; refresh on Oct 29.
+
 v3 failed review twice on Oct 27: 2026-10-27-001 (Meta's Oct 26 stock offering missing) and 2026-10-27-002 (Anthropic's Oct 26 IPO filing missing), both L-010; review 2026-10-27-003 then failed it for missing the debt side of AI funding (L-010) and two `ai` script problems (L-017, L-018); review 2026-10-27-004 failed it for a timing error in the `fund` script (L-017 again). AGENT.md section 10 says to stop after two FAILs in a day. **Max explicitly overrode that stop** ("keep fixing"), so this run continues with a full sweep. The data is rebuilt from release a1b264d by replaying the scripted edits in `reviews/updates/2026-10-26/` (`sh reviews/updates/2026-10-26/replay.sh` reproduces `data/map.json` exactly), so a diff against the previous draft shows only the reviewed fixes. Data as of Oct 26.
 
 Sweep to 2026-10-26:
