@@ -1,5 +1,10 @@
 # Changelog
 
+> **2026-10-27: not released.** v3 failed review twice today (2026-10-27-001: Meta's Oct 26 stock offering missing; 2026-10-27-002: Anthropic's Oct 26 IPO filing missing). Both were cases of L-010, a major driver of the as-of day left out, so per AGENT.md section 10 the update stops and v2 (a1b264d) stays live.
+> - The next run must re-sweep every AGENT.md section 3 area up to its `meta.asOf` and log it as V19 now requires: a `Sweep to YYYY-MM-DD:` block with one dated bullet per area.
+> - It must add the Anthropic IPO and the Oct 26 chip rebound to `semis`/`ai`/`fund`, and give `semis` a period return.
+> - The Fed and BoC decide Oct 28; refresh on Oct 29.
+
 ## 2026-10-27 (version 3, fixes for reviews 2026-10-26-002 and 2026-10-27-001)
 Max asked for the two blockers to be fixed and the update released. Regenerated again from release a1b264d (data as of Oct 26). Review 2026-10-27-001 failed this draft because it said the Oct 26 close "changed nothing material", but on Oct 26 Meta launched a ~$35B stock offering (L-010 recurred). The map now includes it.
 

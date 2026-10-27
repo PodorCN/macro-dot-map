@@ -384,7 +384,41 @@ def main():
             if re.search(p["pattern"], t, re.I):
                 flags.append({"lesson": p["lesson"], "where": where, "rule": p["rule"]})
 
+    # V19 the newest changelog entry logs the research sweep, area by area, up to meta.asOf
+    # (lesson L-010, recurred twice: Fed hike left out; Meta's Oct 26 stock offering left out;
+    # Anthropic's Oct 26 IPO filing, the day's lead AI and chip story, left out).
+    check_sweep(M["asOf"])
+
     return finish(data, today)
+
+
+# AGENT.md section 3 areas; every run must say what it found in each, with dates (V19)
+SWEEP_AREAS = ("Geopolitics and oil", "Inflation", "Fed", "Bank of Canada", "Rates", "Credit",
+               "FX and gold", "Equities", "Factors", "AI", "Portfolio", "Earnings")
+DATED = re.compile(r"\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]* \d{1,2}\b|\b\d{4}-\d{2}-\d{2}\b")
+
+
+def check_sweep(asof):
+    fmt = ("add to the top CHANGELOG.md entry a block 'Sweep to YYYY-MM-DD:' (= meta.asOf) with one bullet "
+           "'- <Area>: <the biggest dated event or data point found, and where it went on the map or why not>' "
+           f"for each AGENT.md section 3 area: {', '.join(SWEEP_AREAS)}")
+    path = ROOT / "CHANGELOG.md"
+    text = path.read_text(encoding="utf-8") if path.exists() else ""
+    entries = re.split(r"(?m)^## ", text)
+    top = entries[1] if len(entries) > 1 else ""
+    m = re.search(r"(?m)^Sweep to (\d{4}-\d{2}-\d{2}):\s*$", top)
+    if not m:
+        err("V19", f"no research sweep log in the newest changelog entry; {fmt}")
+        return
+    if m.group(1) != asof:
+        err("V19", f"sweep log runs to {m.group(1)} but meta.asOf is {asof}; sweep every area up to meta.asOf")
+    block = top[m.end():]
+    for area in SWEEP_AREAS:
+        b = re.search(rf"(?m)^- {re.escape(area)}:[ \t]*(.*)$", block)
+        if not b or len(b.group(1).strip()) < 20:
+            err("V19", f"sweep log has no finding for '{area}'; {fmt}")
+        elif not DATED.search(b.group(1)):
+            err("V19", f"sweep log '{area}' names no dated event (e.g. 'Oct 26'); say what was latest in that area up to {asof}")
 
 
 def finish(data, today):
