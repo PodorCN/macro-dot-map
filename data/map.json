@@ -54,11 +54,6 @@
       "url": "https://www.cnbc.com/2026/07/01/meta-stock-cloud-ai-compute.html",
       "tier": 1
     },
-    "edge_kimi": {
-      "name": "The Edge (Bloomberg): Kimi K3 selloff",
-      "url": "https://www.theedgesingapore.com/news/us-stocks/us-stocks-plunge-concerns-deepseek-20-hit-chipmakers",
-      "tier": 2
-    },
     "bbg_ds": {
       "name": "Bloomberg: Asian chips and DeepSeek",
       "url": "https://www.bloomberg.com/news/articles/2026-10-19/korean-stocks-fall-as-deepseek-model-funding-worry-rattle-chips",
@@ -84,15 +79,11 @@
       "url": "https://www.jamesinvestment.com/market-commentary/september-2026-market-recap/",
       "tier": 2
     },
-    "yahoo_growth": {
-      "name": "Yahoo Finance: yields and growth stocks",
-      "url": "https://finance.yahoo.com/markets/stocks/articles/yelp-yelp-stock-know-194950980.html",
-      "tier": 2
-    },
     "inv_cad": {
-      "name": "Investing.com: CAD and BoC bets",
+      "name": "Investing.com: CAD and BoC hike bets",
       "url": "https://ca.investing.com/news/forex-news/canadian-dollar-strengthens-as-boc-ratehike-bets-support-loonie-4890778",
-      "tier": 2
+      "tier": 2,
+      "publisher": "Investing.com"
     },
     "glass": {
       "name": "The Glass Desk: weekly review",
@@ -205,7 +196,7 @@
       "tier": 2
     },
     "yahoo_chips": {
-      "name": "Yahoo Finance: chip stocks fall on supply warning",
+      "name": "24/7 Wall St. via Yahoo Finance: chip stocks fall on supply warning",
       "url": "https://finance.yahoo.com/technology/articles/chip-stocks-fall-supply-warning-154508313.html",
       "tier": 2
     },
@@ -250,9 +241,10 @@
       "tier": 2
     },
     "inv_nasdaq": {
-      "name": "Investing.com: Nasdaq's worst day since June",
+      "name": "Investing.com: Nasdaq slides on AI financing worries",
       "url": "https://www.investing.com/news/stock-market-news/us-stock-futures-fall-as-investors-weigh-tesla-meta-earnings-4964498",
-      "tier": 2
+      "tier": 2,
+      "publisher": "Investing.com"
     },
     "sa_rsp": {
       "name": "Seeking Alpha via TradingView: equal weight vs S&P 500",
@@ -267,6 +259,11 @@
     "oilprice_q2": {
       "name": "OilPrice via Yahoo Finance: Big Oil profits",
       "url": "https://finance.yahoo.com/energy/articles/big-oil-companies-report-record-190000465.html",
+      "tier": 2
+    },
+    "tnw_kimi": {
+      "name": "The Next Web: Kimi K3 and the AI selloff",
+      "url": "https://thenextweb.com/news/kimi-k3-china-ai-tech-rout-selloff",
       "tier": 2
     }
   },
@@ -295,9 +292,10 @@
           "basis": "sourced"
         },
         {
-          "text": "Reports on traffic conflict: Lloyd's List said transits were 'relatively elevated' in early October, while Reuters on Oct 26 called Hormuz largely shut.",
+          "text": "Reports on traffic conflict: Lloyd's List saw 'relatively elevated' transits in early October and Trading Economics cites flows near prewar levels, while Reuters on Oct 26 called Hormuz largely shut.",
           "src": [
             "lloyds",
+            "te_brent",
             "reuters_houthi"
           ],
           "basis": "sourced"
@@ -312,7 +310,7 @@
       ],
       "say": "The root shock is still the Middle East: attacks around Hormuz are at a war high, and the Houthis claim strikes on Saudi export routes.",
       "eventDate": "2026-02-28",
-      "keepReason": "Ongoing: October has the most Hormuz attacks of the war, and Houthi strikes on Saudi export routes lifted Brent to a six-month high on Oct 23."
+      "keepReason": "Ongoing: October has the most Hormuz attacks of the war, and claimed Houthi strikes on Saudi export routes lifted Brent to a six-month high on Oct 23."
     },
     "cheapai": {
       "label": "Cheaper AI models",
@@ -324,9 +322,9 @@
       "value": "Kimi K3 (Jul 17) · DeepSeek update (Oct 17)",
       "facts": [
         {
-          "text": "Jul 17: Moonshot's Kimi K3 triggered a chip selloff that investors compared to the earlier 'DeepSeek moment'.",
+          "text": "Jul 17: Moonshot's Kimi K3 helped fuel a selloff in tech and chip stocks; traders compared it to the DeepSeek shock of early 2025.",
           "src": [
-            "edge_kimi"
+            "tnw_kimi"
           ],
           "basis": "sourced"
         },
@@ -696,7 +694,7 @@
           "basis": "sourced"
         }
       ],
-      "say": "Gold is near $4,000, far below its January record of $5,608, which tells you real yields are in charge."
+      "say": "Gold is near $4,000, far below its January record of $5,608, as higher real yields and Fed hike bets raise the cost of holding it."
     },
     "credit": {
       "label": "High-yield credit",
@@ -749,7 +747,7 @@
           "basis": "sourced"
         },
         {
-          "text": "Lam Research also warned that supply constraints will limit chipmakers, and framed it as a supply squeeze, not weaker demand.",
+          "text": "Lam Research also warned that supply constraints for some components will limit chipmakers; its CEO expects the industry to be 'caught up very shortly'.",
           "src": [
             "yahoo_chips"
           ],
@@ -853,7 +851,7 @@
           "basis": "sourced"
         },
         {
-          "text": "Q2 was the exception, when AI euphoria put momentum on top.",
+          "text": "Q2 was the exception, when momentum was on top.",
           "src": [
             "conf"
           ],
@@ -1038,10 +1036,8 @@
       "to": "semis",
       "sign": "−",
       "why": "Higher discount rates hit long-duration growth valuations.",
-      "src": [
-        "yahoo_growth"
-      ],
-      "basis": "sourced",
+      "src": [],
+      "basis": "unsourced",
       "signAt": 0.72
     },
     {
@@ -1142,7 +1138,7 @@
         "fed-y10",
         "y10-sbcorr"
       ],
-      "script": "Bonds are starting to hedge again, but only partly. For most of 2026 oil drove inflation: Brent hit a six-month high of $116.72 on Oct 23 after claimed Houthi attacks on Saudi oil sites, and US CPI reached 3.7%. That pushed the Fed into a September hike and the 10-year to 5.31% on Oct 5, so stocks and bonds fell together. When growth fears took over on Oct 22, the hedge returned: SPY fell 1.2% while long Treasuries rose 1.9%, and the 20-day correlation dropped to −0.30. While oil drives inflation the hedge stays unreliable, so I'd keep duration moderate and add other diversifiers. Watch the Fed on Oct 28.",
+      "script": "Bonds are starting to hedge again, but only partly. For most of 2026 oil drove inflation: Brent hit a six-month high of $116.72 on Oct 23 after claimed Houthi attacks on Saudi oil sites, and US CPI reached 3.7%. That pushed the Fed into a September hike and the 10-year to 5.31% on Oct 5, so stocks and bonds fell together. When AI-spending worries hit tech on Oct 22, the hedge returned: SPY fell 1.2% while long Treasuries rose 1.9%, and the 20-day correlation dropped to −0.30. While oil drives inflation the hedge stays unreliable, so I'd keep duration moderate and add other diversifiers. Watch the Fed on Oct 28.",
       "topics": [
         "Stock–bond correlation",
         "60/40",
@@ -1212,7 +1208,7 @@
         "inflation-boc",
         "boc-cad"
       ],
-      "script": "Oil cuts both ways for Canada. It lifts energy stocks, with XLE up about 58% this year, which helps an energy-heavy TSX. But gasoline pushed Canadian inflation to 3.1% in September while jobs are falling, down 68,000. That's a stagflation bind for the Bank of Canada: markets price about an 81% chance of an Oct 28 hike. Hike bets are already supporting the loonie, with USD/CAD back below 1.40. Watch whether the BoC looks through gasoline: inflation excluding it is only 2.2%.",
+      "script": "Oil cuts both ways for Canada. It lifts energy stocks, with XLE up about 58% this year. But gasoline pushed Canadian inflation to 3.1% in September while jobs are falling, down 68,000. That's a stagflation bind for the Bank of Canada: markets price about an 81% chance of an Oct 28 hike. Hike bets are already supporting the loonie, with USD/CAD back below 1.40. Watch whether the BoC looks through gasoline: inflation excluding it is only 2.2%.",
       "topics": [
         "Stagflation",
         "Central bank policy",

@@ -1,13 +1,25 @@
 # Changelog
 
-> **2026-10-26: not released.** The v3 update failed review twice (2026-10-26-001 and 2026-10-26-002), so per AGENT.md section 10 the day's update stopped. The last release (v2, 2026-10-20 data, commit a1b264d) stays live.
-> - The second review fixed all of review 001's findings and found every number correct.
-> - It failed on two source-labelling blockers. `yahoo_chips` is really 24/7 Wall St. on Yahoo; `yahoo_growth` is really StockStory, which writes with AI and is tier 3, and is the only source of the `sourced` edge `y10-semis`.
-> - The new validator check V18 also flags `edge_kimi`, `inv_cad` and `inv_nasdaq` for naming the hosting site instead of the publisher.
-> - Start the next run from these fixes and the 10 minors in record 002.
-> - The Fed and BoC decide on Oct 28; refresh on Oct 29.
->
-> The failed work is on branch `claude/jolly-curie-dpktl1` (commit d38dfcf), not `failed/2026-10-26`, because this session can only push to that branch.
+## 2026-10-27 (version 3, fixes for review 2026-10-26-002)
+Max asked for the two blockers to be fixed and the update released. Regenerated again from release a1b264d (data still as of Oct 26; the Oct 26 close changed nothing material: S&P +0.7%, Brent settled $115.81, 10-yr ~4.98%).
+
+Blockers fixed:
+- **L-013 (recurred):** every source hosted on Yahoo, Investing.com or TradingView now names its real publisher, and V18 passes.
+  - `yahoo_chips` → "24/7 Wall St. via Yahoo Finance" (tier 2).
+  - `inv_nasdaq` and `inv_cad` are Investing.com staff articles (bylines Anuron Mitra and Jaiveer Shekhawat), so they carry `publisher: Investing.com`.
+  - `edge_kimi` (The Edge, could not be opened to check the byline) is replaced by The Next Web, Jul 17 (tier 2). It confirms Kimi K3, the selloff and the DeepSeek comparison.
+- **L-014:** edge `y10-semis` → `unsourced` (dashed). Its only source was a StockStory piece about Yelp, and no tier-1/2 source states the link for this episode. That source is removed.
+
+Minors fixed (from record 002):
+- The `bonds` script now says "AI-spending worries hit tech", not "growth fears".
+- The `gold` say line no longer contradicts the chain.
+- The Lam fact now uses Lam's own words.
+- The Hormuz conflict fact adds Trading Economics' "near prewar levels".
+- The `hormuz` keepReason now says "claimed" Houthi strikes.
+- Removed "AI euphoria" from `factor` and the unsupported TSX clause from `canada`.
+- Fixed the name of the Investing.com Nasdaq source.
+
+Still open (minor): `semis` shows only the Oct 22 one-day move (no weekly SOX return found); the Seeking Alpha RSP page is undated; CNBC pages could not be opened.
 
 ## 2026-10-26 (version 3, regenerated after review 2026-10-26-001 FAIL)
 First daily data update since v2. The first draft (commit b9191a5) failed review with 3 blockers and 3 majors. This version was regenerated from the last release (a1b264d) with every finding fixed, and every item of the same type was re-checked: every chain against the latest week, every source's publisher and tier, every sourced edge's evidence, and every headline status claim.
