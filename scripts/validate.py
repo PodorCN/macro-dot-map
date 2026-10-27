@@ -386,7 +386,9 @@ def main():
 
     # V19 the newest changelog entry logs the research sweep, area by area, up to meta.asOf
     # (lesson L-010, recurred twice: Fed hike left out; Meta's Oct 26 stock offering left out;
-    # Anthropic's Oct 26 IPO filing, the day's lead AI and chip story, left out).
+    # Anthropic's Oct 26 IPO filing, the day's lead AI and chip story, left out; SpaceX's Oct 25-26
+    # $40B GPU debt deal and Musk's neocloud debt warning left out, so the AI bullet must log both
+    # the debt and the equity side of AI funding).
     check_sweep(M["asOf"])
 
     return finish(data, today)
@@ -395,6 +397,8 @@ def main():
 # AGENT.md section 3 areas; every run must say what it found in each, with dates (V19)
 SWEEP_AREAS = ("Geopolitics and oil", "Inflation", "Fed", "Bank of Canada", "Rates", "Credit",
                "FX and gold", "Equities", "Factors", "AI", "Portfolio", "Earnings")
+SWEEP_AI_CHANNELS = {"debt": r"\b(debt|bonds?|loans?|borrow\w*|notes|credit)\b",
+                     "equity": r"\b(stock|equity|shares?|IPO|offerings?)\b"}
 DATED = re.compile(r"\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]* \d{1,2}\b|\b\d{4}-\d{2}-\d{2}\b")
 
 
@@ -419,6 +423,16 @@ def check_sweep(asof):
             err("V19", f"sweep log has no finding for '{area}'; {fmt}")
         elif not DATED.search(b.group(1)):
             err("V19", f"sweep log '{area}' names no dated event (e.g. 'Oct 26'); say what was latest in that area up to {asof}")
+        elif area == "AI":
+            # L-010, 4th occurrence (review 2026-10-27-003): the AI bullet logged Meta's stock sale and
+            # Anthropic's IPO but not SpaceX's $40B GPU debt deal or Musk's warning that debt markets have
+            # shut for neoclouds (Oct 25-26). The `fund` chain's channel is "bonds or stock", so the sweep
+            # must name the latest dated item on each side. Clauses are split on ';'.
+            clauses = [c for c in re.split(r";", b.group(1)) if DATED.search(c)]
+            for side, words in SWEEP_AI_CHANNELS.items():
+                if not any(re.search(words, c, re.I) for c in clauses):
+                    err("V19", f"sweep log 'AI' names no dated {side} financing item; log the latest AI {side} "
+                               f"deal or market signal up to {asof} (or '<date range>: no AI {side} deal found') in its own ';' clause")
 
 
 def finish(data, today):

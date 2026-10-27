@@ -1,21 +1,36 @@
 # Changelog
 
-## 2026-10-27 (version 3, fixes for review 2026-10-27-002)
-v3 failed review twice on Oct 27: 2026-10-27-001 (Meta's Oct 26 stock offering missing) and 2026-10-27-002 (Anthropic's Oct 26 IPO filing missing), both L-010. AGENT.md section 10 says to stop after two FAILs in a day. **Max explicitly overrode that stop** ("keep fixing"), so this run continues with a full sweep. Regenerated from release a1b264d; data as of Oct 26.
+## 2026-10-27 (version 3, fixes for reviews 2026-10-27-002 and 2026-10-27-003)
+v3 failed review twice on Oct 27: 2026-10-27-001 (Meta's Oct 26 stock offering missing) and 2026-10-27-002 (Anthropic's Oct 26 IPO filing missing), both L-010; review 2026-10-27-003 then failed it for missing the debt side of AI funding (L-010) and two `ai` script problems (L-017, L-018). AGENT.md section 10 says to stop after two FAILs in a day. **Max explicitly overrode that stop** ("keep fixing"), so this run continues with a full sweep. The data is rebuilt from release a1b264d by replaying the update scripts in order, so a diff against the previous draft shows only the reviewed fixes. Data as of Oct 26.
 
 Sweep to 2026-10-26:
-- Geopolitics and oil: Oct 26 Houthis claimed strikes on Saudi East-West pumping stations (Reuters); Brent settled $115.81 on Oct 26 after a six-month high of $116.72 on Oct 23. On `hormuz`/`oil` (Oct 23 settle kept as the headline).
+- Geopolitics and oil: Oct 26 Houthis claimed strikes on Saudi East-West pumping stations (Reuters); Brent settled $115.81 on Oct 26 after a six-month high of $116.72 on Oct 23. Zacks (Oct 26) also tied the Oct 23 spike to reports of a possible renewed US/Israeli strike on Iran; the map keeps The National's Houthi framing, which names the cause directly. On `hormuz`/`oil` (Oct 23 settle kept as the headline).
 - Inflation: US Sept CPI 3.7% (BLS, Oct 14); UMich 1-yr 4.7% final (Oct 23); Canada Sept CPI 3.1% (Oct 19). US PCE is due Oct 30, after asOf. On `inflation`.
 - Fed: Oct 27–28 meeting; hold expected and Dec hike odds above 80% (CME FedWatch via TE, Oct 26). On `fed`.
 - Bank of Canada: Oct 28 decision; ~81% hike odds (InvestingLive, Oct 25); Reuters poll Oct 21–23 (19 of 34 expect a hike). On `boc`.
-- Rates: 10-yr 5.00% on Oct 23 (FRED; Oct 26 not yet posted, ~4.98% intraday); TIPS 2.66% on Oct 23. On `y10`/`realy`.
+- Rates: 10-yr 5.00% on Oct 23 (FRED; Oct 26 not yet posted, ~4.98% intraday); TIPS 2.66% on Oct 23; Oct 26 $69B 2-year auction tailed 0.3 bp with indirect bidders at 45.7% (InvestingLive, C−). On `y10`/`realy`/`issuance`.
 - Credit: HY OAS 3.38% and CCC 13.56% on Oct 23 (FRED, latest posted); CoreWeave bonds near 15% in mid-October. On `credit`.
 - FX and gold: USD/CAD 1.3993 on Oct 23 (FRED); gold ~$4,017 on Oct 26 after a three-month low (TE). On `cad`/`gold`.
-- Equities: Oct 26 S&P 500 +0.70% and Nasdaq +0.83% as Anthropic's IPO filing lifted tech; SOX +2.82% (Herald Business). Week to Oct 23: S&P −0.5%. On `semis`.
+- Equities: Oct 26 S&P 500 +0.70% and Nasdaq +0.83% as Anthropic's IPO filing lifted tech; SOX +2.82% on Oct 26 and −12.2% from Sep 30 to Oct 26 (Investing.com data). Week to Oct 23: S&P −0.5%. On `semis`.
 - Factors: Oct 22 investors rotated into defensive sectors and Treasuries as the Nasdaq fell 2.6% (Investing.com); RSP +3.5% vs S&P 500 −0.4% over the month to late October (Seeking Alpha); Q3 value/quality beat momentum (Confluence). On `breadth`/`factor`.
-- AI: Oct 26 Anthropic filed for a Nasdaq IPO (ANT), reportedly seeking up to $100B; Oct 26 Meta launched ~$35B of stock offerings (SEC); Oct 22 Lam supply warning; Oct 19 DeepSeek update hit Asian chips. On `aicapex`/`overcap`/`semis`/`cheapai`.
+- AI: equity side, Oct 26 Anthropic filed for a Nasdaq IPO (ANT) reportedly seeking up to $100B, and Meta launched ~$35B of stock offerings (SEC); debt side, Oct 25 Musk said SpaceX closed $40B of GPU debt and that debt markets have almost shut for firms without revenue outside AI data centers (InvestingLive, The Next Web); chips, Oct 22 Lam supply warning and Oct 19 DeepSeek update. On `aicapex`/`issuance`/`credit`/`overcap`/`semis`/`cheapai`.
 - Portfolio: 20-day SPY–TLT correlation −0.24 at the Oct 23 close, after −0.30 on Oct 22 (RIA, Oct 24). On `sbcorr`.
 - Earnings: FactSet Oct 23: Q3 blended growth 29.5% with 24% reported; Meta Q3 on Oct 21. Microsoft, Alphabet and Amazon report after asOf. On `energy`/`aicapex`.
+
+Fix for review 2026-10-27-003:
+- **Blocker (L-010):** the debt side of AI funding is now on the map.
+  - `issuance` adds SpaceX's $40B GPU debt (Oct 25) and the soft $69B 2-year auction (Oct 26).
+  - `credit` adds Musk's warning that debt markets have "almost entirely shut off" money for firms without revenue outside AI data centers.
+  - The `fund` script names both sides (equity: Meta, Anthropic; debt: SpaceX).
+  - The `quality` script adds Musk's warning.
+- **Major (L-017):** the `ai` script no longer credits the SOX streak to cheap-model doubts. It uses the source's own causes: oil, rates and doubts that AI spending will pay off.
+- **Major (L-018):** the `ai` script covers all four edges again, including `semis-factor`, and ends with the implication (equal weight, quality over momentum).
+- Minors:
+  - `semis` now has a period return: SOX −12.2% from Sep 30 to Oct 26 and −15.7% over the eight-session streak (Investing.com historical data).
+  - `overcap` asOf is Oct 26, and its say line reflects the counterpoint.
+  - The `oil` fact no longer says "front-month", because The National doesn't name the contract.
+  - AGENT.md §1 and §9 now document V17–V19 and the sweep log.
+  - The regeneration claim is now precise (replayed scripts).
 
 Fix for review 2026-10-27-002:
 - **Blocker (L-010):** Anthropic's Oct 26 IPO filing is now on `aicapex` (replacing the duplicate bond-issuance fact, which stays on `issuance`) and on `overcap` as a counterpoint. `semis` now shows the Oct 26 rebound (SOX +2.82%).
