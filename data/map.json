@@ -275,6 +275,22 @@
       "name": "Proactive via Yahoo Finance: Meta launches $35B share offerings",
       "url": "https://ca.finance.yahoo.com/news/meta-launches-35-billion-share-131100761.html",
       "tier": 2
+    },
+    "herald_ant": {
+      "name": "The Herald Business: Anthropic filing lifts US chip stocks",
+      "url": "https://biz.heraldcorp.com/article/10915453",
+      "tier": 2
+    },
+    "yahoo_live": {
+      "name": "Yahoo Finance: stocks rally as investors parse Anthropic IPO filing",
+      "url": "https://finance.yahoo.com/markets/live/stock-market-today-dow-sp-500-nasdaq-rally-as-investors-parse-anthropic-ipo-filing-busy-week-of-tech-earnings-153428995.html",
+      "tier": 2,
+      "publisher": "Yahoo Finance"
+    },
+    "twsw_sox": {
+      "name": "24/7 Wall St. via Yahoo Finance: chip stocks fall 8 days in a row",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/chip-stocks-just-fell-8-161520543.html",
+      "tier": 2
     }
   },
   "nodes": {
@@ -363,7 +379,7 @@
       "y": 520,
       "kind": "structural",
       "asOf": "2026-10-26",
-      "value": "Meta: $135–145B capex; ~$35B stock sale (Oct 26)",
+      "value": "Meta ~$35B stock sale; Anthropic IPO filing (Oct 26)",
       "facts": [
         {
           "text": "Meta now guides 2026 capex of $135–145B, mostly for AI infrastructure. Q3 capex was $34.91B.",
@@ -388,14 +404,15 @@
           "basis": "sourced"
         },
         {
-          "text": "Hyperscaler capex plans are expected to keep bond issuance elevated into next year.",
+          "text": "Oct 26: Anthropic filed publicly for a Nasdaq IPO (ticker ANT), reportedly seeking up to $100B; its H1 revenue was $16.3B.",
           "src": [
-            "cnbc_10y"
+            "herald_ant",
+            "yahoo_live"
           ],
           "basis": "sourced"
         }
       ],
-      "say": "AI capex now outruns Meta's cash flow, so it is raising money in both the bond and the stock market."
+      "say": "AI capex now outruns cash flow, so the builders are tapping both the bond and the stock market."
     },
     "oil": {
       "label": "Oil",
@@ -510,6 +527,14 @@
           "text": "This is the market's interpretation. Neither Meta nor DeepSeek said demand has peaked.",
           "src": [],
           "basis": "unsourced"
+        },
+        {
+          "text": "Counterpoint: on Oct 26 Anthropic's IPO filing, with H1 revenue of $16.3B, revived the AI trade and lifted chip stocks.",
+          "src": [
+            "yahoo_live",
+            "herald_ant"
+          ],
+          "basis": "sourced"
         }
       ],
       "say": "The scarcity story cracked: investors now ask whether chip demand has peaked."
@@ -749,13 +774,20 @@
     },
     "semis": {
       "label": "Semis & tech",
-      "tag": "SOX −6.7% Oct 22",
+      "tag": "SOX +2.8% Oct 26",
       "layer": 3,
       "y": 430,
       "kind": "weekly",
       "asOf": "2026-10-26",
-      "value": "Chips' worst day since June on Oct 22 (SOX −6.7%)",
+      "value": "SOX −6.7% on Oct 22, then +2.8% on Oct 26 (Anthropic IPO)",
       "facts": [
+        {
+          "text": "The SOX fell for eight straight sessions to Oct 16, its longest losing run since 2008.",
+          "src": [
+            "twsw_sox"
+          ],
+          "basis": "sourced"
+        },
         {
           "text": "Oct 22: the Philadelphia Semiconductor Index (SOX) fell 6.7%, chip stocks' worst day since June 23, as Meta's negative free cash flow revived AI financing worries.",
           "src": [
@@ -765,21 +797,22 @@
           "basis": "sourced"
         },
         {
+          "text": "Oct 26: the SOX rose 2.82% after Anthropic filed publicly for its IPO; Nvidia gained 2.39%.",
+          "src": [
+            "herald_ant",
+            "yahoo_live"
+          ],
+          "basis": "sourced"
+        },
+        {
           "text": "Lam Research also warned that supply constraints for some components will limit chipmakers; its CEO expects the industry to be 'caught up very shortly'.",
           "src": [
             "yahoo_chips"
           ],
           "basis": "sourced"
-        },
-        {
-          "text": "In September the opposite happened: technology was the only sector that rose.",
-          "src": [
-            "james"
-          ],
-          "basis": "sourced"
         }
       ],
-      "say": "Chips had their worst day since June on Oct 22 as AI financing worries returned."
+      "say": "Chips swing on AI funding news: their worst day since June on Oct 22, then a rebound on Anthropic's IPO filing."
     },
     "cad": {
       "label": "Canadian dollar",
@@ -1192,7 +1225,7 @@
         "y10-aicapex",
         "y10-semis"
       ],
-      "script": "AI capex now outruns cash flow, and it has to be funded. Meta guides $135–145B of capex this year, its Q3 free cash flow turned negative, and on Oct 26 it launched about $35B of stock offerings on top of investment-grade debt. Hyperscaler borrowing adds bond supply, one reason the 10-year hit 5.31% on Oct 5, its highest close since 2002. Higher yields then raise the cost of funding the build-out and lower the value of long-duration growth stocks. So AI is both a cause of higher yields and a victim of them, and the funding mix, bonds or stock, is now the thing to watch.",
+      "script": "AI capex now outruns cash flow, and it has to be funded. Meta guides $135–145B of capex this year and its Q3 free cash flow turned negative. On Oct 26 it launched about $35B of stock offerings, the same day Anthropic filed for an IPO reportedly seeking up to $100B. Hyperscaler borrowing adds bond supply, one reason the 10-year hit 5.31% on Oct 5, its highest close since 2002. Higher yields raise the cost of the build-out and lower the value of long-duration growth stocks. So AI is both a cause of higher yields and a victim of them, and the funding mix, bonds or stock, is now the thing to watch.",
       "topics": [
         "Term premium",
         "Bond supply",
@@ -1209,7 +1242,7 @@
         "semis-breadth",
         "semis-factor"
       ],
-      "script": "The AI scarcity story has been cracking since July. Cheaper Chinese models keep raising doubts about how many chips AI really needs, and DeepSeek's latest update pushed a gauge of Asian chipmakers to its lowest since July on Oct 19. Those doubts weigh on chip stocks, and money is moving to the average stock: over the past month the equal-weight S&P 500 rose 3.5% while the S&P 500 fell 0.4%. With tech near 40% of the S&P, owning the index is a concentrated AI bet, which argues for equal weight and for quality over momentum.",
+      "script": "The AI scarcity story has been cracking since July. Cheaper Chinese models keep raising doubts about how many chips AI really needs, and DeepSeek's latest update pushed a gauge of Asian chipmakers to its lowest since July on Oct 19. Those doubts hit chip stocks: the SOX fell eight straight sessions to Oct 16, its longest losing run since 2008. The doubt cuts both ways, and Anthropic's IPO filing lifted the SOX 2.8% on Oct 26. Meanwhile money moved to the average stock: over the past month the equal-weight S&P 500 rose 3.5% while the S&P 500 fell 0.4%. With tech near 40% of the S&P, owning the index is a concentrated AI bet.",
       "topics": [
         "AI capex cycle",
         "Concentration risk",

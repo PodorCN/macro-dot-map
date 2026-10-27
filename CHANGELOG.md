@@ -1,11 +1,33 @@
 # Changelog
 
-> **2026-10-27: not released.** v3 failed review twice today (2026-10-27-001: Meta's Oct 26 stock offering missing; 2026-10-27-002: Anthropic's Oct 26 IPO filing missing). Both were cases of L-010, a major driver of the as-of day left out, so per AGENT.md section 10 the update stops and v2 (a1b264d) stays live.
-> - The next run must re-sweep every AGENT.md section 3 area up to its `meta.asOf` and log it as V19 now requires: a `Sweep to YYYY-MM-DD:` block with one dated bullet per area.
-> - It must add the Anthropic IPO and the Oct 26 chip rebound to `semis`/`ai`/`fund`, and give `semis` a period return.
-> - The Fed and BoC decide Oct 28; refresh on Oct 29.
+## 2026-10-27 (version 3, fixes for review 2026-10-27-002)
+v3 failed review twice on Oct 27: 2026-10-27-001 (Meta's Oct 26 stock offering missing) and 2026-10-27-002 (Anthropic's Oct 26 IPO filing missing), both L-010. AGENT.md section 10 says to stop after two FAILs in a day. **Max explicitly overrode that stop** ("keep fixing"), so this run continues with a full sweep. Regenerated from release a1b264d; data as of Oct 26.
 
-## 2026-10-27 (version 3, fixes for reviews 2026-10-26-002 and 2026-10-27-001)
+Sweep to 2026-10-26:
+- Geopolitics and oil: Oct 26 Houthis claimed strikes on Saudi East-West pumping stations (Reuters); Brent settled $115.81 on Oct 26 after a six-month high of $116.72 on Oct 23. On `hormuz`/`oil` (Oct 23 settle kept as the headline).
+- Inflation: US Sept CPI 3.7% (BLS, Oct 14); UMich 1-yr 4.7% final (Oct 23); Canada Sept CPI 3.1% (Oct 19). US PCE is due Oct 30, after asOf. On `inflation`.
+- Fed: Oct 27–28 meeting; hold expected and Dec hike odds above 80% (CME FedWatch via TE, Oct 26). On `fed`.
+- Bank of Canada: Oct 28 decision; ~81% hike odds (InvestingLive, Oct 25); Reuters poll Oct 21–23 (19 of 34 expect a hike). On `boc`.
+- Rates: 10-yr 5.00% on Oct 23 (FRED; Oct 26 not yet posted, ~4.98% intraday); TIPS 2.66% on Oct 23. On `y10`/`realy`.
+- Credit: HY OAS 3.38% and CCC 13.56% on Oct 23 (FRED, latest posted); CoreWeave bonds near 15% in mid-October. On `credit`.
+- FX and gold: USD/CAD 1.3993 on Oct 23 (FRED); gold ~$4,017 on Oct 26 after a three-month low (TE). On `cad`/`gold`.
+- Equities: Oct 26 S&P 500 +0.70% and Nasdaq +0.83% as Anthropic's IPO filing lifted tech; SOX +2.82% (Herald Business). Week to Oct 23: S&P −0.5%. On `semis`.
+- Factors: Oct 22 investors rotated into defensive sectors and Treasuries as the Nasdaq fell 2.6% (Investing.com); RSP +3.5% vs S&P 500 −0.4% over the month to late October (Seeking Alpha); Q3 value/quality beat momentum (Confluence). On `breadth`/`factor`.
+- AI: Oct 26 Anthropic filed for a Nasdaq IPO (ANT), reportedly seeking up to $100B; Oct 26 Meta launched ~$35B of stock offerings (SEC); Oct 22 Lam supply warning; Oct 19 DeepSeek update hit Asian chips. On `aicapex`/`overcap`/`semis`/`cheapai`.
+- Portfolio: 20-day SPY–TLT correlation −0.24 at the Oct 23 close, after −0.30 on Oct 22 (RIA, Oct 24). On `sbcorr`.
+- Earnings: FactSet Oct 23: Q3 blended growth 29.5% with 24% reported; Meta Q3 on Oct 21. Microsoft, Alphabet and Amazon report after asOf. On `energy`/`aicapex`.
+
+Fix for review 2026-10-27-002:
+- **Blocker (L-010):** Anthropic's Oct 26 IPO filing is now on `aicapex` (replacing the duplicate bond-issuance fact, which stays on `issuance`) and on `overcap` as a counterpoint. `semis` now shows the Oct 26 rebound (SOX +2.82%).
+  - Re-tested the `ai` chain: the demand doubt cuts both ways, and Anthropic's filing lifted chips.
+  - Re-tested the `fund` chain: its funding mix now includes Meta's stock sale and the Anthropic IPO.
+- Minors:
+  - `semis` now has a period measure: eight straight SOX losses to Oct 16, the longest since 2008 (24/7 Wall St.). All its numbers use one index (SOX); the only percentage figures found were for SOXX or from tier-3 sites.
+  - The changelog no longer says "regenerated" for an incremental commit: this run was regenerated from a1b264d in full.
+  - `proactive_meta` stays tier 2 (named publisher), and the fact also rests on the SEC filing.
+  - `cnbc_10y` and `bbg_ds` facts are unchanged and within their freshness limits.
+
+Earlier on Oct 27 (fixes for reviews 2026-10-26-002 and 2026-10-27-001), kept in this version:
 Max asked for the two blockers to be fixed and the update released. Regenerated again from release a1b264d (data as of Oct 26). Review 2026-10-27-001 failed this draft because it said the Oct 26 close "changed nothing material", but on Oct 26 Meta launched a ~$35B stock offering (L-010 recurred). The map now includes it.
 
 Blockers fixed:
