@@ -23,7 +23,7 @@ The map is an interview-prep tool for a buy-side multi-asset analyst. A reader s
 | `src/template.html` | The page shell. Reads the data, draws the map. | Only with a reviewed reason (design change) |
 | `scripts/build.py` | Builds `dist/macro-dot-map.html` and computes all edge paths. | Rarely |
 | `scripts/mapgeo.py` | Shared geometry used by build and validate. | Rarely |
-| `scripts/validate.py` | Mechanical checks V01–V15 and V17–V19 (V17/V18 source tiers and publishers on syndicating hosts, V19 research sweep log in the changelog). | Reviewer adds checks when lessons recur |
+| `scripts/validate.py` | Mechanical checks V01–V15 and V17–V20 (V17/V18 source tiers and publishers on syndicating hosts, V19 research sweep log in the changelog, V20 a script's cause must not post-date the move it explains). | Reviewer adds checks when lessons recur |
 | `scripts/render_check.py` | Headless-browser layout check V16 (needs Playwright). | Reviewer adds checks when lessons recur |
 | `scripts/release_check.py` | The release gate (R1–R7). | Rarely |
 | `dist/macro-dot-map.html` | The built page that gets published. Never edit by hand. | build.py |

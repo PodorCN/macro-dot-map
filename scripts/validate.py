@@ -384,6 +384,11 @@ def main():
             if re.search(p["pattern"], t, re.I):
                 flags.append({"lesson": p["lesson"], "where": where, "rule": p["rule"]})
 
+    # V20 a script never credits a move to an event dated after the move (lesson L-017, recurred:
+    # review 2026-10-27-004 found the `fund` script saying SpaceX's $40B GPU debt, closed Oct 25 and first
+    # reported Oct 6, added "to bond supply that helped push the 10-year to 5.31% on Oct 5").
+    check_causal_chronology(N, EB, C, dt.date.fromisoformat(M["asOf"]))
+
     # V19 the newest changelog entry logs the research sweep, area by area, up to meta.asOf
     # (lesson L-010, recurred twice: Fed hike left out; Meta's Oct 26 stock offering left out;
     # Anthropic's Oct 26 IPO filing, the day's lead AI and chip story, left out; SpaceX's Oct 25-26
@@ -433,6 +438,54 @@ def check_sweep(asof):
                 if not any(re.search(words, c, re.I) for c in clauses):
                     err("V19", f"sweep log 'AI' names no dated {side} financing item; log the latest AI {side} "
                                f"deal or market signal up to {asof} (or '<date range>: no AI {side} deal found') in its own ';' clause")
+
+
+# V20 chronology of causes in chain scripts (lesson L-017)
+MONTH_NO = {m: i + 1 for i, m in enumerate(("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))}
+DAY_IN_TEXT = re.compile(r"\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? (\d{1,2})\b")
+FACT_DATE = re.compile(r"^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.? (\d{1,2}):")
+CAUSAL = re.compile(r"\b(helped? (push|drive|lift|send|sink|pull)|drove|drives|pushed|sent|dragged|caused|adding to|added to"
+                    r"|fuell?ed|because of|thanks to|on the back of|led to)\b", re.I)
+PROPER = re.compile(r"\b[A-Z][A-Za-z]*[a-z][A-Za-z]*\b|\b[A-Z]{4,}\b")
+NAME_STOP = set(MONTH_NO) | {"January", "February", "March", "April", "June", "July", "August", "September", "October",
+                             "November", "December", "Sept", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
+                             "Saturday", "Sunday", "The", "This", "That", "These", "Those", "Since", "Still", "Over",
+                             "After", "Before", "When", "While", "Its", "Their", "Counterpoint", "Drivers", "Markets",
+                             "Traders", "Investors"}
+
+
+def check_causal_chronology(N, EB, C, asof):
+    """A clause of a chain script that states a cause ("drove", "helped push", "adding to", ...) and dates its
+    effect must not name an event that the chain's own facts date after that effect. Event facts are the ones
+    that start with 'Mon DD:'; an event is named when a proper noun from its fact appears in the clause.
+    Clauses are sentences, split again on ':' and ';'. Years are taken as the latest one not after meta.asOf."""
+    def to_date(mon, day):
+        d = dt.date(asof.year, MONTH_NO[mon[:3]], int(day))
+        return d.replace(year=d.year - 1) if d > asof else d
+    for c in C:
+        nodes = {x for eid in c["edges"] for x in (EB[eid]["from"], EB[eid]["to"])}
+        events = []
+        for nid in sorted(nodes):
+            for f in N[nid]["facts"]:
+                m = FACT_DATE.match(f["text"])
+                if m:
+                    names = {w for w in PROPER.findall(f["text"][m.end():]) if w not in NAME_STOP}
+                    events.append((to_date(m.group(1), m.group(2)), names, nid))
+        for clause in re.split(r"(?<=[.!?])\s+(?=[A-Z])|[:;]\s+", c["script"]):
+            if not CAUSAL.search(clause):
+                continue
+            dates = [to_date(a, b) for a, b in DAY_IN_TEXT.findall(clause)]
+            if not dates:
+                continue
+            effect = max(dates)
+            words = set(re.findall(r"[A-Za-z]+", clause))
+            for d, names, nid in events:
+                hit = sorted(names & words)
+                if hit and d > effect:
+                    err("V20", f"chain {c['key']}: script credits a move dated {effect:%b} {effect.day} partly to "
+                               f"{', '.join(hit)}, which node {nid} dates {d:%b} {d.day}; a later event cannot cause an "
+                               f"earlier move. Use the move's own source for its cause, or name a move after the event: "
+                               f"\"{clause.strip()[:120]}\"")
 
 
 def finish(data, today):

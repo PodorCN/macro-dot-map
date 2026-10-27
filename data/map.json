@@ -507,7 +507,7 @@
       "y": 330,
       "kind": "structural",
       "asOf": "2026-10-26",
-      "value": "Heavy Treasury and AI debt, incl. SpaceX's $40B GPU deal",
+      "value": "Heavy Treasury issuance and AI-related borrowing",
       "facts": [
         {
           "text": "Macquarie's Thierry Wizman attributes this year's yield rise more to bond issuance than to inflation.",
@@ -524,7 +524,7 @@
           "basis": "sourced"
         },
         {
-          "text": "Oct 25: Musk said SpaceX closed $40B of mainly callable debt to buy GPUs arriving in the first half of 2027.",
+          "text": "Oct 25: Musk said SpaceX closed $40B of mainly callable debt to buy GPUs arriving in the first half of 2027; talks were first reported on Oct 6.",
           "src": [
             "il_spacex",
             "tnw_spacex"
@@ -539,7 +539,7 @@
           "basis": "sourced"
         }
       ],
-      "say": "Part of the yield move is plain supply: more bonds, including AI-related debt like SpaceX's $40B GPU deal, need buyers."
+      "say": "Part of the yield move is plain supply: heavy Treasury issuance and AI-related borrowing all need buyers."
     },
     "overcap": {
       "label": "Chip-demand doubt",
@@ -805,7 +805,7 @@
           "basis": "sourced"
         },
         {
-          "text": "Oct 25: Musk said debt markets have 'almost entirely shut off' money for firms without revenue outside AI data centers.",
+          "text": "Oct 25: Musk, who competes with neoclouds, said debt markets have 'almost entirely shut off' money for firms without substantial revenue outside AI data centers.",
           "src": [
             "tnw_spacex"
           ],
@@ -1268,7 +1268,7 @@
         "y10-aicapex",
         "y10-semis"
       ],
-      "script": "AI capex now outruns cash flow, and it has to be funded. Meta guides $135–145B of capex this year and its Q3 free cash flow turned negative. On the equity side, Meta launched about $35B of stock offerings on Oct 26 and Anthropic filed for an IPO reportedly seeking up to $100B. On the debt side, SpaceX closed $40B of GPU debt, adding to bond supply that helped push the 10-year to 5.31% on Oct 5, its highest close since 2002. Higher yields raise the cost of the build-out and lower the value of long-duration growth stocks. So AI is both a cause of higher yields and a victim of them; watch the funding mix.",
+      "script": "AI capex now outruns cash flow, and it has to be funded. Meta guides $135–145B of capex this year and its Q3 free cash flow turned negative. Heavy borrowing for the build-out is one reason the 10-year hit 5.31% on Oct 5, its highest close since 2002. Since then the funding has widened: on Oct 25 SpaceX said it closed $40B of GPU debt, and on Oct 26 Meta launched about $35B of stock offerings while Anthropic filed for an IPO reportedly seeking up to $100B. Higher yields raise the cost of the build-out and lower the value of long-duration growth stocks. So AI is both a cause of higher yields and a victim of them; watch the funding mix.",
       "topics": [
         "Term premium",
         "Bond supply",
@@ -1285,7 +1285,7 @@
         "semis-breadth",
         "semis-factor"
       ],
-      "script": "The AI scarcity story has been cracking since July. Cheaper Chinese models keep raising doubts about how many chips AI needs, and DeepSeek's latest update pushed a gauge of Asian chipmakers to its lowest since July on Oct 19. Doubts about whether AI spending will pay off, along with oil and rates, drove the SOX down 12.2% in October through Oct 26, though Anthropic's IPO filing lifted it 2.8% that day. Money moved to the average stock: over the past month the equal-weight S&P 500 rose 3.5% while the S&P 500 fell 0.4%. With tech near 40% of the S&P, owning the index is a concentrated AI bet, so I'd lean to equal weight and to quality over momentum, which led in Q3.",
+      "script": "The AI scarcity story has been cracking since July. Cheaper Chinese models keep raising doubts about how many chips AI needs, and DeepSeek's latest update pushed a gauge of Asian chipmakers to its lowest since July on Oct 19. Oil, rates and doubts about whether AI spending will pay off drove the SOX's eight straight losses to Oct 16. It was down 12.2% for October through Oct 26, though Anthropic's IPO filing lifted it 2.8% that day. Money moved to the average stock: over the past month the equal-weight S&P 500 rose 3.5% while the S&P 500 fell 0.4%. With tech near 40% of the S&P, the index is a concentrated AI bet. Momentum is crowded in AI winners, so I'd lean to equal weight and quality as it unwinds.",
       "topics": [
         "AI capex cycle",
         "Concentration risk",
@@ -1318,7 +1318,7 @@
         "credit-factor",
         "y10-factor"
       ],
-      "script": "Expensive money is sorting companies by balance sheet. High-yield spreads widened from 2.66% in September to 3.40% on Oct 22, the widest since March. The weak end is worse: CCC spreads reached 13.56%, wider than at any time since at least 2023, CoreWeave's bonds yielded near 15% in mid-October, and on Oct 25 Musk said debt markets have almost shut for firms without revenue outside AI data centers. Leveraged borrowers feel higher rates first. In equities the same logic shows up as quality and value beating momentum, as they did in Q3. I'd favour strong balance sheets in both credit and equity.",
+      "script": "Expensive money is sorting companies by balance sheet. High-yield spreads widened from 2.66% in September to 3.40% on Oct 22, the widest since March. The weak end is worse: CCC spreads reached 13.56%, wider than at any time since at least 2023, and CoreWeave's bonds yielded near 15% in mid-October. Leveraged borrowers feel higher rates first. Lenders are also getting choosier about AI: on Oct 25 Musk, a competitor, said debt markets have almost shut for firms without substantial revenue outside AI data centers. In equities the same logic shows up as quality and value beating momentum, as they did in Q3. I'd favour strong balance sheets in both credit and equity.",
       "topics": [
         "Credit spreads",
         "Quality factor",

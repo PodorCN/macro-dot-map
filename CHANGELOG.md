@@ -1,7 +1,7 @@
 # Changelog
 
-## 2026-10-27 (version 3, fixes for reviews 2026-10-27-002 and 2026-10-27-003)
-v3 failed review twice on Oct 27: 2026-10-27-001 (Meta's Oct 26 stock offering missing) and 2026-10-27-002 (Anthropic's Oct 26 IPO filing missing), both L-010; review 2026-10-27-003 then failed it for missing the debt side of AI funding (L-010) and two `ai` script problems (L-017, L-018). AGENT.md section 10 says to stop after two FAILs in a day. **Max explicitly overrode that stop** ("keep fixing"), so this run continues with a full sweep. The data is rebuilt from release a1b264d by replaying the update scripts in order, so a diff against the previous draft shows only the reviewed fixes. Data as of Oct 26.
+## 2026-10-27 (version 3, fixes for reviews 2026-10-27-002, -003 and -004)
+v3 failed review twice on Oct 27: 2026-10-27-001 (Meta's Oct 26 stock offering missing) and 2026-10-27-002 (Anthropic's Oct 26 IPO filing missing), both L-010; review 2026-10-27-003 then failed it for missing the debt side of AI funding (L-010) and two `ai` script problems (L-017, L-018); review 2026-10-27-004 failed it for a timing error in the `fund` script (L-017 again). AGENT.md section 10 says to stop after two FAILs in a day. **Max explicitly overrode that stop** ("keep fixing"), so this run continues with a full sweep. The data is rebuilt from release a1b264d by replaying the scripted edits in `reviews/updates/2026-10-26/` (`sh reviews/updates/2026-10-26/replay.sh` reproduces `data/map.json` exactly), so a diff against the previous draft shows only the reviewed fixes. Data as of Oct 26.
 
 Sweep to 2026-10-26:
 - Geopolitics and oil: Oct 26 Houthis claimed strikes on Saudi East-West pumping stations (Reuters); Brent settled $115.81 on Oct 26 after a six-month high of $116.72 on Oct 23. Zacks (Oct 26) also tied the Oct 23 spike to reports of a possible renewed US/Israeli strike on Iran; the map keeps The National's Houthi framing, which names the cause directly. On `hormuz`/`oil` (Oct 23 settle kept as the headline).
@@ -13,9 +13,21 @@ Sweep to 2026-10-26:
 - FX and gold: USD/CAD 1.3993 on Oct 23 (FRED); gold ~$4,017 on Oct 26 after a three-month low (TE). On `cad`/`gold`.
 - Equities: Oct 26 S&P 500 +0.70% and Nasdaq +0.83% as Anthropic's IPO filing lifted tech; SOX +2.82% on Oct 26 and −12.2% from Sep 30 to Oct 26 (Investing.com data). Week to Oct 23: S&P −0.5%. On `semis`.
 - Factors: Oct 22 investors rotated into defensive sectors and Treasuries as the Nasdaq fell 2.6% (Investing.com); RSP +3.5% vs S&P 500 −0.4% over the month to late October (Seeking Alpha); Q3 value/quality beat momentum (Confluence). On `breadth`/`factor`.
-- AI: equity side, Oct 26 Anthropic filed for a Nasdaq IPO (ANT) reportedly seeking up to $100B, and Meta launched ~$35B of stock offerings (SEC); debt side, Oct 25 Musk said SpaceX closed $40B of GPU debt and that debt markets have almost shut for firms without revenue outside AI data centers (InvestingLive, The Next Web); chips, Oct 22 Lam supply warning and Oct 19 DeepSeek update. On `aicapex`/`issuance`/`credit`/`overcap`/`semis`/`cheapai`.
+- AI: equity side, Oct 26 Anthropic filed for a Nasdaq IPO (ANT) reportedly seeking up to $100B, and Meta launched ~$35B of stock offerings (SEC); debt side, Oct 25 Musk said SpaceX closed $40B of GPU debt (talks first reported Oct 6) and that debt markets have almost shut for firms without substantial revenue outside AI data centers (InvestingLive, The Next Web); chips, Oct 22 Lam supply warning and Oct 19 DeepSeek update. On `aicapex`/`issuance`/`credit`/`overcap`/`semis`/`cheapai`.
 - Portfolio: 20-day SPY–TLT correlation −0.24 at the Oct 23 close, after −0.30 on Oct 22 (RIA, Oct 24). On `sbcorr`.
 - Earnings: FactSet Oct 23: Q3 blended growth 29.5% with 24% reported; Meta Q3 on Oct 21. Microsoft, Alphabet and Amazon report after asOf. On `energy`/`aicapex`.
+
+Fix for review 2026-10-27-004:
+- **Blocker (L-017, V20):** the `fund` script no longer credits the 10-year's Oct 5 peak to SpaceX's deal. Talks were first reported Oct 6 and the deal was announced Oct 25. The script now gives the peak to heavy borrowing for the build-out (the `issuance` facts), then says the funding has widened since: SpaceX's debt, Meta's stock sale and Anthropic's IPO.
+- Minors:
+  - `issuance`: the say line and value no longer call SpaceX's private debt "bonds", and the SpaceX fact gives the Oct 6 date.
+  - Musk's wording now includes "substantial", and the `credit` fact says he competes with neoclouds. In `quality`, his reason (revenue concentration) is kept apart from "higher rates".
+  - `ai`: the stated causes (oil, rates, AI-payoff doubts) apply only to the eight-session streak they describe. The `semis-factor` mechanism is spelled out: momentum is crowded in AI winners, so lean to equal weight and quality as it unwinds.
+  - The scripted edits are now committed (`reviews/updates/2026-10-26/`).
+  - The Anthropic IPO size ("reportedly up to $100B") rests on The Herald Business (tier 2, an AI-assisted translation of its own reporting). Nasdaq.com and NPR versions could not be opened. The ticker and revenue rest on Yahoo Finance.
+  - AGENT.md §1 lists V20.
+
+Warnings left open: V07 `hormuz` is 241 days old. Kept: October has the most Hormuz attacks of the war, and claimed Houthi strikes on Saudi export routes lifted Brent to a six-month high on Oct 23.
 
 Fix for review 2026-10-27-003:
 - **Blocker (L-010):** the debt side of AI funding is now on the map.
