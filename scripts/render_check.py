@@ -12,12 +12,33 @@ Checks (V16):
 Needs Playwright with Chromium: pip install playwright && playwright install chromium
 Exit 0 = pass, 1 = fail, 2 = Playwright not available.
 """
-import argparse, pathlib, sys
+import argparse, contextlib, functools, http.server, pathlib, shutil, sys, threading
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 VIEWS = [("phone-light", 400, "light"), ("phone-dark", 400, "dark"),
          ("tablet-light", 1000, "light"), ("desktop-light", 1300, "light"),
          ("desktop-dark", 1300, "dark"), ("wide-light", 1600, "light")]
+
+
+@contextlib.contextmanager
+def served_page():
+    """Serve the exact built artifact locally, including on browsers blocking file URLs."""
+    class Handler(http.server.SimpleHTTPRequestHandler):
+        extensions_map = {**http.server.SimpleHTTPRequestHandler.extensions_map,
+                          ".html": "text/html; charset=utf-8"}
+
+        def log_message(self, *args):
+            pass
+
+    handler = functools.partial(Handler, directory=str(ROOT / "dist"))
+    with http.server.ThreadingHTTPServer(("127.0.0.1", 0), handler) as server:
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            yield f"http://127.0.0.1:{server.server_port}/macro-dot-map.html"
+        finally:
+            server.shutdown()
+            thread.join()
 
 
 def main():
@@ -29,10 +50,14 @@ def main():
     except ImportError:
         print("render_check: Playwright is not installed; do the readability check by hand (REVIEWER.md Step E)")
         return 2
-    url = (ROOT / "dist/macro-dot-map.html").resolve().as_uri()
     fails = []
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
+    with served_page() as url, sync_playwright() as p:
+        launch_options = {}
+        if not pathlib.Path(p.chromium.executable_path).is_file():
+            system_browser = shutil.which("chromium") or shutil.which("google-chrome")
+            if system_browser:
+                launch_options["executable_path"] = system_browser
+        browser = p.chromium.launch(**launch_options)
         for name, width, scheme in VIEWS:
             page = browser.new_page(viewport={"width": width, "height": 900}, color_scheme=scheme)
             errs = []
