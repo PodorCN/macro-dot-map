@@ -93,9 +93,10 @@ Guard levels:
 
 ### L-014 — "Sourced" edge whose source states only the facts
 - **What happened:** Spot check on 2026-10-26: `oil-energy` ("higher realized prices lift producer earnings") is `sourced` to James Investment's September recap, which gives energy returns and FactSet earnings growth but does not link them to oil prices. It had passed review since v2.
+- **Recurred (2026-11-06, review 001):** `y10-aicapex` was changed from `unsourced` to `sourced` using Reuters' Nov 3 financing report. Jon Gray says higher overall capital costs and scepticism can slow AI investment, but the article does not attribute those capital costs to Treasury yields or state the US 10-year yield → AI-capex link. The source supports the middle of the explanation, while the arrow's starting point remains our inference.
 - **Rule:** A `sourced` edge needs a tier-1/2 source that states the causal link itself. Otherwise add one that does, or mark the edge `unsourced`.
-- **Guard:** manual (REVIEWER.md Step C, "Does a sourced edge's source actually state the causal link?"), now applied to spot-checked edges as well as new ones.
-- **First seen:** 2026-10-26 · **Occurrences:** 1
+- **Guard:** pattern (`higher capital/borrowing/financing costs`, `cost of capital`) + manual (REVIEWER.md Step C, "Does a sourced edge's source actually state the causal link?"). Check the whole arrow, including its starting node: a source on overall funding costs does not by itself establish a Treasury-yield cause. Apply this to spot-checked edges as well as new ones. The pattern requests human source inspection; it does not classify every cost statement as an error.
+- **First seen:** 2026-10-26 · **Occurrences:** 2
 
 ### L-015 — Status claim contradicted by the node's own source
 - **What happened:** The v3 `hormuz` value said "Hormuz largely shut since Feb 28". Its own Lloyd's List source (Oct 22) says "Hormuz traffic remains relatively elevated", and Trading Economics (Oct 26) says flows are recovering to near prewar levels. Reuters (Oct 26) still says "largely shut". The disagreement was not stated.
