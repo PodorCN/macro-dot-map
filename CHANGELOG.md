@@ -1,5 +1,8 @@
 # Changelog
 
+**2026-11-07 — presentation edit (v4):** At the user’s request, remove the “Buy-side interview prep” badge from the dateline in `src/template.html`. This is a bounded copy deletion; the Nov 6 data snapshot and its research sweep below remain the applicable data release. Rebuild `index.html` and `dist/macro-dot-map.html`, review the exact new content hash, and pass the existing release gate before publishing.
+
+
 ## 2026-11-06 (version 4)
 Sweep to 2026-11-06:
 - Geopolitics and oil: Nov 5 tanker attacks supported Brent's $98.29 futures settlement and WTI $90.52 (Reuters via The Business Times). Nov 6 Trading Economics Brent CFD snapshot near $98 and commentary on a weekly fall over 12.5%; diplomacy and continuing shipping risks both matter. Nov 1 OPEC+ held December production targets steady (Reuters via WTVB); no extra node needed.
