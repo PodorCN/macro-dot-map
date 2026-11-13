@@ -18,3 +18,4 @@ The commit in the last row is the last approved version. Roll back to it when an
 | 2026-11-13 | 12 (non-overlapping card details pane) | 323d908c7140ffff99170b0432f48bccf566db56 | 1aac0c532c322e2915c99dd77693c012e56e0fab672a2e878ef2b2d3104f4499 | 2026-11-13-005 |
 | 2026-11-13 | 13 (solid links; floating details card) | aa871f44c00686b3c0ba9ed73dd3f4f5e185c916 | c312610fbec68b923639fa9e1e457fb96c7bd1d3487c7115bc7099af56e5fcd3 | 2026-11-13-006 |
 | 2026-11-13 | 14 (31 nodes; broader coverage in every column) | b4d4371ea6298c42e4db965e55cba069a53791b4 | 9b5b7b0d9f1b9e471c2962c53a065b534b54a541aa3d9887eb2a89725eb9fd59 | 2026-11-13-007 |
+| 2026-11-13 | 15 (redesigned canvas; fixed floating details; separate routed connections) | 8d4667638ed6cd76d0ba499108d70970cc8304f6 | 4d047faa7b8e4f02ad2160ab53a589fc0112a4bc8d567433b3850dc9c29ee9c4 | 2026-11-13-009 |
