@@ -14,3 +14,4 @@ The commit in the last row is the last approved version. Roll back to it when an
 | 2026-11-13 | 8 (historical data as of 2026-11-12) | 9023a23216199f59f4f738ec59120e6f19cec9d0 | 28ad0c7b1a62a9193f9ebd9f8edf44b23bcc42fa0ac5bc5e50f22e56e6433dc5 | 2026-11-13-001 |
 | 2026-11-13 | 9 (wider map and headlines; map snapshot 2026-11-12) | fe027599993a21cbf347f3127b1fe69923dba24f | bfa94ff4ce5131d935ae8127d646ae22c646a978dafaef87bd995535c0a41b1a | 2026-11-13-002 |
 | 2026-11-13 | 10 (headlines as map nodes; active curation preference) | ac60f7bcd3c2055d28bc9fdb849ebbf4704b3d8e | 1ef8d4868e1a2b5dbb52f39915ebce743d1f200ebd950c32a78efcc74462ea9f | 2026-11-13-003 |
+| 2026-11-13 | 11 (map-only page; consolidated AI paths; whole-map review rule) | c87769ef203034cd6661f56fb04196fc62dd7e8f | f360221753e0c3c70ae3fddce0cbe678f31cb99bc43f37a1b15421d46dc5630e | 2026-11-13-004 |
