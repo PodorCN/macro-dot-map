@@ -69,6 +69,7 @@ The latest explicit preference is a fixed, draggable non-modal details window th
 Run `python scripts/render_check.py --shots <scratch dir>`. Any failure is a **blocker**. Then open the screenshots (desktop about 1300px and phone about 400px, light and dark) and check by eye. If Playwright is not available, render the page by hand and set `render_check: manual` in your record. Check:
 - No overlapping boxes, lines through boxes, dashed connections, arrowheads, +/− markers or clipped text.
 - The map is no denser than the previous release unless the additions earned it.
+- Selection is unmistakable in both themes: a strong filled selected card with contrasting text, lighter connected cards and stronger active links. Unrelated card text stays readable and selection never changes map geometry.
 - Each node details card reads cleanly: headline value, dates, facts, driven by, drives, read-through and sources. Its close button stays visible and every source remains reachable by scrolling.
 - Plain English, short sentences, units and periods stated.
 

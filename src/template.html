@@ -5,12 +5,14 @@
 :root{
  --canvas:#f4f6fa;--surface:#fff;--ink:#182438;--body:#49576d;--mut:#7c889a;--border:#e0e6ef;--grid:#cbd4e1;--column:#ffffff70;--soft:#f1f4f9;--shadow:#213c641f;
  --labour:#16877b;--duration:#4d75d9;--energy:#bc8122;--ai:#8c64c8;--risk:#b96e84;
+ --selection-mix:#13213a;--selection-fg:#fff;
  --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
  color-scheme:light;
 }
 @media(prefers-color-scheme:dark){:root{
  --canvas:#101722;--surface:#1b2534;--ink:#e4ebf5;--body:#b8c4d5;--mut:#8190a6;--border:#303e53;--grid:#354157;--column:#1b263344;--soft:#243044;--shadow:#0007;
  --labour:#5dbfaf;--duration:#83a6ef;--energy:#d9ac62;--ai:#b59ae2;--risk:#dd9bae;color-scheme:dark;
+ --selection-mix:#fff;--selection-fg:#101722;
 }}
 *{box-sizing:border-box}
 html,body{width:100%;height:100%;margin:0;overflow:hidden}
@@ -30,7 +32,9 @@ svg.map{display:block;width:100%;height:100%;min-width:0}
 .stage-badge{fill:var(--soft);stroke:var(--border);stroke-width:.7}
 .edge-casing{fill:none;stroke:var(--canvas);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 .edge{fill:none;stroke:color-mix(in srgb,var(--accent) 50%,var(--border));stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s,stroke-width .15s}
-.edge.on,.edge.preview{stroke:var(--accent);stroke-width:2.5}
+.edge.preview{stroke:var(--accent);stroke-width:2.4}
+.edge.on{stroke:var(--accent);stroke-width:3.2}
+.has-selection .edge:not(.on){opacity:.38}
 .node{cursor:pointer;outline:none}
 .node .box{fill:color-mix(in srgb,var(--accent) 3%,var(--surface));stroke:color-mix(in srgb,var(--accent) 13%,var(--border));stroke-width:1;filter:url(#card-shadow);transition:fill .15s,stroke .15s}
 .node .accent-dot{fill:var(--accent);opacity:.75}
@@ -38,9 +42,11 @@ svg.map{display:block;width:100%;height:100%;min-width:0}
 .node .nl{font:620 15.5px var(--sans);fill:var(--ink);letter-spacing:-.15px}
 .node .nt{font:10.5px var(--mono);fill:var(--body)}
 .node:hover .box,.node:focus-visible .box{stroke:var(--accent);stroke-width:1.7;fill:color-mix(in srgb,var(--accent) 8%,var(--surface))}
-.node.on .box{stroke:color-mix(in srgb,var(--accent) 55%,var(--border))}
-.node.sel .box{stroke:var(--accent);stroke-width:2;fill:color-mix(in srgb,var(--accent) 13%,var(--surface))}
-.node.sel .accent-dot{opacity:1}
+.node.on:not(.sel) .box{stroke:var(--accent);stroke-width:1.8;fill:color-mix(in srgb,var(--accent) 7%,var(--surface))}
+.node.sel .box{stroke:var(--accent);stroke-width:3;fill:color-mix(in srgb,var(--accent) 65%,var(--selection-mix));filter:drop-shadow(0 3px 8px color-mix(in srgb,var(--accent) 22%,transparent))}
+.node.sel .nl{fill:var(--selection-fg);font-weight:750}
+.node.sel .eyebrow,.node.sel .nt{fill:var(--selection-fg);opacity:.88}
+.node.sel .accent-dot{fill:var(--selection-fg);opacity:1}
 button,a{-webkit-tap-highlight-color:transparent}
 button:focus-visible,a:focus-visible{outline:2px solid var(--accent,var(--duration));outline-offset:3px}
 /* The inspector is outside the canvas layout. Selection never resizes or pans the map. */
@@ -132,13 +138,14 @@ Object.entries(N).forEach(([id,n])=>{
 let selected=null,moved=false,drag=null;
 function preview(id){if(selected)return;E.forEach(e=>edgeEl[e.id].classList.toggle("preview",!!id&&(e.from===id||e.to===id)))}
 function highlight(id){
+ svg.classList.add("has-selection");
  const connected=E.filter(e=>e.from===id||e.to===id),es=new Set(connected.map(e=>e.id));
  const ns=new Set([id,...connected.flatMap(e=>[e.from,e.to])]);
  E.forEach(e=>{edgeEl[e.id].classList.remove("preview");edgeEl[e.id].classList.toggle("on",es.has(e.id))});
  Object.keys(N).forEach(k=>{nodeEl[k].classList.toggle("on",ns.has(k));nodeEl[k].classList.toggle("sel",k===id);nodeEl[k].setAttribute("aria-expanded",k===id?"true":"false")});
  connected.forEach(e=>gE.appendChild(edgeGroup[e.id]));
 }
-function clearHighlight(){E.forEach(e=>edgeEl[e.id].classList.remove("on","preview"));Object.values(nodeEl).forEach(g=>{g.classList.remove("on","sel");g.setAttribute("aria-expanded","false")})}
+function clearHighlight(){svg.classList.remove("has-selection");E.forEach(e=>edgeEl[e.id].classList.remove("on","preview"));Object.values(nodeEl).forEach(g=>{g.classList.remove("on","sel");g.setAttribute("aria-expanded","false")})}
 function sourceList(keys){
  const unique=[...new Set(keys)].filter(k=>S[k]);
  return `<ul class="src">${unique.map(k=>`<li><a href="${esc(S[k].url)}" target="_blank" rel="noopener">${esc(S[k].name)}</a>${S[k].tier===3?basis("weak"):""}</li>`).join("")}</ul>`;

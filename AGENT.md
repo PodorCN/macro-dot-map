@@ -14,6 +14,8 @@ The map is an interview-prep tool for a buy-side multi-asset analyst. A reader s
 
 **Details must never reflow the map.** This latest explicit request supersedes the earlier reserved-space sidebar/lower-row preference. Open a fixed, non-modal floating window outside canvas layout. Opening, switching, dragging, keyboard-moving and closing it must not change canvas/SVG dimensions, node positions or map scroll. Do not auto-pan on selection. Prefer a position clear of the selected node and its immediate neighbours; allow pointer dragging and keyboard movement, clamp the window to the viewport, and keep its close control visible above a scrollable body. Compact screens also use a floating window, not a layout-changing row. The window can temporarily cover part of the canvas; do not add a modal, backdrop, overview dimming or hidden graph content. Closing/Escape restores focus without scrolling. Other uncovered nodes remain clickable.
 
+**Selection contrast, 2026-11-13:** The selected card must stand out clearly from an unselected or hovered card: use a strong filled theme colour, contrasting text and a heavier border. Connected cards use a lighter treatment, active links stand out and nonincident links may recede while staying visible. Unrelated card text stays fully readable; do not dim the whole canvas. Keep this distinction clear in both light and dark modes; selection must not move the map.
+
 ---
 
 ## 0. Before you touch anything
