@@ -9,7 +9,9 @@ Checks (V16):
   - at desktop widths (>= 1240px) the whole map fits
     without its own horizontal scroll, so no column is clipped (lesson L-011)
   - the initial page contains only the unfiltered map
-  - every node opens sourced details and closes by button/Escape
+  - every node opens a non-overlapping details pane and closes by button/Escape
+  - desktop selection keeps all five map columns visible and other cards clickable
+  - compact layouts reserve space below the map and survive viewport resizing
   - the consolidated AI path can be followed in the map details
   - compact screens can pan the readable diagram without page overflow
 Needs Playwright with Chromium: pip install playwright && playwright install chromium
@@ -44,6 +46,30 @@ def served_page():
             thread.join()
 
 
+
+def check_details_layout(page, name, width, fails):
+    canvas = page.locator("#map-canvas").bounding_box()
+    details = page.locator("#details").bounding_box()
+    if width >= 1100:
+        if canvas["x"] + canvas["width"] > details["x"] + 1:
+            fails.append(f"{name}: right details pane overlaps the map")
+        if page.locator("#map-canvas").evaluate("e => e.scrollWidth - e.clientWidth") > 1:
+            fails.append(f"{name}: opening details clips the desktop map")
+        for box in page.locator("#map .node").all():
+            b = box.bounding_box()
+            if (b["x"] < canvas["x"] - 1 or b["y"] < canvas["y"] - 1
+                    or b["x"] + b["width"] > canvas["x"] + canvas["width"] + 1
+                    or b["y"] + b["height"] > canvas["y"] + canvas["height"] + 1):
+                fails.append(f"{name}: a map card is outside the visible canvas with details open")
+                break
+    elif canvas["y"] + canvas["height"] > details["y"] + 1:
+        fails.append(f"{name}: compact details pane overlaps the map")
+    if page.locator(".dim").count():
+        fails.append(f"{name}: opening details dims the overview")
+    if page.locator('dialog, [aria-modal="true"]').count():
+        fails.append(f"{name}: details use a modal overlay")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--shots", help="directory to save screenshots in")
@@ -73,7 +99,7 @@ def main():
                 fails.append(f"{name}: column labels did not render correctly")
             if page.locator("header, footer, #chains, #inspector, .legend, .stack, #headlines-sec").count():
                 fails.append(f"{name}: page contains UI outside the map")
-            if page.locator("main > :not(svg)").count() or page.locator("dialog").is_visible():
+            if page.locator("main > :not(svg)").count() or page.locator("#details").is_visible():
                 fails.append(f"{name}: the initial page is not map-only")
             if page.locator(".dim, .node.sel").count():
                 fails.append(f"{name}: initial map hides drivers behind a selection")
@@ -89,6 +115,7 @@ def main():
                 if moved <= 0:
                     fails.append(f"{name}: readable mobile map cannot pan to later columns")
                 page.locator("#map-canvas").evaluate("e => e.scrollLeft=0")
+            closed_canvas = page.locator("#map-canvas").bounding_box()
             ids = page.evaluate("Object.keys(DATA.nodes)")
             if page.locator("#map .node").count() != len(ids):
                 fails.append(f"{name}: a driver is missing from the diagram")
@@ -100,11 +127,12 @@ def main():
                     fails.append(f"{name}: {expected} did not open its details")
                 if not page.locator("#panel .src a").count():
                     fails.append(f"{name}: {expected} has no traceable sources")
+                check_details_layout(page, name, width, fails)
                 expected_edges = page.evaluate("id => DATA.edges.filter(e=>e.from===id||e.to===id).length", node_id)
                 if page.locator(".edge.on").count() != expected_edges:
                     fails.append(f"{name}: {expected} highlights the wrong connections")
                 page.locator("#close-details").click()
-                page.wait_for_function("!document.querySelector('dialog').open && !document.querySelector('.node.sel')")
+                page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
             for start, targets in (("nvidia", ("overcap", "semis", "breadth")),
                                    ("issuance", ("overcap",))):
                 page.locator(f'#map [data-node="{start}"]').click()
@@ -114,16 +142,28 @@ def main():
                     if page.locator("#detail-title").inner_text() != expected:
                         fails.append(f"{name}: consolidated AI link to {target} failed")
                 page.keyboard.press("Escape")
-                page.wait_for_function("!document.querySelector('dialog').open && !document.querySelector('.node.sel')")
+                page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
             page.locator('#map [data-node="nvidia"]').focus()
             page.keyboard.press("Enter")
             if page.locator("#detail-title").inner_text() != "NVIDIA CEO resigns":
                 fails.append(f"{name}: keyboard node activation failed")
             page.keyboard.press("Escape")
-            page.wait_for_function("!document.querySelector('dialog').open && !document.querySelector('.node.sel')")
+            page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
             page.locator('#map [data-node="nvidia"]').click()
-            page.mouse.click(1, 1)
-            page.wait_for_function("!document.querySelector('dialog').open && !document.querySelector('.node.sel')")
+            # A second card must be selectable directly while details remain open.
+            page.locator('#map [data-node="coreweave"]').click()
+            if page.locator("#detail-title").inner_text() != "CoreWeave earnings":
+                fails.append(f"{name}: selecting another map card did not update the pane")
+            check_details_layout(page, name, width, fails)
+            if a.shots:
+                out = pathlib.Path(a.shots)
+                out.mkdir(parents=True, exist_ok=True)
+                page.screenshot(path=str(out / f"{name}-details.png"), full_page=True)
+            page.locator("#close-details").click()
+            page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
+            restored = page.locator("#map-canvas").bounding_box()
+            if abs(restored["width"] - closed_canvas["width"]) > 1 or abs(restored["height"] - closed_canvas["height"]) > 1:
+                fails.append(f"{name}: closing details did not restore the full map area")
             if page.locator('[data-node="leadership"]').count():
                 fails.append(f"{name}: the merged leadership node is still rendered")
             if page.evaluate("document.documentElement.scrollWidth") > width:
@@ -137,6 +177,15 @@ def main():
                 out.mkdir(parents=True, exist_ok=True)
                 page.screenshot(path=str(out / f"{name}.png"), full_page=True)
             page.close()
+        page = browser.new_page(viewport={"width": 1300, "height": 900}, reduced_motion="reduce")
+        page.goto(url)
+        page.locator('#map [data-node="nvidia"]').click()
+        for width in (1000, 400, 1100, 1300):
+            page.set_viewport_size({"width": width, "height": 900})
+            check_details_layout(page, f"resize-{width}", width, fails)
+            if page.locator("#detail-title").inner_text() != "NVIDIA CEO resigns":
+                fails.append(f"resize-{width}: selection was lost during resize")
+        page.close()
         browser.close()
     for f in fails:
         print("FAIL   V16", f)

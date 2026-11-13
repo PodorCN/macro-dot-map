@@ -60,12 +60,12 @@ For each chain:
 
 ### Step E — Readability
 
-The user wants a map-only page: all nodes and links visible initially, with details and sources only in an on-demand popup. Check that no masthead, chain picker, permanent reading panel, news section, standalone legend or footer returns. Verify desktop fit, readable mobile panning, every node popup, close/Escape behavior and connection navigation. Chain scripts remain subject to the data/logic checks even though their former UI is removed.
+The user wants a map-only page: all nodes and links visible initially, with details and sources in an on-demand, non-modal pane on the right. The pane must reserve its own space and leave the entire desktop map visible and clickable. Compact screens may put the pane below the map in separate space. No overlay, backdrop or dimming. Check that no masthead, chain picker, permanent reading panel, news section, standalone legend or footer returns. Verify desktop fit, readable mobile panning, every node details pane, close/Escape behavior and connection navigation. Chain scripts remain subject to the data/logic checks even though their former UI is removed.
 
 Run `python scripts/render_check.py --shots <scratch dir>`. Any failure is a **blocker**. Then open the screenshots (desktop about 1300px and phone about 400px, light and dark) and check by eye. If Playwright is not available, render the page by hand and set `render_check: manual` in your record. Check:
 - No overlapping boxes, lines through boxes, overlapping +/− markers, or clipped text.
 - The map is no denser than the previous release unless the additions earned it.
-- Each node popup reads cleanly: headline value, dates, facts, driven by, drives, read-through and sources.
+- Each node details pane reads cleanly: headline value, dates, facts, driven by, drives, read-through and sources.
 - Plain English, short sentences, units and periods stated.
 
 ### Step F — Lessons

@@ -1,6 +1,6 @@
 # Macro Dot Map
 
-An interactive cause-and-effect map of what drives markets: oil, inflation, rates, AI, credit, gold and FX through to portfolio effects. The website displays only the diagram. Click a node to highlight its connections and open dated facts, mechanisms and sources; close the popup to return to the complete map. On compact screens, pan horizontally to read all five columns at a useful text size.
+An interactive cause-and-effect map of what drives markets: oil, inflation, rates, AI, credit, gold and FX through to portfolio effects. The website displays only the diagram. Click a node to highlight its connections and show dated facts, mechanisms and sources in a right-hand pane. The map fits beside the pane and stays clickable; closing details returns it to full width. Compact screens reserve space below the pannable map for details. No popup covers the diagram.
 
 Live page: https://podor.org/macro-dot-map/ (GitHub Pages serves `index.html`). The legacy claude.ai artifact URL is not updated by the daily run.
 
