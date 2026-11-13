@@ -12,3 +12,4 @@ The commit in the last row is the last approved version. Roll back to it when an
 | 2026-11-06 | 4 (data verified 2026-11-06) | 37ede8777d27b5819a22bb66b263c4bbf8c7b8de | 15875336c55a6cf10cddc874225da086ab84c924a0a73a914c740197f8ef9db5 | 2026-11-06-002 |
 | 2026-11-07 | 4 (remove interview badge) | 40af933199970caccfefad0c20a447dc192f29e9 | 54d00233344442cfea210dbdcfad49b214963512bbb4cbc05f8e960598d7a7d5 | 2026-11-07-001 |
 | 2026-11-13 | 8 (historical data as of 2026-11-12) | 9023a23216199f59f4f738ec59120e6f19cec9d0 | 28ad0c7b1a62a9193f9ebd9f8edf44b23bcc42fa0ac5bc5e50f22e56e6433dc5 | 2026-11-13-001 |
+| 2026-11-13 | 9 (wider map and headlines; map snapshot 2026-11-12) | fe027599993a21cbf347f3127b1fe69923dba24f | bfa94ff4ce5131d935ae8127d646ae22c646a978dafaef87bd995535c0a41b1a | 2026-11-13-002 |
