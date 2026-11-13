@@ -1,6 +1,6 @@
 # Macro Dot Map
 
-An interactive cause-and-effect map of jobs, wages, oil, inflation, AI and government financing through rates, asset prices and portfolio effects. The map uses themed cards on a quiet canvas, with rounded orthogonal connections routed between nodes. Click a card to highlight its connections and open dated facts, mechanisms and sources in a floating window. The diagram keeps its size and position throughout; details can be dragged or moved with the arrow keys. Close or Escape dismisses the window. Compact screens keep readable map panning and the same floating interaction.
+An interactive cause-and-effect map of jobs, wages, oil, inflation, AI and government financing through rates, asset prices and portfolio effects. The map uses themed cards on a quiet canvas, with rounded orthogonal connections routed between nodes. Click a card to highlight its connections and open a small floating summary. Choose “Read details” for dated facts, mechanisms and sources, then “Collapse” to return to the summary. The diagram keeps its size and position throughout; details can be dragged or moved with the arrow keys. Close or Escape dismisses the window. Compact screens keep readable map panning and the same floating interaction.
 
 Live page: https://podor.org/macro-dot-map/ (GitHub Pages serves `index.html`). The legacy claude.ai artifact URL is not updated by the daily run.
 

@@ -10,7 +10,7 @@ Checks (V16):
     without its own horizontal scroll, so no column is clipped (lesson L-011)
   - the initial page contains only the unfiltered map
   - every connection remains solid without arrows or sign markers in every state
-  - every node opens a floating details card with reachable sources and close/Escape
+  - every node opens a compact summary, with explicit expand/collapse and sources
   - selection preserves map dimensions, node positions and scroll position
   - floating cards support dragging, keyboard movement and responsive resizing
   - the AI, labour/currency and fiscal/duration paths can be followed
@@ -91,10 +91,22 @@ def check_details_layout(page, name, width, fails):
     geometry = page.evaluate("""() => {
         const rect=id=>{const r=document.getElementById(id).getBoundingClientRect();
             return {x:r.x,y:r.y,width:r.width,height:r.height}};
-        return {canvas:rect('map-canvas'),details:rect('details'),
+        return {canvas:rect('map-canvas'),details:rect('details'),expanded:document.getElementById('details').classList.contains('expanded'),manual:moved,
             close:rect('close-details'),viewport:{width:innerWidth,height:innerHeight}};
     }""")
     canvas, details, viewport = (geometry[k] for k in ("canvas", "details", "viewport"))
+    if geometry["expanded"] and page.locator("#toggle-details").get_attribute("aria-expanded") != "true":
+        fails.append(f"{name}: expanded details state is not accessible")
+    if not geometry["expanded"]:
+        if details["width"] > 288.5 or details["height"] > 180.5:
+            fails.append(f"{name}: default summary is too large")
+        if page.locator("#detail-body").is_visible() or page.locator("#toggle-details").get_attribute("aria-expanded") != "false":
+            fails.append(f"{name}: full details open without an explicit request")
+        selected = page.locator("#map .node.sel").bounding_box()
+        overlap = (max(0, min(details["x"] + details["width"], selected["x"] + selected["width"]) - max(details["x"], selected["x"]))
+                   * max(0, min(details["y"] + details["height"], selected["y"] + selected["height"]) - max(details["y"], selected["y"])))
+        if overlap > 1 and not geometry["manual"]:
+            fails.append(f"{name}: compact summary covers the selected node")
     if (details["x"] < 1 or details["y"] < 1
             or details["x"] + details["width"] > viewport["width"] - 1
             or details["y"] + details["height"] > viewport["height"] - 1):
@@ -118,7 +130,7 @@ def check_details_layout(page, name, width, fails):
         const last = links.length ? links[links.length - 1].getBoundingClientRect() : null;
         const visible = !!last && last.top >= panel.top - 1 && last.bottom <= panel.bottom + 1;
         e.scrollTop = before;
-        return {overflow: e.scrollWidth - e.clientWidth, visible,
+        return {overflow: e.scrollWidth - e.clientWidth, visible:visible || !document.getElementById('details').classList.contains('expanded'),
             signs: [...e.querySelectorAll('.direction')].some(d => /[+−-]/.test(d.textContent))};
     }""")
     if content["overflow"] > 1 or not content["visible"]:
@@ -209,6 +221,14 @@ def main():
                 if not page.locator("#panel .src a").count():
                     fails.append(f"{name}: {expected} has no traceable sources")
                 check_details_layout(page, name, width, fails)
+                page.locator("#toggle-details").click()
+                check_map_stable(page, before, name, fails)
+                if not page.locator("#detail-body").is_visible():
+                    fails.append(f"{name}: full details are not reachable")
+                check_details_layout(page, name, width, fails)
+                page.locator("#toggle-details").click()
+                check_map_stable(page, before, name, fails)
+                check_details_layout(page, name, width, fails)
                 expected_edges = page.evaluate("id => DATA.edges.filter(e=>e.from===id||e.to===id).length", node_id)
                 if page.locator(".edge.on").count() != expected_edges:
                     fails.append(f"{name}: {expected} highlights the wrong connections")
@@ -220,6 +240,7 @@ def main():
                                    ("jobs", ("wages", "fed", "front", "usd", "fx")),
                                    ("auction", ("supply", "term", "treasuries", "duration"))):
                 page.locator(f'#map [data-node="{start}"]').click()
+                page.locator("#toggle-details").click()
                 before = map_snapshot(page)
                 for target in targets:
                     page.locator(f'#panel [data-node-link="{target}"]').click()
@@ -236,6 +257,7 @@ def main():
             page.keyboard.press("Escape")
             page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
             page.locator('#map [data-node="nvidia"]').click()
+            page.locator("#toggle-details").click()
             # The requested floating window may cover some nodes; uncovered
             # nodes must stay directly selectable without a backdrop or reflow.
             target = page.evaluate("""() => [...document.querySelectorAll('#map .node')].find(n => {
@@ -249,6 +271,8 @@ def main():
             else:
                 before_switch = map_snapshot(page)
                 page.locator(f'#map [data-node="{target}"]').click()
+                if page.locator("#details.expanded").count():
+                    fails.append(f"{name}: a new map selection does not return to compact mode")
                 expected = page.evaluate("id => DATA.nodes[id].label", target)
                 if page.locator("#detail-title").inner_text() != expected:
                     fails.append(f"{name}: selecting an uncovered map card did not update details")
@@ -258,6 +282,14 @@ def main():
                 out = pathlib.Path(a.shots)
                 out.mkdir(parents=True, exist_ok=True)
                 page.screenshot(path=str(out / f"{name}-details.png"), full_page=True)
+            before_expand = map_snapshot(page)
+            page.locator("#toggle-details").click()
+            check_details_layout(page, name, width, fails)
+            check_map_stable(page, before_expand, name, fails)
+            if a.shots:
+                page.screenshot(path=str(out / f"{name}-expanded.png"), full_page=True)
+            page.locator("#toggle-details").click()
+            check_map_stable(page, before_expand, name, fails)
             # Pointer and keyboard movement affect only the floating card.
             before_drag = map_snapshot(page)
             handle = page.locator("#move-details")
@@ -317,6 +349,11 @@ def main():
             check_map_stable(page, before_close, f"resize-{width}", fails)
             page.evaluate("openNode('nvidia')")
             check_map_stable(page, before_close, f"resize-{width}", fails)
+            page.locator("#toggle-details").click()
+            check_details_layout(page, f"resize-{width}-expanded", width, fails)
+            check_map_stable(page, before_close, f"resize-{width}-expanded", fails)
+            page.locator("#toggle-details").click()
+            check_map_stable(page, before_close, f"resize-{width}-collapsed", fails)
         page.close()
         browser.close()
     for f in fails:

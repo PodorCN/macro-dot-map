@@ -55,6 +55,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--accent,var(--durati
 .details-tools{display:flex;align-items:center;gap:12px;flex:none;padding:12px 14px 10px;border-bottom:1px solid var(--border);margin-bottom:16px}
 .drag-handle{display:flex;align-items:center;gap:9px;flex:1;border:0;background:none;color:var(--mut);padding:5px 8px;font:600 10px var(--mono);letter-spacing:1.3px;text-align:left;cursor:grab;touch-action:none}
 .drag-handle:active{cursor:grabbing}.grip{width:10px;height:14px;background:radial-gradient(circle,currentColor 1px,transparent 1.5px);background-size:5px 5px;opacity:.7}
+.detail-toggle{flex:none;border:0;border-radius:7px;padding:5px 8px;background:var(--soft);color:var(--accent);font:600 10px/1.6 var(--sans);cursor:pointer}
 .close{display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:50%;background:var(--soft);color:var(--body);font:21px/1 var(--sans);cursor:pointer}
 .close:hover{background:var(--border)}
 #panel{min-height:0;overflow:auto;overscroll-behavior:contain;display:grid;align-content:start;gap:21px;padding:0 24px 25px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
@@ -74,6 +75,16 @@ li::marker{color:var(--accent)}
 .read-through{margin:0;padding:14px;border-radius:12px;background:var(--soft);font:13px/1.75 var(--sans);color:var(--body)}
 .src{list-style:none;padding:0;gap:0}.src li{font:11px/1.65 var(--sans);border-top:1px solid var(--border);padding:9px 0}
 .src a{color:var(--body);text-underline-offset:3px;text-decoration-color:var(--border);overflow-wrap:anywhere}
+.detail-body{display:grid;gap:21px}.detail-body[hidden]{display:none}
+.details:not(.expanded){width:min(288px,calc(100vw - 28px));max-height:min(180px,calc(100dvh - 28px));border-radius:16px}
+.details:not(.expanded) .details-tools{padding:4px 8px;margin-bottom:4px;gap:6px}
+.details:not(.expanded) .drag-handle{padding:3px 4px;font-size:9px;letter-spacing:.8px}
+.details:not(.expanded) .close{width:24px;height:24px;font-size:18px}
+.details:not(.expanded) .detail-toggle{padding:4px 6px}
+.details:not(.expanded) #panel{padding:0 12px 10px;gap:0}
+.details:not(.expanded) .detail-meta{display:none}
+.details:not(.expanded) h2{font-size:18px;letter-spacing:-.3px;margin:0}
+.details:not(.expanded) .value{font-size:11.5px;line-height:1.5;margin:6px 0 0;padding:6px 8px}
 @media(max-width:759px){.map-canvas{padding:12px}.details{width:calc(100vw - 28px);max-height:min(440px,44dvh);border-radius:20px}#panel{padding:0 21px 22px}h2{font-size:24px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -83,7 +94,8 @@ li::marker{color:var(--accent)}
  </main>
  <aside class="details" id="details" aria-labelledby="detail-title" hidden>
   <div class="details-tools">
-   <button class="drag-handle" id="move-details" type="button" aria-label="Move details card" title="Drag to move. Arrow keys move the card."><span class="grip" aria-hidden="true"></span>DETAILS</button>
+   <button class="drag-handle" id="move-details" type="button" aria-label="Move details card" title="Drag to move. Arrow keys move the card."><span class="grip" aria-hidden="true"></span><span id="window-label">SUMMARY</span></button>
+   <button class="detail-toggle" id="toggle-details" type="button" aria-expanded="false" aria-controls="detail-body">Read details</button>
    <button class="close" id="close-details" type="button" aria-label="Close details">×</button>
   </div>
   <div id="panel"></div>
@@ -159,32 +171,53 @@ function placeDetails(){
  if(details.hidden)return;
  const r=details.getBoundingClientRect();
  if(moved){setPosition(r.left,r.top);return}
- const gap=innerWidth<760?14:22,top=innerWidth<760?gap:74;
- const candidates=[[innerWidth-r.width-gap,top],[gap,top],[innerWidth-r.width-gap,innerHeight-r.height-gap],[gap,innerHeight-r.height-gap]];
+ const gap=14;
+ const boxes=Object.entries(nodeEl).map(([id,node])=>{const b=node.getBoundingClientRect();return {id,rect:{x:b.x-6,y:b.y-6,left:b.left-6,top:b.top-6,right:b.right+6,bottom:b.bottom+6,width:b.width+12,height:b.height+12}}});
+ const anchor=boxes.find(b=>b.id===selected).rect;
+ const candidates=[];
+ const around=b=>candidates.push([b.right+12,b.top],[b.left-r.width-12,b.top],[b.left,b.bottom+12],[b.right-r.width,b.bottom+12],[b.left,b.top-r.height-12],[b.right-r.width,b.top-r.height-12]);
+ around(anchor);
+ candidates.push([innerWidth-r.width-gap,gap],[gap,gap],[innerWidth-r.width-gap,innerHeight-r.height-gap],[gap,innerHeight-r.height-gap]);
+ if(!details.classList.contains("expanded"))boxes.forEach(b=>{if(b.rect.right>0&&b.rect.left<innerWidth&&b.rect.bottom>0&&b.rect.top<innerHeight)around(b.rect)});
+ const clamped=candidates.map(([x,y])=>[Math.max(gap,Math.min(x,innerWidth-r.width-gap)),Math.max(gap,Math.min(y,innerHeight-r.height-gap))]);
  const neighbors=new Set(E.filter(e=>e.from===selected||e.to===selected).flatMap(e=>[e.from,e.to]));
+ const labels=[...svg.querySelectorAll(".colhead,.colnum,.column-caption,.map-name,.map-description,.map-date")].map(e=>e.getBoundingClientRect());
+ const matrix=svg.getScreenCTM(),activePoints=[];
+ E.filter(e=>e.from===selected||e.to===selected).forEach(e=>{
+  const path=edgeEl[e.id],length=path.getTotalLength();
+  for(let i=0;i<=32;i++){const p=path.getPointAtLength(length*i/32);activePoints.push(new DOMPoint(p.x,p.y).matrixTransform(matrix))}
+ });
  const score=([x,y],i)=>{
-  let weight=i*.1;
-  Object.entries(nodeEl).forEach(([id,node])=>{
-   const b=node.getBoundingClientRect(),overlap=Math.max(0,Math.min(x+r.width,b.right)-Math.max(x,b.left))*Math.max(0,Math.min(y+r.height,b.bottom)-Math.max(y,b.top));
-   weight+=overlap/Math.max(1,b.width*b.height)*(id===selected?1000:neighbors.has(id)?8:1);
-  });return weight;
+  let weight=i*.001+Math.hypot(x+r.width/2-anchor.x-anchor.width/2,y+r.height/2-anchor.y-anchor.height/2)*.001;
+  boxes.forEach(({id,rect:b})=>{
+   const overlap=Math.max(0,Math.min(x+r.width,b.right)-Math.max(x,b.left))*Math.max(0,Math.min(y+r.height,b.bottom)-Math.max(y,b.top));
+   if(overlap>.1)weight+=(1+overlap/Math.max(1,b.width*b.height))*(id===selected?10000:neighbors.has(id)?1000:40);
+  });
+  labels.forEach(b=>{const overlap=Math.max(0,Math.min(x+r.width,b.right)-Math.max(x,b.left))*Math.max(0,Math.min(y+r.height,b.bottom)-Math.max(y,b.top));if(overlap>.1)weight+=2+overlap/Math.max(1,b.width*b.height)});
+  return weight;
  };
- const best=candidates.map((p,i)=>({p,score:score(p,i)})).sort((a,b)=>a.score-b.score)[0].p;
+ const best=clamped.map((p,i)=>({p,score:score(p,i)+activePoints.filter(q=>q.x>=p[0]&&q.x<=p[0]+r.width&&q.y>=p[1]&&q.y<=p[1]+r.height).length*.3})).sort((a,b)=>a.score-b.score)[0].p;
  setPosition(...best);
 }
-function openNode(id){
+function setExpanded(expanded){
+ details.classList.toggle("expanded",expanded);document.getElementById("detail-body").hidden=!expanded;
+ const toggle=document.getElementById("toggle-details");toggle.textContent=expanded?"Collapse":"Read details";toggle.setAttribute("aria-expanded",String(expanded));
+ document.getElementById("window-label").textContent=expanded?"DETAILS":"SUMMARY";panel.scrollTop=0;
+}
+function openNode(id,expanded=false){
  const n=N[id];if(!n)return;selected=id;highlight(id);details.className=`details tone-${n.tone}`;
  const incoming=E.filter(e=>e.to===id),outgoing=E.filter(e=>e.from===id);
  const links=(edges,inbound)=>edges.length?`<ul class="links">${edges.map(e=>{const other=inbound?e.from:e.to;return `<li><button type="button" data-node-link="${esc(other)}">${esc(N[other].label)}</button> <span class="direction">${e.sign==="+"?"same direction":"opposite direction"}</span>${basis(e.basis)}<p>${esc(e.why)}</p></li>`}).join("")}</ul>`:"";
  panel.innerHTML=`<div><p class="detail-meta"><span class="detail-stage">${esc(LY.layers[n.layer])} / ${esc(topic[n.tone])}</span>Snapshot ${date(M.asOf)}<br>Verified ${date(n.asOf)}</p><h2 id="detail-title" tabindex="-1">${esc(n.label)}</h2><p class="value">${esc(n.value)}</p></div>
- <div><h3>Facts</h3><ul>${n.facts.map(f=>`<li>${esc(f.text)}${basis(f.basis)}</li>`).join("")}</ul></div>
+ <div class="detail-body" id="detail-body" hidden><div><h3>Facts</h3><ul>${n.facts.map(f=>`<li>${esc(f.text)}${basis(f.basis)}</li>`).join("")}</ul></div>
  ${incoming.length?`<div><h3>Driven by</h3>${links(incoming,true)}</div>`:""}
  ${outgoing.length?`<div><h3>Drives</h3>${links(outgoing,false)}</div>`:""}
- <p class="read-through">${esc(n.say)}</p><div><h3>Sources</h3>${sourceList(n.facts.flatMap(f=>f.src).concat([...incoming,...outgoing].flatMap(e=>e.src)))}</div>`;
- panel.querySelectorAll("[data-node-link]").forEach(b=>b.onclick=()=>openNode(b.dataset.nodeLink));
- details.hidden=false;panel.scrollTop=0;placeDetails();document.getElementById("detail-title").focus({preventScroll:true});
+ <p class="read-through">${esc(n.say)}</p><div><h3>Sources</h3>${sourceList(n.facts.flatMap(f=>f.src).concat([...incoming,...outgoing].flatMap(e=>e.src)))}</div></div>`;
+ panel.querySelectorAll("[data-node-link]").forEach(b=>b.onclick=()=>openNode(b.dataset.nodeLink,true));
+ details.hidden=false;setExpanded(expanded);placeDetails();document.getElementById("detail-title").focus({preventScroll:true});
 }
-function closeDetails(){const id=selected;selected=null;moved=false;details.hidden=true;clearHighlight();if(id)nodeEl[id].focus({preventScroll:true})}
+function closeDetails(){const id=selected;selected=null;moved=false;drag=null;details.hidden=true;clearHighlight();if(id)nodeEl[id].focus({preventScroll:true})}
+document.getElementById("toggle-details").onclick=()=>{setExpanded(!details.classList.contains("expanded"));placeDetails()};
 document.getElementById("close-details").onclick=closeDetails;
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!details.hidden){e.preventDefault();closeDetails()}});
 const handle=document.getElementById("move-details");
