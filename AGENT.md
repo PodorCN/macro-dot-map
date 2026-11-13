@@ -8,7 +8,7 @@ The map is an interview-prep tool for a buy-side multi-asset analyst. A reader s
 
 **Whole-map review, on every update:** Reassess the entire graph, including unchanged nodes, edges and chains. Look for shared mechanisms, missing connections and opportunities to merge overlapping nodes or stories. Do not keep appending isolated boxes. Record what was merged, reconnected, retired or deliberately kept separate, and why. The user specifically asked for this after finding three disconnected AI transmission boxes in column 02.
 
-**Presentation preference, 2026-11-13:** The website displays only the map. Remove mastheads, navigation bars, chain pickers, standalone legends, news sections, permanent reading panels and footers. Show all drivers and links on initial load. Clicking a node shows facts, evidence and source links in a dismissible, non-modal pane on the right. Reserve space for the pane and fit the whole desktop map into the remaining area; never cover or dim the overview with a popup or backdrop. Other map cards stay clickable while details are open. On compact screens, reserve a separate area below the readable, pannable map rather than overlaying it. Closing the pane restores the full map area. Chain scripts remain in the data for internal explanation and validation; do not reintroduce their UI unless the user asks.
+**Presentation preference, 2026-11-13:** The website displays only the map. Remove mastheads, navigation bars, chain pickers, standalone legends, news sections, permanent reading panels and footers. Show all drivers and links on initial load. All map connections are solid lines, with no arrowheads or +/− markers. Retain causal direction, sign and evidence basis in the data; the details explain direction in words and label evidence as sourced, verify or unsourced. Clicking a node shows facts, evidence and source links in a dismissible, non-modal floating card on the right, with rounded corners, outer spacing and a shadow. Reserve space for the card and fit the whole desktop map into the remaining area; never cover or dim the overview with a popup or backdrop. Other map cards stay clickable while details are open. On compact screens, reserve a separate area below the readable, pannable map rather than overlaying it. Closing the card restores the full map area. Chain scripts remain in the data for internal explanation and validation; do not reintroduce their UI unless the user asks.
 
 ---
 
@@ -124,7 +124,7 @@ Every edge must pass all four tests:
 4. **Evidence test.**
    - `basis: "sourced"`: a tier-1 or tier-2 source states this causal link for the current episode (not just the two facts separately).
    - `basis: "weak"`: only tier-3 sources state it.
-   - `basis: "unsourced"`: it is our own reasoning. Textbook links are allowed but must be marked unsourced, and `src` must be empty. They render as dashed lines.
+   - `basis: "unsourced"`: it is our own reasoning. Textbook links are allowed but must be marked unsourced, and `src` must be empty. Details label them "unsourced"; their map lines are solid like every other connection, as requested by the user.
 
 ### 4.2 Edge shape rules
 
@@ -132,7 +132,7 @@ Every edge must pass all four tests:
 - An edge that skips a column needs a `via` y-value that runs through a gap between nodes. The validator (V11) will tell you if it hits a box.
 - Edges within a column connect neighbours only, unless `route: "side"`.
 - A loop (B eventually affects A) is allowed only as one explicit `route: "feedback"` edge pointing to an earlier column (V10). Keep at most two feedback edges on the whole map.
-- If two +/− markers overlap (V11), set `signAt` (0–1 along the path) on one of them.
+- The page omits +/− markers. Retain `sign` and any existing `signAt` positions for data integrity and the conservative V11 geometry checks; do not loosen those checks for this presentation preference.
 
 ### 4.3 Chains
 
@@ -165,7 +165,7 @@ After each content update, review the complete diagram before finalizing it:
 - Trace all stories from shock through transmission to markets and portfolio effects. Connect upstream constraints to downstream risks where the mechanism is defensible; distinguish causal links from co-movement and mark inferred links unsourced.
 - Merge nodes that serve the same transmission role. Preserve distinct stages, measures and material event headlines: financing pressure can feed execution risk, while an event, its mechanism and its market outcome can still need separate boxes.
 - Reassess chain overlap after a node merge. Combine stories that now repeat the same path, remove retired IDs everywhere, deduplicate facts and sources, and retain material qualifications and counterpoints.
-- Check the whole layout again after rewiring, including unchanged paths and markers. Write the merge/reconnection decisions and reasons for keeping other candidates distinct in the changelog.
+- Check the whole layout again after rewiring, including unchanged paths. Connections remain solid without arrowheads or sign markers. Write the merge/reconnection decisions and reasons for keeping other candidates distinct in the changelog.
 
 This review must happen on every update even if there are no additions and the graph is below its cap. Do not claim a whole-map review after checking only the edited neighborhood.
 
@@ -212,7 +212,7 @@ Actively curate the map's headlines. A distinct, material new event should becom
 On every update:
 
 - Research and score the strongest new headline candidates, including company events that can transmit into broader markets (for example, NVIDIA's CEO departure).
-- Add qualifying headlines directly to the graph and include them in a chain. Distinguish the sourced event from inferred effects; use dashed, unsourced links for reasoning that reporting has not established.
+- Add qualifying headlines directly to the graph and include them in a chain. Distinguish the sourced event from inferred effects; mark reasoning that reporting has not established as `unsourced` with empty citations, and show that label in details. All map lines remain solid.
 - Reassess the oldest and weakest event headlines. Remove or replace items whose market relevance has faded, whose mechanism no longer holds, or whose story is better represented by a newer event. Clean up dependent links, scripts and unused sources.
 - If the graph is at its budget, compare incoming headlines with existing ones and retire a weaker or superseded item instead of silently keeping the old lineup. Do not raise a cap just to avoid choosing.
 - Record candidates added, updated, retired or rejected and the concrete reasons in the changelog. Never invent an event or a causal claim to fill space.

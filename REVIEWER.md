@@ -60,12 +60,12 @@ For each chain:
 
 ### Step E — Readability
 
-The user wants a map-only page: all nodes and links visible initially, with details and sources in an on-demand, non-modal pane on the right. The pane must reserve its own space and leave the entire desktop map visible and clickable. Compact screens may put the pane below the map in separate space. No overlay, backdrop or dimming. Check that no masthead, chain picker, permanent reading panel, news section, standalone legend or footer returns. Verify desktop fit, readable mobile panning, every node details pane, close/Escape behavior and connection navigation. Chain scripts remain subject to the data/logic checks even though their former UI is removed.
+The user wants a map-only page: all nodes and links visible initially. Every connection is solid, without arrowheads or +/− markers, including when highlighted. Details retain textual direction and evidence labels; internal causal direction, sign and evidence checks remain intact. Details and sources appear in an on-demand, non-modal floating card on the right, with rounded corners, outer spacing and a shadow. The card must reserve its own space and leave the entire desktop map visible and clickable. Compact screens may put the card below the map in separate space. No overlay, backdrop or dimming. Check that no masthead, chain picker, permanent reading panel, news section, standalone legend or footer returns. Verify desktop fit, readable mobile panning, every node details card, close/Escape behavior and connection navigation. Chain scripts remain subject to the data/logic checks even though their former UI is removed. The current user preference for solid lines supersedes historical dashed-line styling in L-008; its English "unsourced" label and evidence rules still apply.
 
 Run `python scripts/render_check.py --shots <scratch dir>`. Any failure is a **blocker**. Then open the screenshots (desktop about 1300px and phone about 400px, light and dark) and check by eye. If Playwright is not available, render the page by hand and set `render_check: manual` in your record. Check:
-- No overlapping boxes, lines through boxes, overlapping +/− markers, or clipped text.
+- No overlapping boxes, lines through boxes, dashed connections, arrowheads, +/− markers or clipped text.
 - The map is no denser than the previous release unless the additions earned it.
-- Each node details pane reads cleanly: headline value, dates, facts, driven by, drives, read-through and sources.
+- Each node details card reads cleanly: headline value, dates, facts, driven by, drives, read-through and sources. Its close button stays visible and every source remains reachable by scrolling.
 - Plain English, short sentences, units and periods stated.
 
 ### Step F — Lessons

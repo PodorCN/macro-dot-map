@@ -9,7 +9,8 @@ Checks (V16):
   - at desktop widths (>= 1240px) the whole map fits
     without its own horizontal scroll, so no column is clipped (lesson L-011)
   - the initial page contains only the unfiltered map
-  - every node opens a non-overlapping details pane and closes by button/Escape
+  - every connection remains solid without arrows or sign markers in every state
+  - every node opens a floating details card with reachable sources and close/Escape
   - desktop selection keeps all five map columns visible and other cards clickable
   - compact layouts reserve space below the map and survive viewport resizing
   - the consolidated AI path can be followed in the map details
@@ -47,9 +48,58 @@ def served_page():
 
 
 
+def check_connections(page, name, fails):
+    issues = page.locator("#map").evaluate("""svg => {
+        const edges = [...svg.querySelectorAll('.edge')];
+        return {
+            count: edges.length === DATA.edges.length,
+            markers: !!svg.querySelector('marker, .sign, [marker-start], [marker-mid], [marker-end]'),
+            solid: edges.every(e => {
+                const s = getComputedStyle(e);
+                return s.strokeDasharray === 'none' && s.markerStart === 'none'
+                    && s.markerMid === 'none' && s.markerEnd === 'none';
+            })
+        };
+    }""")
+    if not issues["count"] or issues["markers"] or not issues["solid"]:
+        fails.append(f"{name}: connections are missing or include dashes, arrows or sign markers")
+
+
 def check_details_layout(page, name, width, fails):
+    check_connections(page, name, fails)
     canvas = page.locator("#map-canvas").bounding_box()
     details = page.locator("#details").bounding_box()
+    viewport = page.viewport_size
+    if (details["x"] < 1 or details["y"] < 1
+            or details["x"] + details["width"] > viewport["width"] - 1
+            or details["y"] + details["height"] > viewport["height"] - 1):
+        fails.append(f"{name}: floating details card lacks outer spacing or leaves the viewport")
+    appearance = page.locator("#details").evaluate("""e => {
+        const s = getComputedStyle(e);
+        return parseFloat(s.borderTopLeftRadius) >= 12 && s.boxShadow !== 'none';
+    }""")
+    if not appearance:
+        fails.append(f"{name}: details card has lost its rounded corners or shadow")
+    close = page.locator("#close-details").bounding_box()
+    if (close["x"] < details["x"] or close["y"] < details["y"]
+            or close["x"] + close["width"] > details["x"] + details["width"]
+            or close["y"] + close["height"] > details["y"] + details["height"]):
+        fails.append(f"{name}: close button is outside the floating details card")
+    content = page.locator("#panel").evaluate("""e => {
+        const before = e.scrollTop;
+        e.scrollTop = e.scrollHeight;
+        const panel = e.getBoundingClientRect();
+        const links = e.querySelectorAll('.src a');
+        const last = links.length ? links[links.length - 1].getBoundingClientRect() : null;
+        const visible = !!last && last.top >= panel.top - 1 && last.bottom <= panel.bottom + 1;
+        e.scrollTop = before;
+        return {overflow: e.scrollWidth - e.clientWidth, visible,
+            signs: [...e.querySelectorAll('.direction')].some(d => /[+−-]/.test(d.textContent))};
+    }""")
+    if content["overflow"] > 1 or not content["visible"]:
+        fails.append(f"{name}: card content clips horizontally or its final source is unreachable")
+    if content["signs"]:
+        fails.append(f"{name}: details show a +/− connection marker")
     if width >= 1100:
         if canvas["x"] + canvas["width"] > details["x"] + 1:
             fails.append(f"{name}: right details pane overlaps the map")
@@ -103,6 +153,7 @@ def main():
                 fails.append(f"{name}: the initial page is not map-only")
             if page.locator(".dim, .node.sel").count():
                 fails.append(f"{name}: initial map hides drivers behind a selection")
+            check_connections(page, name, fails)
             sw = page.evaluate("document.documentElement.scrollWidth")
             if sw > width:
                 fails.append(f"{name}: page scrolls sideways ({sw}px > {width}px)")
@@ -166,6 +217,7 @@ def main():
                 fails.append(f"{name}: closing details did not restore the full map area")
             if page.locator('[data-node="leadership"]').count():
                 fails.append(f"{name}: the merged leadership node is still rendered")
+            check_connections(page, name, fails)
             if page.evaluate("document.documentElement.scrollWidth") > width:
                 fails.append(f"{name}: map navigation causes page overflow")
             if errs:

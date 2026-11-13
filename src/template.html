@@ -3,7 +3,7 @@
 <meta name="macro-dot-map:content-hash" content="__CONTENT_HASH__">
 <style>
 :root{
-  --paper:#ffffff; --ink:#111111; --mut:#6b7280; --body:#374151; --line:#e3e3e3; --line-2:#d1d5db;
+  --paper:#ffffff; --card:#ffffff; --ink:#111111; --mut:#6b7280; --body:#374151; --line:#e3e3e3; --line-2:#d1d5db;
   --soft:#f6f6f4; --red:#e51503; --up:#0a7d44; --warn:#b45309;
   --edge:#b4bcc8; --hot:#111827; --hot-fg:#ffffff; --mast:#000000; --mast-fg:#ffffff; --mast-mut:#9ca3af;
   --f-display:Georgia,"Times New Roman","Songti SC",serif;
@@ -14,11 +14,11 @@
   --gut-r:max(clamp(16px,3vw,56px),env(safe-area-inset-right,0px));
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#0e1013; --ink:#ececea; --mut:#9ca3af; --body:#c9ccd1; --line:#24282e; --line-2:#3a3f47;
+  --paper:#0e1013; --card:#171a1f; --ink:#ececea; --mut:#9ca3af; --body:#c9ccd1; --line:#24282e; --line-2:#3a3f47;
   --soft:#171a1f; --red:#ff4b3a; --up:#3fbf7f; --warn:#e0a54a;
   --edge:#4b5563; --hot:#f3f4f6; --hot-fg:#0e1013; --mast:#000000; --mast-fg:#ffffff; --mast-mut:#9ca3af; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --paper:#0e1013; --ink:#ececea; --mut:#9ca3af; --body:#c9ccd1; --line:#24282e; --line-2:#3a3f47;
+  --paper:#0e1013; --card:#171a1f; --ink:#ececea; --mut:#9ca3af; --body:#c9ccd1; --line:#24282e; --line-2:#3a3f47;
   --soft:#171a1f; --red:#ff4b3a; --up:#3fbf7f; --warn:#e0a54a;
   --edge:#4b5563; --hot:#f3f4f6; --hot-fg:#0e1013; --mast:#000000; --mast-fg:#ffffff; --mast-mut:#9ca3af; color-scheme:dark}
 *{box-sizing:border-box}
@@ -34,11 +34,7 @@ svg.map{display:block;width:100%;height:100%;min-width:980px}
 .colhead{font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;fill:var(--mut)}
 .colrule{stroke:var(--line-2);stroke-width:1}
 .edge{fill:none;stroke:var(--edge);stroke-width:1.6;transition:opacity .15s,stroke .15s}
-.edge.unsourced{stroke-dasharray:3 4}
 .edge.on{stroke:var(--hot);stroke-width:2.4}
-.sign circle{fill:var(--paper);stroke:var(--edge);stroke-width:1.2}
-.sign text{font:700 11px var(--f-mono);fill:var(--mut);text-anchor:middle;dominant-baseline:central}
-.sign.on circle{stroke:var(--hot)} .sign.on text{fill:var(--ink)}
 .node{cursor:pointer;transition:opacity .15s}
 .node rect.box{fill:var(--paper);stroke:var(--line-2);stroke-width:1.2}
 .node:hover rect.box{stroke:var(--ink)}
@@ -47,14 +43,13 @@ svg.map{display:block;width:100%;height:100%;min-width:980px}
 .node .nt{font:400 10.5px var(--f-mono);fill:var(--mut)}
 .node.sel rect.box{fill:var(--hot);stroke:var(--hot)}
 .node.sel .nl,.node.sel .nt{fill:var(--hot-fg)} .node.sel .nt{opacity:.75}
-.arrow{fill:var(--edge)} .arrow-on{fill:var(--hot)}
 .node:focus-visible rect.box{stroke:var(--red);stroke-width:2.5}
 button:focus-visible,a:focus-visible{outline:2px solid var(--red);outline-offset:3px}
 /* Details reserve their own space; the map remains visible and interactive. */
-.details{min-width:0;min-height:0;display:flex;flex-direction:column;background:var(--paper);color:var(--ink);border-left:1px solid var(--line-2);overflow:hidden}
+.details{min-width:0;min-height:0;align-self:center;max-height:calc(100dvh - 40px);margin:20px 20px 20px 8px;display:flex;flex-direction:column;background:var(--card);color:var(--ink);border:1px solid var(--line-2);border-radius:18px;overflow:hidden;box-shadow:0 14px 48px #0002,0 2px 8px #0001}
 .details[hidden]{display:none}
 .details-tools{display:flex;justify-content:flex-end;padding:10px 12px 4px;flex:none}
-.close{display:grid;place-items:center;width:32px;height:32px;font:24px/1 var(--f-sans);border:0;background:var(--soft);color:var(--ink);cursor:pointer}
+.close{display:grid;place-items:center;width:32px;height:32px;font:24px/1 var(--f-sans);border:0;border-radius:9px;background:var(--soft);color:var(--ink);cursor:pointer}
 #panel{min-height:0;overflow:auto;overscroll-behavior:contain;display:grid;align-content:start;gap:20px;padding:0 24px 24px}
 .detail-meta{margin:0;padding-right:28px;font:11px/1.6 var(--f-mono);color:var(--mut)}
 h2{font:700 28px/1.15 var(--f-display);margin:8px 0 0;text-wrap:balance}
@@ -63,7 +58,6 @@ h3{font:700 11px var(--f-mono);letter-spacing:.12em;text-transform:uppercase;col
 ul{margin:0;padding-left:18px;display:grid;gap:10px;color:var(--body)}
 .tag{display:inline-block;font:700 9px var(--f-mono);letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line-2);color:var(--mut);padding:1px 5px;margin-left:6px;white-space:nowrap}
 .tag.sourced{color:var(--up);border-color:currentColor}
-.tag.unsourced{border-style:dashed}
 .tag.weak{border-color:var(--warn);color:var(--warn)}
 .links{list-style:none;padding:0;gap:12px}
 .links button{font:700 14px/1.4 var(--f-sans);color:var(--ink);text-align:left;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px}
@@ -75,7 +69,7 @@ ul{margin:0;padding-left:18px;display:grid;gap:10px;color:var(--body)}
 .src a{color:var(--ink);text-underline-offset:3px;overflow-wrap:anywhere}
 @media(max-width:1099px){
   .workspace.has-details{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) minmax(0,45dvh)}
-  .details{border-left:0;border-top:1px solid var(--line-2)}
+  .details{align-self:stretch;max-height:calc(45dvh - 20px);margin:10px 12px}
   svg.map{min-height:584px}
 }
 @media(max-width:759px){.map-canvas{padding:8px}#panel{padding:0 20px 20px}h2{font-size:25px}}
@@ -103,18 +97,14 @@ const num=i=>String(i+1).padStart(2,"0");
 const basis=b=>`<span class="tag ${b}">${{sourced:"sourced",weak:"verify",unsourced:"unsourced"}[b]}</span>`;
 const mk=(t,a={},p=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
 svg.setAttribute("viewBox",`0 0 ${LY.viewBox[0]} ${LY.viewBox[1]}`);
-const defs=mk("defs");
-[["ah","arrow"],["ahOn","arrow-on"]].forEach(([id,c])=>{const m=mk("marker",{id,viewBox:"0 0 10 10",refX:"9",refY:"5",markerWidth:"7",markerHeight:"7",orient:"auto-start-reverse"},defs);mk("path",{d:"M0,1 L9,5 L0,9 z",class:c},m)});
 LY.layers.forEach((label,i)=>{
   const x=LY.columns[i],t=mk("text",{x,y:LY.headerY,class:"colhead","text-anchor":"middle"});
   const n=mk("tspan",{class:"colnum"},t);n.textContent=num(i)+"  ";t.appendChild(document.createTextNode(label));
   mk("line",{x1:x-W/2,x2:x+W/2,y1:LY.headerY+9,y2:LY.headerY+9,class:"colrule"});
 });
-const gE=mk("g"),gS=mk("g"),gN=mk("g"),edgeEl={},signEl={},nodeEl={};
+const gE=mk("g"),gN=mk("g"),edgeEl={},nodeEl={};
 E.forEach(e=>{
-  edgeEl[e.id]=mk("path",{d:e.d,class:"edge"+(e.basis==="unsourced"?" unsourced":""),"data-edge":e.id,"marker-end":"url(#ah)"},gE);
-  const g=mk("g",{class:"sign"},gS);mk("circle",{cx:e.sx,cy:e.sy,r:9},g);
-  mk("text",{x:e.sx,y:e.sy+.5},g).textContent=e.sign;signEl[e.id]=g;
+  edgeEl[e.id]=mk("path",{d:e.d,class:"edge","data-edge":e.id},gE);
 });
 Object.entries(N).forEach(([id,n])=>{
   const x=LY.columns[n.layer],y=n.y;
@@ -130,12 +120,12 @@ let selected=null;
 function highlight(id){
   const connected=E.filter(e=>e.from===id||e.to===id),es=new Set(connected.map(e=>e.id));
   const ns=new Set([id,...connected.flatMap(e=>[e.from,e.to])]);
-  E.forEach(e=>{const on=es.has(e.id);edgeEl[e.id].classList.toggle("on",on);signEl[e.id].classList.toggle("on",on);edgeEl[e.id].setAttribute("marker-end",on?"url(#ahOn)":"url(#ah)")});
+  E.forEach(e=>edgeEl[e.id].classList.toggle("on",es.has(e.id)));
   Object.keys(N).forEach(k=>{nodeEl[k].classList.toggle("on",ns.has(k));nodeEl[k].classList.toggle("sel",k===id);nodeEl[k].setAttribute("aria-expanded",k===id?"true":"false")});
   connected.forEach(e=>gE.appendChild(edgeEl[e.id]));
 }
 function clearHighlight(){
-  E.forEach(e=>{edgeEl[e.id].classList.remove("on");signEl[e.id].classList.remove("on");edgeEl[e.id].setAttribute("marker-end","url(#ah)")});
+  E.forEach(e=>edgeEl[e.id].classList.remove("on"));
   Object.values(nodeEl).forEach(g=>{g.classList.remove("on","sel");g.setAttribute("aria-expanded","false")});
 }
 function sourceList(keys){
@@ -145,7 +135,7 @@ function sourceList(keys){
 function openNode(id){
   const n=N[id];if(!n)return;selected=id;highlight(id);
   const incoming=E.filter(e=>e.to===id),outgoing=E.filter(e=>e.from===id);
-  const links=(edges,inbound)=>edges.length?`<ul class="links">${edges.map(e=>{const other=inbound?e.from:e.to;return `<li><button type="button" data-node-link="${esc(other)}">${esc(N[other].label)}</button> <span class="direction">${e.sign} · ${e.sign==="+"?"same direction":"opposite direction"}</span>${basis(e.basis)}<p>${esc(e.why)}</p></li>`}).join("")}</ul>`:"";
+  const links=(edges,inbound)=>edges.length?`<ul class="links">${edges.map(e=>{const other=inbound?e.from:e.to;return `<li><button type="button" data-node-link="${esc(other)}">${esc(N[other].label)}</button> <span class="direction">${e.sign==="+"?"same direction":"opposite direction"}</span>${basis(e.basis)}<p>${esc(e.why)}</p></li>`}).join("")}</ul>`:"";
   panel.innerHTML=`<div><p class="detail-meta">${esc(LY.layers[n.layer])} · Snapshot ${date(M.asOf)}<br>Verified ${date(n.asOf)}</p><h2 id="detail-title" tabindex="-1">${esc(n.label)}</h2><p class="value">${esc(n.value)}</p></div>
     <div><h3>Facts</h3><ul>${n.facts.map(f=>`<li>${esc(f.text)}${basis(f.basis)}</li>`).join("")}</ul></div>
     ${incoming.length?`<div><h3>Driven by</h3>${links(incoming,true)}</div>`:""}

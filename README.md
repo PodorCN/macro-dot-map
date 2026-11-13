@@ -1,6 +1,6 @@
 # Macro Dot Map
 
-An interactive cause-and-effect map of what drives markets: oil, inflation, rates, AI, credit, gold and FX through to portfolio effects. The website displays only the diagram. Click a node to highlight its connections and show dated facts, mechanisms and sources in a right-hand pane. The map fits beside the pane and stays clickable; closing details returns it to full width. Compact screens reserve space below the pannable map for details. No popup covers the diagram.
+An interactive cause-and-effect map of what drives markets: oil, inflation, rates, AI, credit, gold and FX through to portfolio effects. The website displays only the diagram. Click a node to highlight its connections and show dated facts, mechanisms and sources in a floating card on the right. The map fits beside the card and stays clickable; closing details returns it to full width. Compact screens reserve space below the pannable map for details. The card has rounded corners, outer spacing and a shadow, and leaves the diagram visible.
 
 Live page: https://podor.org/macro-dot-map/ (GitHub Pages serves `index.html`). The legacy claude.ai artifact URL is not updated by the daily run.
 
@@ -44,7 +44,7 @@ python scripts/release_check.py   # must print RELEASE OK before publishing
 
 ## Map notation
 
-- Solid line: the link is stated by a tier-1 or tier-2 source.
-- Dashed line: unsourced, our own reasoning.
-- "verify" tag: the only source is a blog, Substack or aggregator.
-- `+` the two move the same way; `−` they move in opposite directions.
+- Every connection is solid, with no arrowhead or +/− marker.
+- Click a node for "Driven by" and "Drives" links, with direction explained in words.
+- "sourced" means a tier-1 or tier-2 source states the link; "unsourced" means our own reasoning.
+- "verify" means the only source is a blog, Substack or aggregator.
