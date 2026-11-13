@@ -128,3 +128,9 @@ Guard levels:
 - **Rule:** Every clause of a `sourced` fact, including a date, a "first reported" history or a statement about an actor's interest, must be stated by one of that fact's own cited sources. A review record is not a source. If a fix uses something a reviewer found, add the reviewer's source to `sources` and cite it, or leave the clause out.
 - **Guard:** pattern (`first reported`, `competes with`, `a/its/their competitor/rival`) + manual (REVIEWER.md Step B: "open its source URL and confirm the source says it", applied to every added clause).
 - **First seen:** 2026-10-27 · **Occurrences:** 1
+
+### L-020 — Distinct connections merge into the same lane
+- **What happened:** The v15 orthogonal redesign put `fed-y10` and `fed-realy` on the same visible vertical segment for 86.5 SVG units, and `y10-semis` and `y10-factor` on another shared segment for 9 units. Solid connections became visually indistinguishable even though each route cleared every card.
+- **Rule:** Give distinct connections separate visible lanes. A clear right-angle crossing is allowed; overlapping centerline segments that visually merge routes are not. Check the exact rounded paths rather than only raw waypoints.
+- **Guard:** validator (V11 compares straight portions of the exact rendered paths and rejects shared collinear segments longer than 0.5 SVG units) + manual (REVIEWER.md Step E inspects rounded routes, overlaps and crossings). The new check also passes on the last released v14 data.
+- **First seen:** 2026-11-13 · **Occurrences:** 1

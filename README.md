@@ -1,6 +1,6 @@
 # Macro Dot Map
 
-An interactive cause-and-effect map of what drives markets: jobs, wages, oil, inflation, AI, Treasury financing and rates through to asset prices and portfolio effects. The website displays only the diagram. Click a node to highlight its connections and show dated facts, mechanisms and sources in a floating card on the right. The map fits beside the card and stays clickable; closing details returns it to full width. Compact screens reserve space below the pannable map for details. The card has rounded corners, outer spacing and a shadow, and leaves the diagram visible.
+An interactive cause-and-effect map of jobs, wages, oil, inflation, AI and government financing through rates, asset prices and portfolio effects. The map uses themed cards on a quiet canvas, with rounded orthogonal connections routed between nodes. Click a card to highlight its connections and open dated facts, mechanisms and sources in a floating window. The diagram keeps its size and position throughout; details can be dragged or moved with the arrow keys. Close or Escape dismisses the window. Compact screens keep readable map panning and the same floating interaction.
 
 Live page: https://podor.org/macro-dot-map/ (GitHub Pages serves `index.html`). The legacy claude.ai artifact URL is not updated by the daily run.
 
@@ -24,6 +24,7 @@ Past mistakes are kept in [reviews/LESSONS.md](reviews/LESSONS.md). Every review
 ```
 data/map.json              all content: nodes, edges, chains, sources, layout
 src/template.html          page shell
+scripts/route_map.py       clear port/waypoint routing after graph or layout changes
 scripts/build.py           builds dist/macro-dot-map.html and index.html (computes all paths)
 index.html                 the built page as a full HTML document, for GitHub Pages
 scripts/validate.py        content and geometry checks V01–V15
@@ -38,6 +39,7 @@ CHANGELOG.md               daily changes, including what was retired and why
 ## Commands
 
 ```
+python scripts/route_map.py       # route after graph/layout changes
 python scripts/build.py           # build the page
 python scripts/validate.py        # content checks (add --today YYYY-MM-DD to test a date)
 python scripts/render_check.py    # layout checks (needs: pip install playwright && playwright install chromium)

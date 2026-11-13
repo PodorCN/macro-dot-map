@@ -8,9 +8,11 @@ The map is an interview-prep tool for a buy-side multi-asset analyst. A reader s
 
 **Whole-map review, on every update:** Reassess the entire graph, including unchanged nodes, edges and chains. Look for shared mechanisms, missing connections and opportunities to merge overlapping nodes or stories. Do not keep appending isolated boxes. Record what was merged, reconnected, retired or deliberately kept separate, and why. The user specifically asked for this after finding three disconnected AI transmission boxes in column 02.
 
-**Coverage preference, 2026-11-13:** The user asked for more content in every column. Broaden the map beyond AI and oil with connected macro drivers, transmission stages, rates, asset outcomes and portfolio effects. The reviewed expansion budget is 32 nodes, at most 7 per column, 40 connections and 8 internal chains. New material still needs dated evidence and a defensible role in a complete path; related observations should move into their own useful stages instead of being duplicated. Keep all-solid connections and the non-overlapping floating details card. Increase the drawing's height when needed and preserve readable compact-screen panning; never add cards by shrinking their text.
+**Coverage preference, 2026-11-13:** The user asked for more content in every column. Broaden the map beyond AI and oil with connected macro drivers, transmission stages, rates, asset outcomes and portfolio effects. The reviewed expansion budget is 32 nodes, at most 7 per column, 40 connections and 8 internal chains. New material still needs dated evidence and a defensible role in a complete path; related observations should move into their own useful stages instead of being duplicated. Keep all-solid connections and a floating details window that never reflows the map. Increase the drawing's height when needed and preserve readable compact-screen panning; never add cards by shrinking their text.
 
-**Presentation preference, 2026-11-13:** The website displays only the map. Remove mastheads, navigation bars, chain pickers, standalone legends, news sections, permanent reading panels and footers. Show all drivers and links on initial load. All map connections are solid lines, with no arrowheads or +/− markers. Retain causal direction, sign and evidence basis in the data; the details explain direction in words and label evidence as sourced, verify or unsourced. Clicking a node shows facts, evidence and source links in a dismissible, non-modal floating card on the right, with rounded corners, outer spacing and a shadow. Reserve space for the card and fit the whole desktop map into the remaining area; never cover or dim the overview with a popup or backdrop. Other map cards stay clickable while details are open. On compact screens, reserve a separate area below the readable, pannable map rather than overlaying it. Closing the card restores the full map area. Chain scripts remain in the data for internal explanation and validation; do not reintroduce their UI unless the user asks.
+**Presentation preference, revised 2026-11-13:** The user requested a full visual redesign, clearer redrawn connections, and details that do not affect the overall layout. Keep a map-only canvas with all drivers and links visible initially; integrated map labels/date are allowed, while separate news sections, chain pickers and page chrome stay absent. Use readable themed cards and routed, rounded orthogonal connections. Every connection stays solid with no arrowhead or +/− marker. Colours group related mechanisms, not evidence strength or a positive/negative investment view; details retain source/basis and direction in words.
+
+**Details must never reflow the map.** This latest explicit request supersedes the earlier reserved-space sidebar/lower-row preference. Open a fixed, non-modal floating window outside canvas layout. Opening, switching, dragging, keyboard-moving and closing it must not change canvas/SVG dimensions, node positions or map scroll. Do not auto-pan on selection. Prefer a position clear of the selected node and its immediate neighbours; allow pointer dragging and keyboard movement, clamp the window to the viewport, and keep its close control visible above a scrollable body. Compact screens also use a floating window, not a layout-changing row. The window can temporarily cover part of the canvas; do not add a modal, backdrop, overview dimming or hidden graph content. Closing/Escape restores focus without scrolling. Other uncovered nodes remain clickable.
 
 ---
 
@@ -31,6 +33,7 @@ The map is an interview-prep tool for a buy-side multi-asset analyst. A reader s
 | `src/template.html` | The page shell. Reads the data, draws the map. | Only with a reviewed reason (design change) |
 | `scripts/build.py` | Builds `dist/macro-dot-map.html` and computes all edge paths. | Rarely |
 | `scripts/mapgeo.py` | Shared geometry used by build and validate. | Rarely |
+| `scripts/route_map.py` | Assigns clear ports and orthogonal lanes; saves reviewed waypoints. | Run after graph/layout changes |
 | `scripts/validate.py` | Mechanical checks V01–V15 and V17–V20 (V17/V18 source tiers and publishers on syndicating hosts, V19 research sweep log in the changelog, V20 a script's cause must not post-date the move it explains). | Reviewer adds checks when lessons recur |
 | `scripts/render_check.py` | Headless-browser layout check V16 (needs Playwright). | Reviewer adds checks when lessons recur |
 | `scripts/release_check.py` | The release gate (R1–R7). | Rarely |
@@ -131,7 +134,7 @@ Every edge must pass all four tests:
 ### 4.2 Edge shape rules
 
 - Prefer edges between adjacent columns. Long edges clutter the map.
-- An edge that skips a column needs a `via` y-value that runs through a gap between nodes. The validator (V11) will tell you if it hits a box.
+- An edge that skips a column needs a route through gaps between nodes. For the orthogonal layout, run `scripts/route_map.py` to assign explicit ports and waypoints; V11 checks the exact rounded paths. Legacy layouts can use a `via` y-value.
 - Edges within a column connect neighbours only, unless `route: "side"`.
 - A loop (B eventually affects A) is allowed only as one explicit `route: "feedback"` edge pointing to an earlier column (V10). Keep at most two feedback edges on the whole map.
 - The page omits +/− markers. Retain `sign` and any existing `signAt` positions for data integrity and the conservative V11 geometry checks; do not loosen those checks for this presentation preference.
@@ -156,6 +159,7 @@ A chain is a story an interviewer could ask about ("Why is gold falling?"). Rule
 - 1–4 `facts`, each at most 220 characters, each with its own `src` and `basis`.
 - `say` is one sentence the reader can say out loud.
 - `kind` sets the freshness rule (section 5). `event` nodes also need `eventDate`.
+- In the redesigned map, `tone` groups related mechanisms: `labour`, `duration`, `energy`, `ai` or `risk`. Assign a matching edge tone when adding a connection. Colour does not replace an evidence label or encode the causal sign.
 
 ---
 
@@ -242,10 +246,10 @@ New edges between existing nodes follow the same edge tests. Do not add an edge 
 ## 7. Layout procedure
 
 - Keep the existing positions unless a change is needed. Readers learn where things are.
-- Column x-positions are fixed in `layout.columns`. Change only `y` for nodes.
-- Keep at least 18px between boxes in a column (V11). Node height is 52, so centres must be at least 70 apart.
+- Preserve the five-column stage order. Column positions, card size and spacing live in `layout`; change them only for an explicit reviewed design reason.
+- Keep at least 18px between boxes in a column (V11). Current node height is 70, so centres must be at least 88 apart.
 - Place a node near the nodes it connects to, so edges stay short and do not cross boxes.
-- After any move, run build and validate, then look at the rendered page.
+- After any move/addition, run `python scripts/route_map.py`, then build and validate, and inspect the rendered page. Never hand-adjust a waypoint to hide a causal connection. Orthogonal endpoint, axis-alignment, box-clearance and conservative sign-position guards remain enforced.
 
 ---
 

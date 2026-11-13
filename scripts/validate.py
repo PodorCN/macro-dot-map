@@ -337,8 +337,33 @@ def main():
             if y2 - y1 < L["nodeH"] + 18:
                 err("V11", f"nodes {a} and {b}: less than 18px apart vertically")
     signs = {}
+    straight_parts = []
     for e in E:
+        if L.get("routing") == "orthogonal":
+            points = e.get("points")
+            if (not isinstance(points, list) or len(points) < 2
+                    or any(not isinstance(p, list) or len(p) != 2
+                           or any(not isinstance(v, (int, float)) or not math.isfinite(v) for v in p)
+                           for p in points)):
+                err("V11", f"edge {e['id']}: orthogonal routing needs finite waypoint pairs")
+                continue
+            for a, b in zip(points, points[1:]):
+                if a == b or (abs(a[0] - b[0]) > .01 and abs(a[1] - b[1]) > .01):
+                    err("V11", f"edge {e['id']}: waypoints must form nonzero orthogonal segments")
+            for point, nid in ((points[0], e["from"]), (points[-1], e["to"])):
+                x1, y1, x2, y2 = boxes[nid]
+                x, y = point
+                on_edge = ((min(abs(x - x1), abs(x - x2)) < .01 and y1 <= y <= y2)
+                           or (min(abs(y - y1), abs(y - y2)) < .01 and x1 <= x <= x2))
+                if not on_edge:
+                    err("V11", f"edge {e['id']}: waypoint endpoint is detached from node '{nid}'")
         segs = mapgeo.edge_segments(data, e)
+        previous = None
+        for segment in segs:
+            endpoint = tuple(segment[-2:])
+            if segment[0] == "L":
+                straight_parts.append((e["id"], previous, endpoint))
+            previous = endpoint
         own = {e["from"], e["to"]}
         hit = set()
         for p in mapgeo.sample(segs):
@@ -350,6 +375,25 @@ def main():
         for nid in sorted(hit):
             err("V11", f"edge {e['id']}: passes through node '{nid}'; add or adjust 'via', or move a node")
         signs[e["id"]] = mapgeo.sign_position(data, e)
+    # L-020: crossings are allowed, but separate connections must not merge
+    # along a shared visible segment. Use the rounded paths that build draws.
+    overlapping = {}
+    for i, (a_id, a, b) in enumerate(straight_parts):
+        for b_id, c, d in straight_parts[i + 1:]:
+            if a_id == b_id:
+                continue
+            for axis in (0, 1):
+                coordinates = (a[axis], b[axis], c[axis], d[axis])
+                if max(coordinates) - min(coordinates) >= .01:
+                    continue
+                other = 1 - axis
+                overlap = (min(max(a[other], b[other]), max(c[other], d[other]))
+                           - max(min(a[other], b[other]), min(c[other], d[other])))
+                if overlap > .5:
+                    pair = tuple(sorted((a_id, b_id)))
+                    overlapping[pair] = max(overlapping.get(pair, 0), overlap)
+    for (a, b), overlap in sorted(overlapping.items()):
+        err("V11", f"edges {a} and {b}: visible paths overlap for {overlap:g}px; assign separate lanes")
     for eid, p in signs.items():
         for nid in N:
             b = mapgeo.node_box(data, nid, 10)

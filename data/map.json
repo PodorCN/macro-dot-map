@@ -2,21 +2,21 @@
   "meta": {
     "title": "Macro Dot Map",
     "asOf": "2026-11-13",
-    "version": 14,
+    "version": 15,
     "artifactUrl": "https://claude.ai/artifact/GnDR8esNpiSLzq6ki3r8dT",
     "defaultChain": "ai"
   },
   "layout": {
     "viewBox": [
-      1040,
-      800
+      1500,
+      1000
     ],
     "columns": [
-      100,
-      310,
-      520,
-      730,
-      940
+      152,
+      450,
+      748,
+      1046,
+      1344
     ],
     "layers": [
       "Shock",
@@ -25,13 +25,14 @@
       "Markets",
       "Portfolio"
     ],
-    "nodeW": 172,
-    "nodeH": 52,
-    "headerY": 34,
+    "nodeW": 216,
+    "nodeH": 70,
+    "headerY": 112,
     "feedback": {
-      "gutterX": 414,
-      "bottomY": 764
-    }
+      "gutterX": 610,
+      "bottomY": 976
+    },
+    "routing": "orthogonal"
   },
   "sources": {
     "fred": {
@@ -287,7 +288,7 @@
       "label": "Gulf shipping risk",
       "tag": "Nov 12 attack reports",
       "layer": 0,
-      "y": 290,
+      "y": 430,
       "kind": "event",
       "asOf": "2026-11-12",
       "value": "Reported attacks threaten Gulf energy infrastructure",
@@ -308,13 +309,14 @@
         }
       ],
       "say": "Reported attacks threaten export infrastructure; the tanker account remains unverified.",
-      "eventDate": "2026-11-12"
+      "eventDate": "2026-11-12",
+      "tone": "energy"
     },
     "aicapex": {
       "label": "AI capex boom",
       "tag": "Amazon capex $220B",
       "layer": 0,
-      "y": 690,
+      "y": 550,
       "kind": "structural",
       "asOf": "2026-11-12",
       "value": "AI spending commitments exceed internal cash generation",
@@ -334,13 +336,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "The builders are still investing heavily, but cash generation and financing terms matter as much as growth."
+      "say": "The builders are still investing heavily, but cash generation and financing terms matter as much as growth.",
+      "tone": "ai"
     },
     "oil": {
       "label": "Oil",
       "tag": "Brent $95.82 Nov 12",
       "layer": 1,
-      "y": 290,
+      "y": 430,
       "kind": "price",
       "asOf": "2026-11-13",
       "value": "Nov 12: Brent $95.82; WTI $88.74 settlements",
@@ -367,13 +370,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Shipping attacks support a supply-risk premium, while the IEA surplus outlook is a counterweight; the settlement shown is dated Nov 12."
+      "say": "Shipping attacks support a supply-risk premium, while the IEA surplus outlook is a counterweight; the settlement shown is dated Nov 12.",
+      "tone": "energy"
     },
     "inflation": {
       "label": "Inflation pressure",
       "tag": "Oct PPI +6.5% y/y",
       "layer": 1,
-      "y": 390,
+      "y": 550,
       "kind": "monthly",
       "asOf": "2026-11-13",
       "value": "October PPI +0.3% m/m; +6.5% y/y",
@@ -407,13 +411,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Producer-price inflation remains elevated while survey expectations ease; wages and energy are separate inputs."
+      "say": "Producer-price inflation remains elevated while survey expectations ease; wages and energy are separate inputs.",
+      "tone": "energy"
     },
     "issuance": {
       "label": "AI funding pressure",
       "tag": "CoreWeave debt $46.9B",
       "layer": 1,
-      "y": 500,
+      "y": 730,
       "kind": "structural",
       "asOf": "2026-11-12",
       "value": "AI financing needs span debt and equity",
@@ -448,13 +453,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Funding needs can become delivery risk if AI builders cannot raise capital on workable terms."
+      "say": "Funding needs can become delivery risk if AI builders cannot raise capital on workable terms.",
+      "tone": "ai"
     },
     "overcap": {
       "label": "AI execution risk",
       "tag": "Funding, rules, CEO",
       "layer": 1,
-      "y": 640,
+      "y": 850,
       "kind": "structural",
       "asOf": "2026-11-12",
       "value": "Risks to AI construction and NVIDIA execution",
@@ -486,13 +492,14 @@
           "basis": "unsourced"
         }
       ],
-      "say": "Track funding and delivery; NVIDIA succession risk does not prove sector-wide demand weakness."
+      "say": "Track funding and delivery; NVIDIA succession risk does not prove sector-wide demand weakness.",
+      "tone": "ai"
     },
     "fed": {
       "label": "Fed",
       "tag": "Hold; hike risk",
       "layer": 2,
-      "y": 300,
+      "y": 430,
       "kind": "policy",
       "asOf": "2026-11-12",
       "value": "3.75-4.00% hold; next decision Dec 9",
@@ -526,13 +533,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "The Fed held in October; November inflation and rate expectations keep another hike in focus."
+      "say": "The Fed held in October; November inflation and rate expectations keep another hike in focus.",
+      "tone": "energy"
     },
     "y10": {
       "label": "US 10-yr yield",
       "tag": "5.10% Nov 12",
       "layer": 2,
-      "y": 410,
+      "y": 670,
       "kind": "price",
       "asOf": "2026-11-13",
       "value": "10-year Treasury par yield 5.10% on Nov 12",
@@ -550,13 +558,14 @@
           "basis": "unsourced"
         }
       ],
-      "say": "The Treasury 10-year par yield rose from 4.98% on Nov 10 to 5.10% on Nov 12."
+      "say": "The Treasury 10-year par yield rose from 4.98% on Nov 10 to 5.10% on Nov 12.",
+      "tone": "duration"
     },
     "realy": {
       "label": "Real yields",
       "tag": "TIPS 2.86% Nov 12",
       "layer": 2,
-      "y": 520,
+      "y": 850,
       "kind": "monthly",
       "asOf": "2026-11-13",
       "value": "10-year Treasury real yield 2.86% on Nov 12",
@@ -574,13 +583,14 @@
           "basis": "unsourced"
         }
       ],
-      "say": "The Treasury 10-year real yield rose from 2.78% on Nov 10 to 2.86% on Nov 12."
+      "say": "The Treasury 10-year real yield rose from 2.78% on Nov 10 to 2.86% on Nov 12.",
+      "tone": "duration"
     },
     "boc": {
       "label": "Bank of Canada",
       "tag": "2.50% · Oct 28 hike",
       "layer": 2,
-      "y": 700,
+      "y": 310,
       "kind": "policy",
       "asOf": "2026-11-06",
       "value": "BoC hiked to 2.50%; October jobless rate 6.7%",
@@ -614,13 +624,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Canada has already hiked, but weaker employment makes the next decision harder."
+      "say": "Canada has already hiked, but weaker employment makes the next decision harder.",
+      "tone": "labour"
     },
     "energy": {
       "label": "Energy earnings",
       "tag": "Q3 blended EPS growth",
       "layer": 3,
-      "y": 260,
+      "y": 550,
       "kind": "monthly",
       "asOf": "2026-11-12",
       "value": "Nov 6: Energy among double-digit Q3 growth leaders",
@@ -633,13 +644,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Energy led in FactSet's Nov 6 blended Q3 earnings estimate; that is not a current stock return."
+      "say": "Energy led in FactSet's Nov 6 blended Q3 earnings estimate; that is not a current stock return.",
+      "tone": "energy"
     },
     "gold": {
       "label": "Gold",
       "tag": "$3,878.40 Nov 12",
       "layer": 3,
-      "y": 510,
+      "y": 790,
       "kind": "price",
       "asOf": "2026-11-12",
       "value": "Front-month gold $3,878.40 Nov 12 settlement",
@@ -657,13 +669,14 @@
           "basis": "unsourced"
         }
       ],
-      "say": "Front-month gold settled at $3,878.40 on Nov 12; this is a futures price, not a spot quote."
+      "say": "Front-month gold settled at $3,878.40 on Nov 12; this is a futures price, not a spot quote.",
+      "tone": "energy"
     },
     "credit": {
       "label": "High-yield credit",
       "tag": "HY 3.20%; CCC 13.14%",
       "layer": 3,
-      "y": 400,
+      "y": 670,
       "kind": "price",
       "asOf": "2026-11-13",
       "value": "Nov 12 OAS: HY 3.20%; CCC-and-lower 13.14%",
@@ -683,13 +696,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Both broad high-yield and CCC spreads narrowed on Nov 12; high Treasury yields can still keep all-in refinancing costs elevated."
+      "say": "Both broad high-yield and CCC spreads narrowed on Nov 12; high Treasury yields can still keep all-in refinancing costs elevated.",
+      "tone": "risk"
     },
     "semis": {
       "label": "Semis & tech",
       "tag": "SOX 10,506.7 Nov 12",
       "layer": 3,
-      "y": 600,
+      "y": 910,
       "kind": "weekly",
       "asOf": "2026-11-12",
       "value": "SOX 10,506.7 Nov 12; NVIDIA risk, peers diverge",
@@ -717,13 +731,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "The SOX and individual chip stocks can diverge; NVIDIA's CEO exit is a company shock."
+      "say": "The SOX and individual chip stocks can diverge; NVIDIA's CEO exit is a company shock.",
+      "tone": "ai"
     },
     "cad": {
       "label": "Canadian dollar",
       "tag": "USD/CAD 1.4255",
       "layer": 3,
-      "y": 700,
+      "y": 310,
       "kind": "price",
       "asOf": "2026-11-12",
       "value": "BoC daily USD/CAD 1.4255 on Nov 12",
@@ -749,13 +764,14 @@
           "basis": "unsourced"
         }
       ],
-      "say": "USD/CAD rose from 1.4181 on Nov 10 to 1.4255 on Nov 12; a higher quote means a weaker loonie."
+      "say": "USD/CAD rose from 1.4181 on Nov 10 to 1.4255 on Nov 12; a higher quote means a weaker loonie.",
+      "tone": "labour"
     },
     "sbcorr": {
       "label": "Stock–bond corr.",
       "tag": "Hedge is conditional",
       "layer": 4,
-      "y": 370,
+      "y": 610,
       "kind": "monthly",
       "asOf": "2026-11-12",
       "value": "Bonds cushioned the Nov 5 equity selloff",
@@ -787,13 +803,14 @@
           "basis": "unsourced"
         }
       ],
-      "say": "Bonds helped during the equity shock, but strong jobs and inflation can still challenge that hedge."
+      "say": "Bonds helped during the equity shock, but strong jobs and inflation can still challenge that hedge.",
+      "tone": "risk"
     },
     "factor": {
       "label": "Quality > momentum",
       "tag": "QUAL +0.1% in Oct",
       "layer": 4,
-      "y": 530,
+      "y": 790,
       "kind": "monthly",
       "asOf": "2026-11-13",
       "value": "October: QUAL +0.1%; MTUM −10.5%",
@@ -813,13 +830,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Quality held up better than momentum in October; treat that as a dated result, not a permanent relationship."
+      "say": "Quality held up better than momentum in October; treat that as a dated result, not a permanent relationship.",
+      "tone": "risk"
     },
     "breadth": {
       "label": "Equal vs cap weight",
       "tag": "RSP +4.95% in Oct",
       "layer": 4,
-      "y": 640,
+      "y": 910,
       "kind": "weekly",
       "asOf": "2026-11-06",
       "value": "October: RSP +4.95%; SPY −0.91% (price returns)",
@@ -851,13 +869,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Equal weight beat cap weight in October; that reduces concentration but does not remove market risk."
+      "say": "Equal weight beat cap weight in October; that reduces concentration but does not remove market risk.",
+      "tone": "ai"
     },
     "aipolicy": {
       "label": "AI policy risk",
       "tag": "Nov 5 repricing",
       "layer": 0,
-      "y": 460,
+      "y": 790,
       "kind": "event",
       "asOf": "2026-11-06",
       "value": "Investors fear tighter AI infrastructure rules",
@@ -876,13 +895,14 @@
         }
       ],
       "say": "The latest AI shock is a possible slowdown in data-center construction, priced before any new rules take effect.",
-      "eventDate": "2026-11-05"
+      "eventDate": "2026-11-05",
+      "tone": "ai"
     },
     "nvidia": {
       "label": "NVIDIA CEO resigns",
       "tag": "Announced Nov 12",
       "layer": 0,
-      "y": 580,
+      "y": 910,
       "kind": "event",
       "asOf": "2026-11-12",
       "eventDate": "2026-11-12",
@@ -917,13 +937,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "NVIDIA's CEO exit adds leadership risk; the board expects product plans to continue."
+      "say": "NVIDIA's CEO exit adds leadership risk; the board expects product plans to continue.",
+      "tone": "ai"
     },
     "coreweave": {
       "label": "CoreWeave earnings",
       "tag": "CRWV +24.7% Nov 11",
       "layer": 0,
-      "y": 380,
+      "y": 670,
       "kind": "event",
       "asOf": "2026-11-12",
       "eventDate": "2026-11-10",
@@ -951,13 +972,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "CoreWeave's results eased AI demand worries, while financing and construction risks remain."
+      "say": "CoreWeave's results eased AI demand worries, while financing and construction risks remain.",
+      "tone": "ai"
     },
     "jobs": {
       "label": "US jobs surprise",
       "tag": "Oct payrolls +165K",
       "layer": 0,
-      "y": 80,
+      "y": 190,
       "kind": "monthly",
       "asOf": "2026-11-13",
       "value": "October payrolls +165,000; unemployment 4.1%",
@@ -991,13 +1013,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Hiring resilience supports income, but the rise in involuntary part-time work tempers the headline."
+      "say": "Hiring resilience supports income, but the rise in involuntary part-time work tempers the headline.",
+      "tone": "labour"
     },
     "auction": {
       "label": "30-year auction",
       "tag": "$25B sold Nov 12",
       "layer": 0,
-      "y": 170,
+      "y": 310,
       "kind": "event",
       "asOf": "2026-11-13",
       "value": "Nov 12: $25B auction; high yield 5.441%",
@@ -1018,13 +1041,14 @@
         }
       ],
       "say": "Auction demand helps price government financing; one auction does not identify the cause of every yield move.",
-      "eventDate": "2026-11-12"
+      "eventDate": "2026-11-12",
+      "tone": "duration"
     },
     "wages": {
       "label": "Wage growth",
       "tag": "Oct +3.1% y/y",
       "layer": 1,
-      "y": 80,
+      "y": 190,
       "kind": "monthly",
       "asOf": "2026-11-13",
       "value": "October hourly earnings +0.4% m/m; +3.1% y/y",
@@ -1047,13 +1071,14 @@
           "basis": "unsourced"
         }
       ],
-      "say": "Pay growth adds a labour-cost channel to the oil-led inflation story; it is not a forecast of the next Fed vote."
+      "say": "Pay growth adds a labour-cost channel to the oil-led inflation story; it is not a forecast of the next Fed vote.",
+      "tone": "labour"
     },
     "supply": {
       "label": "Duration supply",
       "tag": "Long debt needs buyers",
       "layer": 1,
-      "y": 170,
+      "y": 310,
       "kind": "structural",
       "asOf": "2026-11-13",
       "value": "Investors must absorb long-maturity Treasury risk",
@@ -1078,13 +1103,14 @@
           "basis": "unsourced"
         }
       ],
-      "say": "The maturity mix matters: more interest-rate risk needs buyers, even when auction sizes are unchanged."
+      "say": "The maturity mix matters: more interest-rate risk needs buyers, even when auction sizes are unchanged.",
+      "tone": "duration"
     },
     "front": {
       "label": "US 2-year yield",
       "tag": "4.86% Nov 12",
       "layer": 2,
-      "y": 80,
+      "y": 190,
       "kind": "price",
       "asOf": "2026-11-13",
       "value": "2-year Treasury par yield 4.86% on Nov 12",
@@ -1104,13 +1130,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Short Treasury yields transmit expected policy into currency pricing; expectations can reverse before a meeting."
+      "say": "Short Treasury yields transmit expected policy into currency pricing; expectations can reverse before a meeting.",
+      "tone": "labour"
     },
     "term": {
       "label": "Term premium",
       "tag": "Supply + uncertainty",
       "layer": 2,
-      "y": 170,
+      "y": 550,
       "kind": "structural",
       "asOf": "2026-11-13",
       "value": "Long yields also price interest-rate uncertainty",
@@ -1130,13 +1157,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Separate expected policy from compensation for holding duration; a higher long yield need not mean more expected Fed hikes."
+      "say": "Separate expected policy from compensation for holding duration; a higher long yield need not mean more expected Fed hikes.",
+      "tone": "duration"
     },
     "usd": {
       "label": "US dollar",
       "tag": "DXY 103.34 Nov 13",
       "layer": 3,
-      "y": 80,
+      "y": 190,
       "kind": "price",
       "asOf": "2026-11-13",
       "value": "Nov 13 intraday dollar index 103.34",
@@ -1156,13 +1184,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Dollar strength can cushion foreign holdings for a CAD investor, but the relevant exchange rate is USD/CAD."
+      "say": "Dollar strength can cushion foreign holdings for a CAD investor, but the relevant exchange rate is USD/CAD.",
+      "tone": "labour"
     },
     "treasuries": {
       "label": "Treasury prices",
       "tag": "Rate shock Nov 12",
       "layer": 3,
-      "y": 170,
+      "y": 430,
       "kind": "price",
       "asOf": "2026-11-13",
       "value": "Nov 12: Treasury prices fell as yields rose",
@@ -1189,13 +1218,14 @@
           "basis": "sourced"
         }
       ],
-      "say": "Treasury credit quality and Treasury price stability are different questions; inflation can still hurt bond prices."
+      "say": "Treasury credit quality and Treasury price stability are different questions; inflation can still hurt bond prices.",
+      "tone": "duration"
     },
     "fx": {
       "label": "USD FX gains",
       "tag": "CAD investor, unhedged",
       "layer": 4,
-      "y": 80,
+      "y": 250,
       "kind": "structural",
       "asOf": "2026-11-13",
       "value": "Stronger USD lifts CAD value of unhedged US assets",
@@ -1218,13 +1248,14 @@
           "basis": "unsourced"
         }
       ],
-      "say": "Separate the asset return from currency translation and state the investor currency and hedge before interpreting gains."
+      "say": "Separate the asset return from currency translation and state the investor currency and hedge before interpreting gains.",
+      "tone": "labour"
     },
     "duration": {
       "label": "Duration losses",
       "tag": "Long bonds hit harder",
       "layer": 4,
-      "y": 170,
+      "y": 430,
       "kind": "structural",
       "asOf": "2026-11-13",
       "value": "Rate increases can hurt longer-duration holdings more",
@@ -1247,7 +1278,8 @@
           "basis": "unsourced"
         }
       ],
-      "say": "A credit-safe bond can still lose market value; compare duration sensitivity with the hedge the portfolio needs."
+      "say": "A credit-safe bond can still lose market value; compare duration sensitivity with the hedge the portfolio needs.",
+      "tone": "duration"
     }
   },
   "edges": [
@@ -1260,7 +1292,19 @@
       "src": [
         "oil_nov12"
       ],
-      "basis": "sourced"
+      "basis": "sourced",
+      "tone": "energy",
+      "points": [
+        [
+          260.0,
+          430.0
+        ],
+        [
+          342.0,
+          430.0
+        ]
+      ],
+      "signAt": 0.5
     },
     {
       "id": "oil-inflation",
@@ -1271,7 +1315,19 @@
       "src": [
         "boc_oct"
       ],
-      "basis": "sourced"
+      "basis": "sourced",
+      "tone": "energy",
+      "points": [
+        [
+          450.0,
+          465.0
+        ],
+        [
+          450.0,
+          515.0
+        ]
+      ],
+      "signAt": 0.79
     },
     {
       "id": "oil-energy",
@@ -1281,7 +1337,42 @@
       "why": "Higher realized oil prices can lift producer earnings.",
       "src": [],
       "basis": "unsourced",
-      "via": 228
+      "tone": "energy",
+      "points": [
+        [
+          558.0,
+          430.0
+        ],
+        [
+          572.0,
+          430.0
+        ],
+        [
+          572.0,
+          425.0
+        ],
+        [
+          599,
+          425.0
+        ],
+        [
+          599,
+          599.0
+        ],
+        [
+          913,
+          599.0
+        ],
+        [
+          913,
+          550.0
+        ],
+        [
+          938.0,
+          550.0
+        ]
+      ],
+      "signAt": 0.89
     },
     {
       "id": "inflation-fed",
@@ -1290,7 +1381,27 @@
       "sign": "+",
       "why": "Persistent inflation raises pressure to tighten policy.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "energy",
+      "points": [
+        [
+          558.0,
+          555.0
+        ],
+        [
+          572.0,
+          555.0
+        ],
+        [
+          572.0,
+          430.0
+        ],
+        [
+          640.0,
+          430.0
+        ]
+      ],
+      "signAt": 0.9
     },
     {
       "id": "inflation-boc",
@@ -1301,7 +1412,27 @@
       "src": [
         "boc_oct"
       ],
-      "basis": "sourced"
+      "basis": "sourced",
+      "tone": "energy",
+      "points": [
+        [
+          558.0,
+          545.0
+        ],
+        [
+          615,
+          545.0
+        ],
+        [
+          615,
+          310.0
+        ],
+        [
+          640.0,
+          310.0
+        ]
+      ],
+      "signAt": 0.1
     },
     {
       "id": "fed-y10",
@@ -1312,7 +1443,28 @@
       "src": [
         "jobs_market"
       ],
-      "basis": "sourced"
+      "basis": "sourced",
+      "tone": "energy",
+      "route": "side",
+      "points": [
+        [
+          640.0,
+          440.0
+        ],
+        [
+          626.0,
+          440.0
+        ],
+        [
+          626.0,
+          660.0
+        ],
+        [
+          640.0,
+          660.0
+        ]
+      ],
+      "signAt": 0.9
     },
     {
       "id": "fed-realy",
@@ -1323,7 +1475,26 @@
       "src": [],
       "basis": "unsourced",
       "route": "side",
-      "signAt": 0.75
+      "tone": "energy",
+      "points": [
+        [
+          640.0,
+          450.0
+        ],
+        [
+          591,
+          450.0
+        ],
+        [
+          591,
+          850.0
+        ],
+        [
+          640.0,
+          850.0
+        ]
+      ],
+      "signAt": 0.9
     },
     {
       "id": "aicapex-issuance",
@@ -1335,7 +1506,26 @@
         "meta_bond"
       ],
       "basis": "sourced",
-      "signAt": 0.25
+      "tone": "ai",
+      "points": [
+        [
+          260.0,
+          555.0
+        ],
+        [
+          274.0,
+          555.0
+        ],
+        [
+          274.0,
+          730.0
+        ],
+        [
+          342.0,
+          730.0
+        ]
+      ],
+      "signAt": 0.74
     },
     {
       "id": "issuance-y10",
@@ -1344,7 +1534,27 @@
       "sign": "+",
       "why": "More debt competing for capital can put upward pressure on yields.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "ai",
+      "points": [
+        [
+          558.0,
+          730.0
+        ],
+        [
+          572.0,
+          730.0
+        ],
+        [
+          572.0,
+          680.0
+        ],
+        [
+          640.0,
+          680.0
+        ]
+      ],
+      "signAt": 0.1
     },
     {
       "id": "y10-aicapex",
@@ -1354,7 +1564,27 @@
       "why": "Higher Treasury yields can raise financing hurdles for the AI build-out.",
       "src": [],
       "basis": "unsourced",
-      "route": "feedback"
+      "route": "feedback",
+      "tone": "duration",
+      "points": [
+        [
+          640.0,
+          670.0
+        ],
+        [
+          334,
+          670.0
+        ],
+        [
+          334,
+          545.0
+        ],
+        [
+          260.0,
+          545.0
+        ]
+      ],
+      "signAt": 0.43
     },
     {
       "id": "realy-gold",
@@ -1363,7 +1593,27 @@
       "sign": "−",
       "why": "Higher real yields increase the opportunity cost of holding gold.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "duration",
+      "points": [
+        [
+          856.0,
+          850.0
+        ],
+        [
+          870.0,
+          850.0
+        ],
+        [
+          870.0,
+          790.0
+        ],
+        [
+          938.0,
+          790.0
+        ]
+      ],
+      "signAt": 0.1
     },
     {
       "id": "y10-credit",
@@ -1372,7 +1622,19 @@
       "sign": "+",
       "why": "Refinancing gets costlier, and the weakest borrowers feel it first.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "duration",
+      "points": [
+        [
+          856.0,
+          670.0
+        ],
+        [
+          938.0,
+          670.0
+        ]
+      ],
+      "signAt": 0.13
     },
     {
       "id": "y10-semis",
@@ -1382,7 +1644,26 @@
       "why": "Higher discount rates hit long-duration growth valuations.",
       "src": [],
       "basis": "unsourced",
-      "signAt": 0.72
+      "tone": "duration",
+      "points": [
+        [
+          856.0,
+          690.0
+        ],
+        [
+          924.0,
+          690.0
+        ],
+        [
+          924.0,
+          905.0
+        ],
+        [
+          938.0,
+          905.0
+        ]
+      ],
+      "signAt": 0.46
     },
     {
       "id": "y10-sbcorr",
@@ -1392,7 +1673,26 @@
       "why": "Inflation-driven yield rises can hurt both bond prices and equity valuations.",
       "src": [],
       "basis": "unsourced",
-      "via": 330
+      "tone": "duration",
+      "points": [
+        [
+          856.0,
+          660.0
+        ],
+        [
+          930,
+          660.0
+        ],
+        [
+          930,
+          610.0
+        ],
+        [
+          1236.0,
+          610.0
+        ]
+      ],
+      "signAt": 0.9
     },
     {
       "id": "y10-factor",
@@ -1402,7 +1702,34 @@
       "why": "Higher financing costs can favour firms with low debt and steady cash flows.",
       "src": [],
       "basis": "unsourced",
-      "via": 470
+      "tone": "duration",
+      "points": [
+        [
+          856.0,
+          680.0
+        ],
+        [
+          930,
+          680.0
+        ],
+        [
+          930,
+          741.0
+        ],
+        [
+          1162,
+          741.0
+        ],
+        [
+          1162,
+          790.0
+        ],
+        [
+          1236.0,
+          790.0
+        ]
+      ],
+      "signAt": 0.86
     },
     {
       "id": "credit-factor",
@@ -1411,7 +1738,27 @@
       "sign": "+",
       "why": "Wider credit spreads make balance-sheet strength more valuable.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "risk",
+      "points": [
+        [
+          1154.0,
+          670.0
+        ],
+        [
+          1168.0,
+          670.0
+        ],
+        [
+          1168.0,
+          780.0
+        ],
+        [
+          1236.0,
+          780.0
+        ]
+      ],
+      "signAt": 0.21
     },
     {
       "id": "aipolicy-overcap",
@@ -1422,7 +1769,27 @@
       "src": [
         "wrap_nov5"
       ],
-      "basis": "sourced"
+      "basis": "sourced",
+      "tone": "ai",
+      "points": [
+        [
+          260.0,
+          790.0
+        ],
+        [
+          274.0,
+          790.0
+        ],
+        [
+          274.0,
+          850.0
+        ],
+        [
+          342.0,
+          850.0
+        ]
+      ],
+      "signAt": 0.9
     },
     {
       "id": "overcap-semis",
@@ -1432,7 +1799,26 @@
       "why": "Execution uncertainty can lower expected chip earnings or valuation multiples.",
       "src": [],
       "basis": "unsourced",
-      "via": 620
+      "tone": "ai",
+      "points": [
+        [
+          558.0,
+          850.0
+        ],
+        [
+          572.0,
+          850.0
+        ],
+        [
+          572.0,
+          915.0
+        ],
+        [
+          938.0,
+          915.0
+        ]
+      ],
+      "signAt": 0.53
     },
     {
       "id": "semis-breadth",
@@ -1441,7 +1827,27 @@
       "sign": "−",
       "why": "Stronger tech can lift cap weight more than equal weight, reducing equal-weight relative performance.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "ai",
+      "points": [
+        [
+          1154.0,
+          915.0
+        ],
+        [
+          1168.0,
+          915.0
+        ],
+        [
+          1168.0,
+          910.0
+        ],
+        [
+          1236.0,
+          910.0
+        ]
+      ],
+      "signAt": 0.88
     },
     {
       "id": "semis-factor",
@@ -1450,7 +1856,27 @@
       "sign": "−",
       "why": "A semiconductor selloff can favour low debt and steady earnings over crowded momentum.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "ai",
+      "points": [
+        [
+          1154.0,
+          905.0
+        ],
+        [
+          1168.0,
+          905.0
+        ],
+        [
+          1168.0,
+          800.0
+        ],
+        [
+          1236.0,
+          800.0
+        ]
+      ],
+      "signAt": 0.29
     },
     {
       "id": "boc-cad",
@@ -1459,7 +1885,19 @@
       "sign": "+",
       "why": "Higher Canadian rates can support CAD; relative US rate expectations also matter.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "labour",
+      "points": [
+        [
+          856.0,
+          310.0
+        ],
+        [
+          938.0,
+          310.0
+        ]
+      ],
+      "signAt": 0.5
     },
     {
       "id": "coreweave-overcap",
@@ -1471,7 +1909,26 @@
         "crwv_rally"
       ],
       "basis": "sourced",
-      "signAt": 0.25
+      "tone": "ai",
+      "points": [
+        [
+          260.0,
+          670.0
+        ],
+        [
+          328.0,
+          670.0
+        ],
+        [
+          328.0,
+          840.0
+        ],
+        [
+          342.0,
+          840.0
+        ]
+      ],
+      "signAt": 0.27
     },
     {
       "id": "issuance-overcap",
@@ -1480,7 +1937,19 @@
       "sign": "+",
       "why": "Funding constraints can delay planned AI capacity.",
       "basis": "unsourced",
-      "src": []
+      "src": [],
+      "tone": "ai",
+      "points": [
+        [
+          450.0,
+          765.0
+        ],
+        [
+          450.0,
+          815.0
+        ]
+      ],
+      "signAt": 0.69
     },
     {
       "id": "nvidia-overcap",
@@ -1491,7 +1960,27 @@
       "basis": "sourced",
       "src": [
         "ap_nvda_exit"
-      ]
+      ],
+      "tone": "ai",
+      "points": [
+        [
+          260.0,
+          910.0
+        ],
+        [
+          274.0,
+          910.0
+        ],
+        [
+          274.0,
+          860.0
+        ],
+        [
+          342.0,
+          860.0
+        ]
+      ],
+      "signAt": 0.1
     },
     {
       "id": "jobs-wages",
@@ -1500,7 +1989,19 @@
       "sign": "+",
       "why": "Stronger labour demand can sustain wage growth; this is a conditional mechanism.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "labour",
+      "points": [
+        [
+          260.0,
+          190.0
+        ],
+        [
+          342.0,
+          190.0
+        ]
+      ],
+      "signAt": 0.5
     },
     {
       "id": "wages-fed",
@@ -1509,7 +2010,27 @@
       "sign": "+",
       "why": "Persistent pay pressure can keep policy focused on inflation; productivity also matters.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "labour",
+      "points": [
+        [
+          558.0,
+          190.0
+        ],
+        [
+          572.0,
+          190.0
+        ],
+        [
+          572.0,
+          420.0
+        ],
+        [
+          640.0,
+          420.0
+        ]
+      ],
+      "signAt": 0.1
     },
     {
       "id": "fed-front",
@@ -1521,7 +2042,27 @@
         "usd_nov13"
       ],
       "basis": "sourced",
-      "route": "side"
+      "route": "side",
+      "tone": "energy",
+      "points": [
+        [
+          640.0,
+          410.0
+        ],
+        [
+          626.0,
+          410.0
+        ],
+        [
+          626.0,
+          190.0
+        ],
+        [
+          640.0,
+          190.0
+        ]
+      ],
+      "signAt": 0.45
     },
     {
       "id": "front-usd",
@@ -1532,7 +2073,19 @@
       "src": [
         "usd_nov13"
       ],
-      "basis": "sourced"
+      "basis": "sourced",
+      "tone": "labour",
+      "points": [
+        [
+          856.0,
+          190.0
+        ],
+        [
+          938.0,
+          190.0
+        ]
+      ],
+      "signAt": 0.87
     },
     {
       "id": "usd-fx",
@@ -1541,7 +2094,27 @@
       "sign": "+",
       "why": "USD appreciation versus CAD increases the CAD value of unhedged US holdings.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "labour",
+      "points": [
+        [
+          1154.0,
+          190.0
+        ],
+        [
+          1168.0,
+          190.0
+        ],
+        [
+          1168.0,
+          245.0
+        ],
+        [
+          1236.0,
+          245.0
+        ]
+      ],
+      "signAt": 0.9
     },
     {
       "id": "cad-fx",
@@ -1550,7 +2123,27 @@
       "sign": "−",
       "why": "A stronger CAD reduces the translated CAD value of unhedged USD holdings.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "labour",
+      "points": [
+        [
+          1154.0,
+          310.0
+        ],
+        [
+          1168.0,
+          310.0
+        ],
+        [
+          1168.0,
+          255.0
+        ],
+        [
+          1236.0,
+          255.0
+        ]
+      ],
+      "signAt": 0.1
     },
     {
       "id": "auction-supply",
@@ -1559,7 +2152,19 @@
       "sign": "+",
       "why": "Long-maturity auctions place interest-rate exposure with private investors.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "duration",
+      "points": [
+        [
+          260.0,
+          310.0
+        ],
+        [
+          342.0,
+          310.0
+        ]
+      ],
+      "signAt": 0.87
     },
     {
       "id": "supply-term",
@@ -1568,7 +2173,27 @@
       "sign": "+",
       "why": "More duration to absorb can raise required term compensation; demand can offset it.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "duration",
+      "points": [
+        [
+          558.0,
+          310.0
+        ],
+        [
+          607,
+          310.0
+        ],
+        [
+          607,
+          550.0
+        ],
+        [
+          640.0,
+          550.0
+        ]
+      ],
+      "signAt": 0.34
     },
     {
       "id": "term-treasuries",
@@ -1577,7 +2202,27 @@
       "sign": "−",
       "why": "Higher term compensation raises required yields and lowers existing fixed-rate bond prices.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "duration",
+      "points": [
+        [
+          856.0,
+          550.0
+        ],
+        [
+          870.0,
+          550.0
+        ],
+        [
+          870.0,
+          425.0
+        ],
+        [
+          938.0,
+          425.0
+        ]
+      ],
+      "signAt": 0.54
     },
     {
       "id": "y10-treasuries",
@@ -1586,7 +2231,27 @@
       "sign": "−",
       "why": "Higher market yields lower existing fixed-rate Treasury prices, all else equal.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "duration",
+      "points": [
+        [
+          856.0,
+          650.0
+        ],
+        [
+          924.0,
+          650.0
+        ],
+        [
+          924.0,
+          435.0
+        ],
+        [
+          938.0,
+          435.0
+        ]
+      ],
+      "signAt": 0.69
     },
     {
       "id": "treasuries-duration",
@@ -1595,7 +2260,19 @@
       "sign": "−",
       "why": "Falling bond prices create mark-to-market losses for long-duration holders.",
       "src": [],
-      "basis": "unsourced"
+      "basis": "unsourced",
+      "tone": "duration",
+      "points": [
+        [
+          1154.0,
+          430.0
+        ],
+        [
+          1236.0,
+          430.0
+        ]
+      ],
+      "signAt": 0.87
     }
   ],
   "chains": [

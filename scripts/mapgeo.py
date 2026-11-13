@@ -21,6 +21,8 @@ def node_box(data, nid, pad=0.0):
 
 def edge_segments(data, e):
     """Return a list of absolute path segments for edge e."""
+    if e.get("points"):
+        return rounded_polyline(e["points"])
     L = data["layout"]
     W, H = L["nodeW"], L["nodeH"]
     ax, ay = node_center(data, e["from"])
@@ -46,6 +48,21 @@ def edge_segments(data, e):
                 ("L", tx - 34, v), ("C", tx - 16, v, tx - 16, by, tx, by)]
     m = (sx + tx) / 2
     return [("M", sx, ay), ("C", m, ay, m, by, tx, by)]
+
+
+def rounded_polyline(points, radius=10):
+    """Round orthogonal waypoints; build and validation use the identical path."""
+    result = [("M", *points[0])]
+    for a, b, c in zip(points, points[1:], points[2:]):
+        incoming, outgoing = math.dist(a, b), math.dist(b, c)
+        if not incoming or not outgoing:
+            continue
+        r = min(radius, incoming / 2, outgoing / 2)
+        before = tuple(b[i] + (a[i] - b[i]) * r / incoming for i in (0, 1))
+        after = tuple(b[i] + (c[i] - b[i]) * r / outgoing for i in (0, 1))
+        result.extend([("L", *before), ("Q", *b, *after)])
+    result.append(("L", *points[-1]))
+    return result
 
 
 def segments_to_d(segs):

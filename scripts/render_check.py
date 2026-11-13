@@ -11,9 +11,9 @@ Checks (V16):
   - the initial page contains only the unfiltered map
   - every connection remains solid without arrows or sign markers in every state
   - every node opens a floating details card with reachable sources and close/Escape
-  - desktop selection keeps all five map columns visible and other cards clickable
-  - compact layouts reserve space below the map and survive viewport resizing
-  - the consolidated AI path can be followed in the map details
+  - selection preserves map dimensions, node positions and scroll position
+  - floating cards support dragging, keyboard movement and responsive resizing
+  - the AI, labour/currency and fiscal/duration paths can be followed
   - compact screens can pan the readable diagram without page overflow
 Needs Playwright with Chromium: pip install playwright && playwright install chromium
 Exit 0 = pass, 1 = fail, 2 = Playwright not available.
@@ -65,11 +65,36 @@ def check_connections(page, name, fails):
         fails.append(f"{name}: connections are missing or include dashes, arrows or sign markers")
 
 
+def map_snapshot(page):
+    return page.evaluate("""() => {
+        const canvas = document.getElementById('map-canvas');
+        const rect = e => {const r=e.getBoundingClientRect();return [r.x,r.y,r.width,r.height]};
+        return {canvas:rect(canvas),svg:rect(document.getElementById('map')),
+            scroll:[canvas.scrollLeft,canvas.scrollTop],
+            nodes:[...document.querySelectorAll('#map .node')].map(rect)};
+    }""")
+
+
+def check_map_stable(page, before, name, fails):
+    after = map_snapshot(page)
+    for key in before:
+        def flatten(value):
+            return [n for item in value for n in flatten(item)] if isinstance(value, list) else [value]
+        if any(abs(a-b) > .5 for a,b in zip(flatten(before[key]), flatten(after[key]))):
+            fails.append(f"{name}: details move or resize the map ({key})")
+
+
 def check_details_layout(page, name, width, fails):
     check_connections(page, name, fails)
-    canvas = page.locator("#map-canvas").bounding_box()
-    details = page.locator("#details").bounding_box()
-    viewport = page.viewport_size
+    # Read related rectangles in one browser task. A resize handler can move
+    # the window between separate Playwright calls; mixed frames are invalid.
+    geometry = page.evaluate("""() => {
+        const rect=id=>{const r=document.getElementById(id).getBoundingClientRect();
+            return {x:r.x,y:r.y,width:r.width,height:r.height}};
+        return {canvas:rect('map-canvas'),details:rect('details'),
+            close:rect('close-details'),viewport:{width:innerWidth,height:innerHeight}};
+    }""")
+    canvas, details, viewport = (geometry[k] for k in ("canvas", "details", "viewport"))
     if (details["x"] < 1 or details["y"] < 1
             or details["x"] + details["width"] > viewport["width"] - 1
             or details["y"] + details["height"] > viewport["height"] - 1):
@@ -80,7 +105,7 @@ def check_details_layout(page, name, width, fails):
     }""")
     if not appearance:
         fails.append(f"{name}: details card has lost its rounded corners or shadow")
-    close = page.locator("#close-details").bounding_box()
+    close = geometry["close"]
     if (close["x"] < details["x"] or close["y"] < details["y"]
             or close["x"] + close["width"] > details["x"] + details["width"]
             or close["y"] + close["height"] > details["y"] + details["height"]):
@@ -100,20 +125,18 @@ def check_details_layout(page, name, width, fails):
         fails.append(f"{name}: card content clips horizontally or its final source is unreachable")
     if content["signs"]:
         fails.append(f"{name}: details show a +/− connection marker")
+    if page.locator("#details").evaluate("e => getComputedStyle(e).position") != "fixed":
+        fails.append(f"{name}: details participate in the map layout")
     if width >= 1100:
-        if canvas["x"] + canvas["width"] > details["x"] + 1:
-            fails.append(f"{name}: right details pane overlaps the map")
         if page.locator("#map-canvas").evaluate("e => e.scrollWidth - e.clientWidth") > 1:
-            fails.append(f"{name}: opening details clips the desktop map")
+            fails.append(f"{name}: desktop map is clipped")
         for box in page.locator("#map .node").all():
             b = box.bounding_box()
             if (b["x"] < canvas["x"] - 1 or b["y"] < canvas["y"] - 1
                     or b["x"] + b["width"] > canvas["x"] + canvas["width"] + 1
                     or b["y"] + b["height"] > canvas["y"] + canvas["height"] + 1):
-                fails.append(f"{name}: a map card is outside the visible canvas with details open")
+                fails.append(f"{name}: a desktop node is outside the map canvas")
                 break
-    elif canvas["y"] + canvas["height"] > details["y"] + 1:
-        fails.append(f"{name}: compact details pane overlaps the map")
     if page.locator(".dim").count():
         fails.append(f"{name}: opening details dims the overview")
     if page.locator('dialog, [aria-modal="true"]').count():
@@ -145,7 +168,7 @@ def main():
             page.goto(url)
             if page.evaluate("document.characterSet") != "UTF-8":
                 fails.append(f"{name}: build is not decoded as UTF-8")
-            if "02  " not in page.locator(".colhead").nth(1).text_content():
+            if page.locator(".colnum").nth(1).text_content() != "02":
                 fails.append(f"{name}: column labels did not render correctly")
             if page.locator("header, footer, #chains, #inspector, .legend, .stack, #headlines-sec").count():
                 fails.append(f"{name}: page contains UI outside the map")
@@ -177,7 +200,10 @@ def main():
             for node_id in ids:
                 expected = page.evaluate("id => DATA.nodes[id].label", node_id)
                 node = page.locator(f'#map [data-node="{node_id}"]')
+                node.scroll_into_view_if_needed()
+                before = map_snapshot(page)
                 node.click()
+                check_map_stable(page, before, name, fails)
                 if not page.locator("#details").is_visible() or page.locator("#detail-title").inner_text() != expected:
                     fails.append(f"{name}: {expected} did not open its details")
                 if not page.locator("#panel .src a").count():
@@ -188,14 +214,17 @@ def main():
                     fails.append(f"{name}: {expected} highlights the wrong connections")
                 page.locator("#close-details").click()
                 page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
+                check_map_stable(page, before, name, fails)
             for start, targets in (("nvidia", ("overcap", "semis", "breadth")),
                                    ("issuance", ("overcap",)),
                                    ("jobs", ("wages", "fed", "front", "usd", "fx")),
                                    ("auction", ("supply", "term", "treasuries", "duration"))):
                 page.locator(f'#map [data-node="{start}"]').click()
+                before = map_snapshot(page)
                 for target in targets:
                     page.locator(f'#panel [data-node-link="{target}"]').click()
                     expected = page.evaluate("id => DATA.nodes[id].label", target)
+                    check_map_stable(page, before, name, fails)
                     if page.locator("#detail-title").inner_text() != expected:
                         fails.append(f"{name}: map connection to {target} failed")
                 page.keyboard.press("Escape")
@@ -207,15 +236,51 @@ def main():
             page.keyboard.press("Escape")
             page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
             page.locator('#map [data-node="nvidia"]').click()
-            # A second card must be selectable directly while details remain open.
-            page.locator('#map [data-node="coreweave"]').click()
-            if page.locator("#detail-title").inner_text() != "CoreWeave earnings":
-                fails.append(f"{name}: selecting another map card did not update the pane")
+            # The requested floating window may cover some nodes; uncovered
+            # nodes must stay directly selectable without a backdrop or reflow.
+            target = page.evaluate("""() => [...document.querySelectorAll('#map .node')].find(n => {
+                const r=n.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/2;
+                return n.dataset.node!=='nvidia' && r.left>=0 && r.right<=innerWidth
+                    && r.top>=0 && r.bottom<=innerHeight
+                    && document.elementFromPoint(x,y)?.closest('[data-node]')===n;
+            })?.dataset.node""")
+            if not target:
+                fails.append(f"{name}: no uncovered map card remains selectable")
+            else:
+                before_switch = map_snapshot(page)
+                page.locator(f'#map [data-node="{target}"]').click()
+                expected = page.evaluate("id => DATA.nodes[id].label", target)
+                if page.locator("#detail-title").inner_text() != expected:
+                    fails.append(f"{name}: selecting an uncovered map card did not update details")
+                check_map_stable(page, before_switch, name, fails)
             check_details_layout(page, name, width, fails)
             if a.shots:
                 out = pathlib.Path(a.shots)
                 out.mkdir(parents=True, exist_ok=True)
                 page.screenshot(path=str(out / f"{name}-details.png"), full_page=True)
+            # Pointer and keyboard movement affect only the floating card.
+            before_drag = map_snapshot(page)
+            handle = page.locator("#move-details")
+            card_before = page.locator("#details").bounding_box()
+            handle.focus()
+            key = (("ArrowUp" if card_before["y"] > 60 else "ArrowDown") if width < 760
+                   else ("ArrowLeft" if card_before["x"] > 60 else "ArrowRight"))
+            page.keyboard.press(key)
+            card_after = page.locator("#details").bounding_box()
+            if abs(card_before["x"] - card_after["x"]) + abs(card_before["y"] - card_after["y"]) < 10:
+                fails.append(f"{name}: keyboard movement of details failed")
+            h = handle.bounding_box()
+            start = (h["x"]+h["width"]/2, h["y"]+h["height"]/2)
+            dy = 35 if card_after["y"] < 100 else -35
+            page.mouse.move(*start)
+            page.mouse.down()
+            page.mouse.move(start[0], start[1]+dy, steps=5)
+            page.mouse.up()
+            dragged = page.locator("#details").bounding_box()
+            if abs(dragged["y"] - card_after["y"]) < 10:
+                fails.append(f"{name}: dragging details failed")
+            check_map_stable(page, before_drag, name, fails)
+            check_details_layout(page, name, width, fails)
             page.locator("#close-details").click()
             page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
             restored = page.locator("#map-canvas").bounding_box()
@@ -230,6 +295,7 @@ def main():
                 fails.append(f"{name}: script errors {errs}")
             page.locator("#map-canvas").evaluate("e => {e.scrollLeft=0;e.scrollTop=0}")
             page.evaluate("document.activeElement.blur()")
+            page.mouse.move(0, 0)
             if a.shots:
                 out = pathlib.Path(a.shots)
                 out.mkdir(parents=True, exist_ok=True)
@@ -240,9 +306,17 @@ def main():
         page.locator('#map [data-node="nvidia"]').click()
         for width in (1000, 400, 1100, 1300):
             page.set_viewport_size({"width": width, "height": 900})
+            # Check the browser's rendered resize state after its event and
+            # placement callback, rather than an intermediate layout frame.
+            page.evaluate("() => new Promise(done => requestAnimationFrame(() => requestAnimationFrame(done)))")
             check_details_layout(page, f"resize-{width}", width, fails)
             if page.locator("#detail-title").inner_text() != "NVIDIA CEO resigns":
                 fails.append(f"resize-{width}: selection was lost during resize")
+            before_close = map_snapshot(page)
+            page.keyboard.press("Escape")
+            check_map_stable(page, before_close, f"resize-{width}", fails)
+            page.evaluate("openNode('nvidia')")
+            check_map_stable(page, before_close, f"resize-{width}", fails)
         page.close()
         browser.close()
     for f in fails:
