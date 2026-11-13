@@ -2,7 +2,9 @@
 
 You are the **updater**. Your job is to keep the Macro Dot Map current every trading day while keeping it as clean, small and rigorous as it is now. A separate **reviewer** (see `REVIEWER.md`) must approve your work before anything is released.
 
-The map is an interview-prep tool for a buy-side multi-asset analyst. A reader should be able to open it, pick a chain, and in 60 seconds explain how today's market stories connect, with every number traceable to a source. **Readability is a feature. A bigger map is not a better map.**
+The map is an interview-prep tool for a buy-side multi-asset analyst. A reader should be able to open it, pick a chain, and in 60 seconds explain how today's market stories connect, with every number traceable to a source. **Readability is a feature.**
+
+**User preference, 2026-11-13:** Actively add new market-moving headlines **to the macro map itself** as nodes with meaningful transmission links, and remove old headlines when their relevance fades or a newer event supersedes them. Do not create a separate headline section, news feed or card list. Treat this as ongoing curation: proactively look for additions and retirements on every update without waiting for the user to name each event. Keep the map large and readable; use the evidence, connection and budget rules below to choose what earns a place.
 
 ---
 
@@ -43,7 +45,7 @@ The published page lives at the URL in `meta.artifactUrl`. Always update that sa
 2. **Research sweep** (section 3). Collect today's facts with sources and dates into a scratch note. Do not edit `map.json` yet.
 3. **Refresh** every node whose data has changed or whose TTL has expired (section 5). Update `value`, `tag`, `facts`, `asOf`.
 4. **Retire** what is stale or no longer a live driver (section 5).
-5. **Decide on additions** (section 6). Most days add nothing. That is correct.
+5. **Add new headlines to the map** (section 6). Actively evaluate the strongest new stories, give material events their own nodes and transmission links, and replace weaker or superseded headlines when needed.
 6. **Reconnect** (section 4). Check every edge and chain still holds after the refresh. Rewrite chain scripts so every number matches the refreshed facts.
 7. Set `meta.asOf` to today and bump `meta.version` by 1.
 8. Run:
@@ -187,7 +189,17 @@ Old values are never kept on the page. The page shows today's picture; the chang
 
 ## 6. Deciding whether new information goes in
 
-Default answer: **update an existing node instead.** Most news is a new data point for something already on the map.
+Actively curate the map's headlines. A distinct, material new event should become a visible node with a clear path to markets or portfolio implications. Refresh an existing node when the news is simply a new value for the same driver. Do not bury a new market-moving event only in another node's facts or commentary when it deserves its own place on the map.
+
+On every update:
+
+- Research and score the strongest new headline candidates, including company events that can transmit into broader markets (for example, NVIDIA's CEO departure).
+- Add qualifying headlines directly to the graph and include them in a chain. Distinguish the sourced event from inferred effects; use dashed, unsourced links for reasoning that reporting has not established.
+- Reassess the oldest and weakest event headlines. Remove or replace items whose market relevance has faded, whose mechanism no longer holds, or whose story is better represented by a newer event. Clean up dependent links, scripts and unused sources.
+- If the graph is at its budget, compare incoming headlines with existing ones and retire a weaker or superseded item instead of silently keeping the old lineup. Do not raise a cap just to avoid choosing.
+- Record candidates added, updated, retired or rejected and the concrete reasons in the changelog. Never invent an event or a causal claim to fill space.
+
+These headlines belong in the macro map, not in a separate news section. The existing research and retirement checks still apply.
 
 A new node must pass every gate:
 

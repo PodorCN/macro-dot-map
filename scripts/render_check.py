@@ -9,7 +9,8 @@ Checks (V16):
   - at desktop widths (>= 1240px) the whole map fits
     without its own horizontal scroll, so no column is clipped (lesson L-011)
   - every chain button opens a panel with a script
-  - headlines, category filters, and related-driver navigation work
+  - current headline nodes and their transmission links open correctly
+  - no separate headline/news section is rendered
 Needs Playwright with Chromium: pip install playwright && playwright install chromium
 Exit 0 = pass, 1 = fail, 2 = Playwright not available.
 """
@@ -83,41 +84,44 @@ def main():
                 page.click(f".chip >> nth={i}")
                 if not page.evaluate("!!document.querySelector('#script') && document.querySelector('#script').textContent.length>100"):
                     fails.append(f"{name}: chain button {i + 1} did not open a script")
-            headlines = page.locator(".news")
-            for i in range(headlines.count()):
-                headline = headlines.nth(i)
-                title = headline.locator(".newsopen").inner_text()
-                headline.locator(".newsopen").click()
-                if page.locator("#panel h2").inner_text() != title:
-                    fails.append(f"{name}: headline {i + 1} did not open")
-                if page.locator(".node.on").count() == 0 or page.locator(".edge.on").count() != 0:
-                    fails.append(f"{name}: headline {i + 1} incorrectly highlights its drivers")
-                page.locator("#panel [data-n]").first.click()
-                if not page.locator("#panel [data-h]").count():
-                    fails.append(f"{name}: related driver lost its news links")
-                else:
-                    page.locator("#panel [data-h]").first.click()
-                    if not page.locator("#panel .headline-summary").count():
-                        fails.append(f"{name}: driver-to-headline navigation failed")
-            for button in page.locator("#newsfilters button").all():
-                category = button.inner_text()
-                button.click()
-                visible = page.locator(".news:visible")
-                expected = headlines.count() if category == "All" else page.locator(f'.news[data-category="{category}"]').count()
-                if visible.count() != expected:
-                    fails.append(f"{name}: {category} filter shows the wrong stories")
-            if headlines.count():
-                page.locator("#newsfilters button").first.click()
+            if page.locator("#headlines-sec, .news, .newsfilters").count():
+                fails.append(f"{name}: headlines are rendered outside the macro map")
+            for node_id in ("nvidia", "leadership", "coreweave"):
+                label = page.evaluate("id => DATA.nodes[id].label", node_id)
+                selector = f'.nd[data-node="{node_id}"]' if width < 760 else f'#map [data-node="{node_id}"]'
+                node = page.locator(selector)
+                if not node.is_visible():
+                    fails.append(f"{name}: {label} is missing from the map")
+                    continue
+                node.click()
+                if page.locator("#panel h2").inner_text() != label:
+                    fails.append(f"{name}: {label} did not open its node panel")
+                if not page.locator("#panel .src a").count():
+                    fails.append(f"{name}: {label} has no traceable sources")
+            page.locator('.chip[data-k="nvidia"]').click()
+            if page.locator(".edge.on").count() != 3:
+                fails.append(f"{name}: NVIDIA chain did not highlight its three transmission links")
+            node_selector = '.nd[data-node="nvidia"]' if width < 760 else '#map [data-node="nvidia"]'
+            page.locator(node_selector).click()
+            for target in ("leadership", "semis", "breadth"):
+                page.locator(f'#panel [data-n="{target}"]').click()
+                expected = page.evaluate("id => DATA.nodes[id].label", target)
+                if page.locator("#panel h2").inner_text() != expected:
+                    fails.append(f"{name}: NVIDIA transmission link to {target} failed")
             if width < 760:
                 page.locator('[data-v="diagram"]').click()
                 if not page.locator("#map").is_visible():
                     fails.append(f"{name}: phone diagram did not open")
                 if page.evaluate("document.documentElement.scrollWidth") > width:
                     fails.append(f"{name}: phone diagram causes page overflow")
+                page.locator('#map [data-node="nvidia"]').focus()
+                page.keyboard.press("Enter")
+                if page.locator("#panel h2").inner_text() != "NVIDIA CEO resigns":
+                    fails.append(f"{name}: keyboard activation of NVIDIA diagram node failed")
                 page.locator('[data-v="list"]').click()
             if errs:
                 fails.append(f"{name}: script errors {errs}")
-            page.click(".chip >> nth=0")
+            page.locator('.chip[data-k="nvidia"]').click()
             page.locator("#back-map").click()
             page.evaluate("scrollTo(0,0)")
             if a.shots:

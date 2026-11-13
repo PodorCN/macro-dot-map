@@ -4,9 +4,7 @@ An interactive cause-and-effect map of what is driving markets right now: the oi
 
 Live page: https://podor.org/macro-dot-map/ (GitHub Pages, serves `index.html`). The claude.ai artifact URL in `meta.artifactUrl` is a legacy mirror and is not updated by the daily run.
 
-The map fills the page width, with dated headlines and a reading panel underneath. Select a headline to highlight related drivers, or filter by AI, Macro, Markets or Policy. Reporting links to its source; watch questions are labelled as reasoning. Driver panels also link to related headlines.
-
-Headlines live in `data/map.json` alongside the map. Each has an `id`, `title`, reporting `date`, `category`, `summary`, reasoning-only `watch`, related `nodes`, source keys in `src`, and evidence `basis`. `meta.headlinesAsOf` records when the news was checked; `meta.asOf` still dates the map’s prices and chain scripts. A newer headline does not refresh those values. The page displays both dates when they differ. V21 validates the news references, dates and evidence; the existing map freshness and release gates remain in force.
+The map fills the page width. Market-moving headlines appear directly as shock nodes, connected to their transmission channels, markets and portfolio implications. Select a chain or a node to highlight the connections and read dated facts and sources in the panel underneath. Dashed links identify our reasoning. Phone List / Diagram views show the same drivers.
 
 ## How it stays current and clean
 

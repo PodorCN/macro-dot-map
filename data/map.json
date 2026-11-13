@@ -2,10 +2,9 @@
   "meta": {
     "title": "Macro Dot Map",
     "asOf": "2026-11-12",
-    "version": 9,
+    "version": 10,
     "artifactUrl": "https://claude.ai/artifact/GnDR8esNpiSLzq6ki3r8dT",
-    "defaultChain": "bonds",
-    "headlinesAsOf": "2026-11-13"
+    "defaultChain": "nvidia"
   },
   "layout": {
     "viewBox": [
@@ -209,25 +208,25 @@
       "url": "https://www.aqr.com/Insights/Perspectives/A-Positive-Stock-Bond-Correlation-Is-a-Terrible-Reason-to-Add-More-Equity-Risk-to-Your-Portfolio",
       "tier": 1
     },
-    "reuters_oil_nov12": {
-      "name": "Reuters via Investing.com: Nov 12 oil close",
-      "url": "https://au.investing.com/news/commodities-news/oil-prices-drop-more-than-1-as-hopes-for-iran-ukraine-peace-talks-pressure-markets-4763471",
-      "tier": 2
-    },
     "ap_stocks_nov12": {
       "name": "AP: Nov 12 market close",
       "url": "https://apnews.com/article/3f3668a937a11535103e3a5c8d82c9fc",
       "tier": 1
     },
-    "reuters_cpi_nov10": {
-      "name": "Reuters via Investing.com: October CPI",
-      "url": "https://www.investing.com/news/economic-indicators/hot-october-inflation-report-rattles-markets-5015775",
-      "tier": 2
-    },
-    "boc_minutes_nov10": {
-      "name": "Bank of Canada: October decision deliberations",
-      "url": "https://www.bankofcanada.ca/2026/11/summary-of-governing-council-deliberations-fixed-announcement-date-of-october-28-2026/",
+    "nvda_8k": {
+      "name": "SEC: NVIDIA CEO transition, Nov 12 filing",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm",
       "tier": 1
+    },
+    "ap_nvda_exit": {
+      "name": "AP: NVIDIA faces a future without Huang, Nov 12",
+      "url": "https://apnews.com/article/5403f152a601cf82ce939f1d24fffa0f",
+      "tier": 1
+    },
+    "crwv_rally": {
+      "name": "Reuters via Euronext: CoreWeave lifts AI sentiment, Nov 11",
+      "url": "https://live.euronext.com/en/financial-news/stocks-rise-tech-gains-nvidia-falls-after-hours",
+      "tier": 2
     }
   },
   "nodes": {
@@ -431,13 +430,6 @@
           "text": "Counterpoint: Blackstone president Jon Gray said compute demand still ran well ahead of supply; he also said higher capital costs would slow the pace.",
           "src": [
             "ai_finance"
-          ],
-          "basis": "sourced"
-        },
-        {
-          "text": "Nov 10: CoreWeave reported Q3 revenue of $3.661B versus $1.365B a year earlier, and guided 2026 capex to $37-39B. Strong growth is a counterpoint to payoff concerns.",
-          "src": [
-            "coreweave_q3"
           ],
           "basis": "sourced"
         }
@@ -655,7 +647,7 @@
       "y": 430,
       "kind": "weekly",
       "asOf": "2026-11-12",
-      "value": "SOX 10,506.7 Nov 12; Nvidia CEO transition",
+      "value": "SOX 10,506.7 Nov 12; NVIDIA risk, peers diverge",
       "facts": [
         {
           "text": "Nov 12 SOX close: 10,506.7, down 0.54% from 10,564.1 on Nov 11. Values use the displayed precision of Investing.com history.",
@@ -673,14 +665,14 @@
           "basis": "sourced"
         },
         {
-          "text": "Nov 12: NVIDIA announced Jensen Huang's resignation, Colette Kress as interim CEO and Harvey Jones as chair. This is the announcement date.",
+          "text": "Nov 12: AP reported other AI chip stocks rose while NVIDIA recovered part of its early loss. The leadership shock did not hit every chipmaker equally.",
           "src": [
-            "nvda_transition"
+            "ap_stocks_nov12"
           ],
           "basis": "sourced"
         }
       ],
-      "say": "The SOX fell 0.54% on Nov 12; Nvidia's leadership change adds company risk to funding and policy concerns."
+      "say": "The SOX and individual chip stocks can diverge; NVIDIA's CEO exit is a company shock."
     },
     "cad": {
       "label": "Canadian dollar",
@@ -840,6 +832,113 @@
       ],
       "say": "The latest AI shock is a possible slowdown in data-center construction, priced before any new rules take effect.",
       "eventDate": "2026-11-05"
+    },
+    "nvidia": {
+      "label": "NVIDIA CEO resigns",
+      "tag": "Announced Nov 12",
+      "layer": 0,
+      "y": 410,
+      "kind": "event",
+      "asOf": "2026-11-12",
+      "eventDate": "2026-11-12",
+      "value": "Nov 12 announcement: Huang out; Kress interim CEO",
+      "facts": [
+        {
+          "text": "Nov 12: NVIDIA announced Jensen Huang's departure as CEO, president and director. CFO Colette Kress became interim CEO.",
+          "src": [
+            "nvda_transition"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "The 8-K dates the board's acceptance of the resignation to Nov 11. Nov 12 is the public announcement date.",
+          "src": [
+            "nvda_8k"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "Nov 12: AP reported NVIDIA closed about 4% lower after dropping 14% at the opening bell.",
+          "src": [
+            "ap_nvda_exit"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "NVIDIA kept Nov 17 for its fiscal Q3 2027 results, followed by an earnings call.",
+          "src": [
+            "nvda_transition"
+          ],
+          "basis": "sourced"
+        }
+      ],
+      "say": "NVIDIA's CEO exit adds leadership risk; the board expects product plans to continue."
+    },
+    "leadership": {
+      "label": "AI leadership risk",
+      "tag": "Succession uncertainty",
+      "layer": 1,
+      "y": 400,
+      "kind": "event",
+      "asOf": "2026-11-12",
+      "eventDate": "2026-11-12",
+      "value": "NVIDIA succession risk; board expects continuity",
+      "facts": [
+        {
+          "text": "AP described Huang's departure as leaving NVIDIA facing an uncertain future.",
+          "src": [
+            "ap_nvda_exit"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "NVIDIA's board expects operations, customer commitments and the product roadmap to continue without interruption.",
+          "src": [
+            "nvda_transition"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "Leadership uncertainty can affect the valuation investors pay for NVIDIA's earnings; it does not establish weaker chip demand across the sector.",
+          "src": [],
+          "basis": "unsourced"
+        }
+      ],
+      "say": "Watch succession and execution at NVIDIA while keeping company risk separate from sector demand."
+    },
+    "coreweave": {
+      "label": "CoreWeave earnings",
+      "tag": "CRWV +24.7% Nov 11",
+      "layer": 0,
+      "y": 210,
+      "kind": "event",
+      "asOf": "2026-11-12",
+      "eventDate": "2026-11-10",
+      "value": "Nov 10 results; CRWV +24.7% on Nov 11",
+      "facts": [
+        {
+          "text": "Nov 10: CoreWeave raised 2026 revenue guidance to $13.0–13.3B and guided full-year capex to $37–39B.",
+          "src": [
+            "coreweave_q3"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "Q3 revenue was $3.661B versus $1.365B a year earlier.",
+          "src": [
+            "coreweave_q3"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "Nov 11: CRWV rose 24.7%. Reuters said its report eased concerns about demand supporting debt-funded expansion.",
+          "src": [
+            "crwv_rally"
+          ],
+          "basis": "sourced"
+        }
+      ],
+      "say": "CoreWeave's results eased AI demand worries, while financing and construction risks remain."
     }
   },
   "edges": [
@@ -1054,6 +1153,39 @@
       "why": "Higher Canadian rates can support CAD; relative US rate expectations also matter.",
       "src": [],
       "basis": "unsourced"
+    },
+    {
+      "id": "nvidia-leadership",
+      "from": "nvidia",
+      "to": "leadership",
+      "sign": "+",
+      "why": "Huang's departure leaves NVIDIA facing succession uncertainty.",
+      "src": [
+        "ap_nvda_exit"
+      ],
+      "basis": "sourced"
+    },
+    {
+      "id": "leadership-semis",
+      "from": "leadership",
+      "to": "semis",
+      "sign": "−",
+      "why": "NVIDIA succession risk can reduce the valuation investors pay for its earnings.",
+      "src": [],
+      "basis": "unsourced",
+      "via": 408
+    },
+    {
+      "id": "coreweave-overcap",
+      "from": "coreweave",
+      "to": "overcap",
+      "sign": "−",
+      "why": "CoreWeave's results eased doubts about demand supporting its AI expansion.",
+      "src": [
+        "crwv_rally"
+      ],
+      "basis": "sourced",
+      "signAt": 0.25
     }
   ],
   "chains": [
@@ -1113,14 +1245,15 @@
     },
     {
       "key": "ai",
-      "name": "AI rules, chips and rotation",
+      "name": "AI earnings, rules and rotation",
       "edges": [
+        "coreweave-overcap",
         "aipolicy-overcap",
         "overcap-semis",
         "semis-breadth",
         "semis-factor"
       ],
-      "script": "AI's risks now include Nvidia's leadership change alongside construction and funding concerns. After the election, investors feared Congress might slow data-center expansion, reducing expected chip demand. CoreWeave's strong reported growth is a counterpoint to those payoff fears. Nvidia announced its CEO transition on Nov 12, when the SOX fell 0.54%; this company event does not establish falling sector demand. Tech concentration matters because cap weight is more exposed than equal weight to the largest names. October's RSP-versus-SPY comparison and quality-versus-momentum results are historical evidence, not fresh daily returns. I would test concentration and balance-sheet resilience while separating feared rules from enacted restrictions.",
+      "script": "AI construction risk has both demand support and policy headwinds. CoreWeave's Nov 10 results raised its 2026 revenue outlook to $13.0–13.3B, and CRWV rose 24.7% on Nov 11 as expansion worries eased. The earlier election shock points the other way: feared restrictions could slow data-center building and reduce expected chip demand. Because large technology companies dominate cap-weighted indices, chip weakness can favour equal weight. It can also favour strong balance sheets over crowded momentum; October factor returns are dated context. I would compare earnings guidance with actual construction rules before extrapolating either a relief rally or a selloff.",
       "topics": [
         "AI capex cycle",
         "Concentration risk",
@@ -1160,145 +1293,22 @@
         "Default risk",
         "Refinancing risk"
       ]
-    }
-  ],
-  "headlines": [
-    {
-      "id": "nvidia-ceo-transition",
-      "title": "Jensen Huang resigns as NVIDIA CEO",
-      "date": "2026-11-12",
-      "category": "AI",
-      "summary": "NVIDIA announced Huang’s departure as CEO, president and director. CFO Colette Kress will serve as interim CEO while the board searches for a successor.",
-      "watch": "Watch for changes to customer commitments, the product roadmap and investor confidence in AI spending.",
-      "nodes": [
-        "semis",
-        "aicapex",
-        "breadth"
-      ],
-      "src": [
-        "nvda_transition"
-      ],
-      "basis": "sourced"
     },
     {
-      "id": "oil-supply-risk",
-      "title": "Brent rises 3.3% as supply risks return",
-      "date": "2026-11-12",
-      "category": "Macro",
-      "summary": "Brent settled at $95.82 on Nov 12. Reuters linked the rebound to attacks on Saudi energy infrastructure and disruptions to Hormuz shipping.",
-      "watch": "Watch whether the supply risk persists and passes through to inflation expectations and energy earnings.",
-      "nodes": [
-        "hormuz",
-        "oil",
-        "inflation",
-        "energy"
+      "key": "nvidia",
+      "name": "NVIDIA's CEO exit and the index",
+      "edges": [
+        "nvidia-leadership",
+        "leadership-semis",
+        "semis-breadth"
       ],
-      "src": [
-        "reuters_oil_nov12"
-      ],
-      "basis": "sourced"
-    },
-    {
-      "id": "wall-street-nvidia",
-      "title": "Wall Street absorbs NVIDIA and oil swings",
-      "date": "2026-11-12",
-      "category": "Markets",
-      "summary": "US stocks ended with modest losses after sharp swings in NVIDIA and oil. Other AI chip stocks rose as NVIDIA recovered part of its early drop.",
-      "watch": "Compare the company-specific shock with broader chip performance and index concentration before assuming an AI-wide selloff.",
-      "nodes": [
-        "semis",
-        "breadth"
-      ],
-      "src": [
-        "ap_stocks_nov12"
-      ],
-      "basis": "sourced"
-    },
-    {
-      "id": "nvidia-earnings-watch",
-      "title": "Next for NVIDIA: earnings on Nov 17",
-      "date": "2026-11-12",
-      "category": "AI",
-      "summary": "The leadership announcement reaffirmed Nov 17 for NVIDIA’s fiscal Q3 2027 results, followed by its earnings call.",
-      "watch": "Watch demand guidance and management’s answers on execution under the interim CEO.",
-      "nodes": [
-        "semis",
-        "aicapex"
-      ],
-      "src": [
-        "nvda_transition"
-      ],
-      "basis": "sourced"
-    },
-    {
-      "id": "coreweave-outlook",
-      "title": "CoreWeave lifts its revenue outlook",
-      "date": "2026-11-10",
-      "category": "AI",
-      "summary": "CoreWeave raised 2026 revenue guidance to $13.0–13.3B. Full-year capex is guided to $37–39B; Q4 interest expense to $1.05–1.15B.",
-      "watch": "Weigh stronger demand against financing costs and the cash needed to deliver new capacity.",
-      "nodes": [
-        "aicapex",
-        "issuance",
-        "credit",
-        "overcap"
-      ],
-      "src": [
-        "coreweave_q3"
-      ],
-      "basis": "sourced"
-    },
-    {
-      "id": "october-cpi",
-      "title": "October CPI comes in above forecasts",
-      "date": "2026-11-10",
-      "category": "Macro",
-      "summary": "US CPI rose 0.4% in October versus a 0.3% forecast. Reuters reported higher Treasury yields and lower gold after the release.",
-      "watch": "Watch December Fed pricing and whether real yields keep pressuring gold and growth valuations.",
-      "nodes": [
-        "inflation",
-        "fed",
-        "y10",
-        "gold"
-      ],
-      "src": [
-        "reuters_cpi_nov10"
-      ],
-      "basis": "sourced"
-    },
-    {
-      "id": "boc-deliberations",
-      "title": "BoC minutes leave further hikes open",
-      "date": "2026-11-10",
-      "category": "Policy",
-      "summary": "Minutes released Nov 10 explain the Oct 28 increase to 2.5%. Policymakers said further increases could be needed, with decisions taken one meeting at a time.",
-      "watch": "Watch energy-cost pass-through and how Canadian rate expectations affect the loonie.",
-      "nodes": [
-        "inflation",
-        "boc",
-        "cad"
-      ],
-      "src": [
-        "boc_minutes_nov10"
-      ],
-      "basis": "sourced"
-    },
-    {
-      "id": "fed-october-hold",
-      "title": "Fed holds at 3.75–4.00% in October",
-      "date": "2026-10-28",
-      "category": "Policy",
-      "summary": "The Fed held its target range on Oct 28. Two voters preferred a quarter-point increase, while the statement described inflation as elevated.",
-      "watch": "Watch incoming inflation data and whether the hold gives way to another increase.",
-      "nodes": [
-        "fed",
-        "y10",
-        "realy"
-      ],
-      "src": [
-        "fed_oct"
-      ],
-      "basis": "sourced"
+      "script": "NVIDIA's CEO exit adds company risk to a concentrated market. The company announced Huang's departure on Nov 12 and named Colette Kress interim CEO. Succession uncertainty can reduce the valuation investors pay for NVIDIA's earnings, even if sector demand holds up. Through the largest chip names, that can affect a cap-weighted index more than equal weight. These valuation and concentration links are our reasoning. Other AI chip stocks rose that day, and NVIDIA's board expects its roadmap to continue without interruption. I would watch the permanent succession plan and the Nov 17 earnings call before assuming broader demand weakness.",
+      "topics": [
+        "Key-person risk",
+        "AI leadership",
+        "Concentration risk",
+        "Equal vs cap weight"
+      ]
     }
   ]
 }
