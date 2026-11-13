@@ -8,9 +8,10 @@ Checks (V16):
   - the page never scrolls sideways (phone and desktop)
   - at desktop widths (>= 1240px) the whole map fits
     without its own horizontal scroll, so no column is clipped (lesson L-011)
-  - every chain button opens a panel with a script
-  - current headline nodes and their transmission links open correctly
-  - no separate headline/news section is rendered
+  - the initial page contains only the unfiltered map
+  - every node opens sourced details and closes by button/Escape
+  - the consolidated AI path can be followed in the map details
+  - compact screens can pan the readable diagram without page overflow
 Needs Playwright with Chromium: pip install playwright && playwright install chromium
 Exit 0 = pass, 1 = fail, 2 = Playwright not available.
 """
@@ -68,62 +69,69 @@ def main():
             page.goto(url)
             if page.evaluate("document.characterSet") != "UTF-8":
                 fails.append(f"{name}: build is not decoded as UTF-8")
-            if "·" not in page.locator("#counts").inner_text():
-                fails.append(f"{name}: Unicode labels are corrupted")
+            if "02  " not in page.locator(".colhead").nth(1).text_content():
+                fails.append(f"{name}: column labels did not render correctly")
+            if page.locator("header, footer, #chains, #inspector, .legend, .stack, #headlines-sec").count():
+                fails.append(f"{name}: page contains UI outside the map")
+            if page.locator("main > :not(svg)").count() or page.locator("dialog").is_visible():
+                fails.append(f"{name}: the initial page is not map-only")
+            if page.locator(".dim, .node.sel").count():
+                fails.append(f"{name}: initial map hides drivers behind a selection")
             sw = page.evaluate("document.documentElement.scrollWidth")
             if sw > width:
                 fails.append(f"{name}: page scrolls sideways ({sw}px > {width}px)")
             if width >= 1240:
-                ov = page.evaluate("(()=>{const m=document.querySelector('.mapscroll');return m.scrollWidth-m.clientWidth})()")
-                if ov > 1:
-                    fails.append(f"{name}: map is clipped by {ov}px at desktop width")
-                if page.locator("#map").bounding_box()["width"] < min(1640, width * .9):
-                    fails.append(f"{name}: map does not use the full desktop width")
-            n = page.evaluate("document.querySelectorAll('.chip').length")
-            for i in range(n):
-                page.click(f".chip >> nth={i}")
-                if not page.evaluate("!!document.querySelector('#script') && document.querySelector('#script').textContent.length>100"):
-                    fails.append(f"{name}: chain button {i + 1} did not open a script")
-            if page.locator("#headlines-sec, .news, .newsfilters").count():
-                fails.append(f"{name}: headlines are rendered outside the macro map")
-            for node_id in ("nvidia", "leadership", "coreweave"):
-                label = page.evaluate("id => DATA.nodes[id].label", node_id)
-                selector = f'.nd[data-node="{node_id}"]' if width < 760 else f'#map [data-node="{node_id}"]'
-                node = page.locator(selector)
-                if not node.is_visible():
-                    fails.append(f"{name}: {label} is missing from the map")
-                    continue
+                overflow = page.locator("#map-canvas").evaluate("e => e.scrollWidth - e.clientWidth")
+                if overflow > 1:
+                    fails.append(f"{name}: map is clipped by {overflow}px at desktop width")
+            elif width < 760:
+                moved = page.locator("#map-canvas").evaluate("e => {e.scrollLeft=e.scrollWidth;return e.scrollLeft}")
+                if moved <= 0:
+                    fails.append(f"{name}: readable mobile map cannot pan to later columns")
+                page.locator("#map-canvas").evaluate("e => e.scrollLeft=0")
+            ids = page.evaluate("Object.keys(DATA.nodes)")
+            if page.locator("#map .node").count() != len(ids):
+                fails.append(f"{name}: a driver is missing from the diagram")
+            for node_id in ids:
+                expected = page.evaluate("id => DATA.nodes[id].label", node_id)
+                node = page.locator(f'#map [data-node="{node_id}"]')
                 node.click()
-                if page.locator("#panel h2").inner_text() != label:
-                    fails.append(f"{name}: {label} did not open its node panel")
+                if not page.locator("#details").is_visible() or page.locator("#detail-title").inner_text() != expected:
+                    fails.append(f"{name}: {expected} did not open its details")
                 if not page.locator("#panel .src a").count():
-                    fails.append(f"{name}: {label} has no traceable sources")
-            page.locator('.chip[data-k="nvidia"]').click()
-            if page.locator(".edge.on").count() != 3:
-                fails.append(f"{name}: NVIDIA chain did not highlight its three transmission links")
-            node_selector = '.nd[data-node="nvidia"]' if width < 760 else '#map [data-node="nvidia"]'
-            page.locator(node_selector).click()
-            for target in ("leadership", "semis", "breadth"):
-                page.locator(f'#panel [data-n="{target}"]').click()
-                expected = page.evaluate("id => DATA.nodes[id].label", target)
-                if page.locator("#panel h2").inner_text() != expected:
-                    fails.append(f"{name}: NVIDIA transmission link to {target} failed")
-            if width < 760:
-                page.locator('[data-v="diagram"]').click()
-                if not page.locator("#map").is_visible():
-                    fails.append(f"{name}: phone diagram did not open")
-                if page.evaluate("document.documentElement.scrollWidth") > width:
-                    fails.append(f"{name}: phone diagram causes page overflow")
-                page.locator('#map [data-node="nvidia"]').focus()
-                page.keyboard.press("Enter")
-                if page.locator("#panel h2").inner_text() != "NVIDIA CEO resigns":
-                    fails.append(f"{name}: keyboard activation of NVIDIA diagram node failed")
-                page.locator('[data-v="list"]').click()
+                    fails.append(f"{name}: {expected} has no traceable sources")
+                expected_edges = page.evaluate("id => DATA.edges.filter(e=>e.from===id||e.to===id).length", node_id)
+                if page.locator(".edge.on").count() != expected_edges:
+                    fails.append(f"{name}: {expected} highlights the wrong connections")
+                page.locator("#close-details").click()
+                page.wait_for_function("!document.querySelector('dialog').open && !document.querySelector('.node.sel')")
+            for start, targets in (("nvidia", ("overcap", "semis", "breadth")),
+                                   ("issuance", ("overcap",))):
+                page.locator(f'#map [data-node="{start}"]').click()
+                for target in targets:
+                    page.locator(f'#panel [data-node-link="{target}"]').click()
+                    expected = page.evaluate("id => DATA.nodes[id].label", target)
+                    if page.locator("#detail-title").inner_text() != expected:
+                        fails.append(f"{name}: consolidated AI link to {target} failed")
+                page.keyboard.press("Escape")
+                page.wait_for_function("!document.querySelector('dialog').open && !document.querySelector('.node.sel')")
+            page.locator('#map [data-node="nvidia"]').focus()
+            page.keyboard.press("Enter")
+            if page.locator("#detail-title").inner_text() != "NVIDIA CEO resigns":
+                fails.append(f"{name}: keyboard node activation failed")
+            page.keyboard.press("Escape")
+            page.wait_for_function("!document.querySelector('dialog').open && !document.querySelector('.node.sel')")
+            page.locator('#map [data-node="nvidia"]').click()
+            page.mouse.click(1, 1)
+            page.wait_for_function("!document.querySelector('dialog').open && !document.querySelector('.node.sel')")
+            if page.locator('[data-node="leadership"]').count():
+                fails.append(f"{name}: the merged leadership node is still rendered")
+            if page.evaluate("document.documentElement.scrollWidth") > width:
+                fails.append(f"{name}: map navigation causes page overflow")
             if errs:
                 fails.append(f"{name}: script errors {errs}")
-            page.locator('.chip[data-k="nvidia"]').click()
-            page.locator("#back-map").click()
-            page.evaluate("scrollTo(0,0)")
+            page.locator("#map-canvas").evaluate("e => {e.scrollLeft=0;e.scrollTop=0}")
+            page.evaluate("document.activeElement.blur()")
             if a.shots:
                 out = pathlib.Path(a.shots)
                 out.mkdir(parents=True, exist_ok=True)

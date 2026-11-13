@@ -39,6 +39,8 @@ python scripts/validate.py
 
 ### Step C — Logic check (the dots)
 
+Review the whole graph, including unchanged columns, nodes, edges and chains. Check the changelog's whole-map review: were overlapping mechanisms consolidated, missing defensible links considered, and similar-looking nodes kept distinct for concrete reasons? After any merge, check all incoming/outgoing references, evidence bases, counterpoints and overlapping chains rather than only the edited neighborhood.
+
 For each new or changed edge:
 - Does it pass the four tests in `AGENT.md` 4.1 (mechanism, sentence, sign, evidence)?
 - Is the sign right for the direction the chain describes?
@@ -58,10 +60,12 @@ For each chain:
 
 ### Step E — Readability
 
+The user wants a map-only page: all nodes and links visible initially, with details and sources only in an on-demand popup. Check that no masthead, chain picker, permanent reading panel, news section, standalone legend or footer returns. Verify desktop fit, readable mobile panning, every node popup, close/Escape behavior and connection navigation. Chain scripts remain subject to the data/logic checks even though their former UI is removed.
+
 Run `python scripts/render_check.py --shots <scratch dir>`. Any failure is a **blocker**. Then open the screenshots (desktop about 1300px and phone about 400px, light and dark) and check by eye. If Playwright is not available, render the page by hand and set `render_check: manual` in your record. Check:
 - No overlapping boxes, lines through boxes, overlapping +/− markers, or clipped text.
 - The map is no denser than the previous release unless the additions earned it.
-- Each panel reads cleanly: headline value, facts, driven by, drives, script, sources.
+- Each node popup reads cleanly: headline value, dates, facts, driven by, drives, read-through and sources.
 - Plain English, short sentences, units and periods stated.
 
 ### Step F — Lessons

@@ -1,10 +1,10 @@
 # Macro Dot Map
 
-An interactive cause-and-effect map of what is driving markets right now: the oil shock, inflation, rates, AI, credit, gold and FX, through to portfolio construction. It is built for buy-side interview prep. Pick a chain to walk through a story step by step and get a ready-to-say 60-second answer, or tap any box to see what drives it and what it drives. Every number links to its source.
+An interactive cause-and-effect map of what drives markets: oil, inflation, rates, AI, credit, gold and FX through to portfolio effects. The website displays only the diagram. Click a node to highlight its connections and open dated facts, mechanisms and sources; close the popup to return to the complete map. On compact screens, pan horizontally to read all five columns at a useful text size.
 
-Live page: https://podor.org/macro-dot-map/ (GitHub Pages, serves `index.html`). The claude.ai artifact URL in `meta.artifactUrl` is a legacy mirror and is not updated by the daily run.
+Live page: https://podor.org/macro-dot-map/ (GitHub Pages serves `index.html`). The legacy claude.ai artifact URL is not updated by the daily run.
 
-The map fills the page width. Market-moving headlines appear directly as shock nodes, connected to their transmission channels, markets and portfolio implications. Select a chain or a node to highlight the connections and read dated facts and sources in the panel underneath. Dashed links identify our reasoning. Phone List / Diagram views show the same drivers.
+New headlines belong directly in the map. Each update must also review the entire graph for overlapping mechanisms, missing connections, repeated facts and chains that can be merged. The source data retains chain scripts for internal logic/numeric checks; the page has no chain picker, permanent reading panel, news section, masthead, legend or footer.
 
 ## How it stays current and clean
 
@@ -42,7 +42,7 @@ python scripts/render_check.py    # layout checks (needs: pip install playwright
 python scripts/release_check.py   # must print RELEASE OK before publishing
 ```
 
-## Legend on the page
+## Map notation
 
 - Solid line: the link is stated by a tier-1 or tier-2 source.
 - Dashed line: unsourced, our own reasoning.

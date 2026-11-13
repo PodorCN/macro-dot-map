@@ -2,9 +2,9 @@
   "meta": {
     "title": "Macro Dot Map",
     "asOf": "2026-11-12",
-    "version": 10,
+    "version": 11,
     "artifactUrl": "https://claude.ai/artifact/GnDR8esNpiSLzq6ki3r8dT",
-    "defaultChain": "nvidia"
+    "defaultChain": "ai"
   },
   "layout": {
     "viewBox": [
@@ -126,11 +126,6 @@
       "url": "https://www.streetinsider.com/Reuters/Meta%2Braises%2B%2415%2Bbillion%C2%A0in%2Bfive-part%2BUS%2Bbond%2Bsale/27283778.html",
       "tier": 2,
       "publisher": "Reuters"
-    },
-    "refunding": {
-      "name": "US Treasury: Nov 4 quarterly refunding statement",
-      "url": "https://home.treasury.gov/news/press-releases/sb0678",
-      "tier": 1
     },
     "factor_oct": {
       "name": "MarketWatch via Yahoo Finance: October factor rotation",
@@ -264,7 +259,7 @@
       "y": 520,
       "kind": "structural",
       "asOf": "2026-11-12",
-      "value": "AI investment needs cash, debt and equity",
+      "value": "AI spending commitments exceed internal cash generation",
       "facts": [
         {
           "text": "Oct 29: Amazon kept 2026 cash capex guidance near $220B. Trailing-twelve-month free cash flow was an outflow of $42.4B, largely reflecting AI investment.",
@@ -277,20 +272,6 @@
           "text": "Meta guides 2026 capex of $135–145B; Q3 free cash flow was negative $2.12B.",
           "src": [
             "meta_ir"
-          ],
-          "basis": "sourced"
-        },
-        {
-          "text": "Oct 26: Meta launched approximately $35B of equity offerings, alongside plans for a future $60B at-the-market program.",
-          "src": [
-            "sec_meta"
-          ],
-          "basis": "sourced"
-        },
-        {
-          "text": "Nov 10: Anthropic filed a preliminary IPO prospectus for 825 million shares at an estimated $70-78 each. Terms remain subject to completion.",
-          "src": [
-            "anthropic_s1a2"
           ],
           "basis": "sourced"
         }
@@ -364,17 +345,18 @@
       "say": "Energy still lifts headline inflation, even as household inflation expectations ease."
     },
     "issuance": {
-      "label": "AI capital supply",
+      "label": "AI funding pressure",
       "tag": "CoreWeave debt $46.9B",
       "layer": 1,
       "y": 330,
       "kind": "structural",
       "asOf": "2026-11-12",
-      "value": "AI capital demand spans debt, equity and customer cash",
+      "value": "AI financing needs span debt and equity",
       "facts": [
         {
-          "text": "Nov 3: Meta said it was raising $15B through a five-part US dollar bond offering to help finance AI infrastructure.",
+          "text": "Oct 26: Meta announced about $35B of equity offerings and a future $60B at-the-market plan; Nov 3: it said it was raising $15B of bonds for AI infrastructure.",
           "src": [
+            "sec_meta",
             "meta_bond"
           ],
           "basis": "sourced"
@@ -387,42 +369,9 @@
           "basis": "sourced"
         },
         {
-          "text": "Nov 4: Treasury announced $125B of refunding securities, replacing about $97B of maturities and raising about $28B of new cash.",
-          "src": [
-            "refunding"
-          ],
-          "basis": "sourced"
-        },
-        {
-          "text": "Nov 10: Anthropic proposed an IPO and a $26B concurrent private placement, contingent on completion of the offering.",
+          "text": "Nov 10: Anthropic proposed 825M IPO shares at $70–78 each, plus a $26B concurrent private placement conditional on the offering.",
           "src": [
             "anthropic_s1a2"
-          ],
-          "basis": "sourced"
-        }
-      ],
-      "say": "AI funding uses debt and equity; CoreWeave's reported debt also shows why financing terms matter."
-    },
-    "overcap": {
-      "label": "AI build-out risk",
-      "tag": "Pace + payoff doubts",
-      "layer": 1,
-      "y": 470,
-      "kind": "structural",
-      "asOf": "2026-11-12",
-      "value": "Investors question AI build-out pace and returns",
-      "facts": [
-        {
-          "text": "Nov 5: investors feared a Democratic-controlled Congress could slow data-center construction, triggering a sharp AI stock selloff.",
-          "src": [
-            "wrap_nov5"
-          ],
-          "basis": "sourced"
-        },
-        {
-          "text": "Nov 3: JPMorgan vice chairman Daniel Pinto said AI revenue and earnings expectations were too steep and could correct.",
-          "src": [
-            "ai_finance"
           ],
           "basis": "sourced"
         },
@@ -434,7 +383,45 @@
           "basis": "sourced"
         }
       ],
-      "say": "Build-out and payoff fears are investor concerns; strong compute demand remains a counterpoint."
+      "say": "Funding needs can become delivery risk if AI builders cannot raise capital on workable terms."
+    },
+    "overcap": {
+      "label": "AI execution risk",
+      "tag": "Funding, rules, CEO",
+      "layer": 1,
+      "y": 470,
+      "kind": "structural",
+      "asOf": "2026-11-12",
+      "value": "Risks to AI construction and NVIDIA execution",
+      "facts": [
+        {
+          "text": "Nov 5: investors feared a Democratic-controlled Congress could slow data-center construction, triggering a sharp AI stock selloff.",
+          "src": [
+            "wrap_nov5"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "AP described Huang's departure as leaving NVIDIA facing an uncertain future.",
+          "src": [
+            "ap_nvda_exit"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "NVIDIA's board expects operations, customer commitments and the product roadmap to continue without interruption.",
+          "src": [
+            "nvda_transition"
+          ],
+          "basis": "sourced"
+        },
+        {
+          "text": "Project delays can reduce chip orders; NVIDIA-specific execution risk can affect its valuation without weaker demand across the sector.",
+          "src": [],
+          "basis": "unsourced"
+        }
+      ],
+      "say": "Track funding and delivery; NVIDIA succession risk does not prove sector-wide demand weakness."
     },
     "fed": {
       "label": "Fed",
@@ -572,7 +559,7 @@
       "say": "Canada has already hiked, but weaker employment makes the next decision harder."
     },
     "energy": {
-      "label": "Energy stocks",
+      "label": "Energy earnings",
       "tag": "Q3 blended EPS growth",
       "layer": 3,
       "y": 90,
@@ -874,38 +861,6 @@
       ],
       "say": "NVIDIA's CEO exit adds leadership risk; the board expects product plans to continue."
     },
-    "leadership": {
-      "label": "AI leadership risk",
-      "tag": "Succession uncertainty",
-      "layer": 1,
-      "y": 400,
-      "kind": "event",
-      "asOf": "2026-11-12",
-      "eventDate": "2026-11-12",
-      "value": "NVIDIA succession risk; board expects continuity",
-      "facts": [
-        {
-          "text": "AP described Huang's departure as leaving NVIDIA facing an uncertain future.",
-          "src": [
-            "ap_nvda_exit"
-          ],
-          "basis": "sourced"
-        },
-        {
-          "text": "NVIDIA's board expects operations, customer commitments and the product roadmap to continue without interruption.",
-          "src": [
-            "nvda_transition"
-          ],
-          "basis": "sourced"
-        },
-        {
-          "text": "Leadership uncertainty can affect the valuation investors pay for NVIDIA's earnings; it does not establish weaker chip demand across the sector.",
-          "src": [],
-          "basis": "unsourced"
-        }
-      ],
-      "say": "Watch succession and execution at NVIDIA while keeping company risk separate from sector demand."
-    },
     "coreweave": {
       "label": "CoreWeave earnings",
       "tag": "CRWV +24.7% Nov 11",
@@ -1120,11 +1075,9 @@
       "from": "overcap",
       "to": "semis",
       "sign": "−",
-      "why": "Fears of a slower AI build-out reduce expected chip demand.",
-      "src": [
-        "wrap_nov5"
-      ],
-      "basis": "sourced",
+      "why": "Execution uncertainty can lower expected chip earnings or valuation multiples.",
+      "src": [],
+      "basis": "unsourced",
       "via": 450
     },
     {
@@ -1155,27 +1108,6 @@
       "basis": "unsourced"
     },
     {
-      "id": "nvidia-leadership",
-      "from": "nvidia",
-      "to": "leadership",
-      "sign": "+",
-      "why": "Huang's departure leaves NVIDIA facing succession uncertainty.",
-      "src": [
-        "ap_nvda_exit"
-      ],
-      "basis": "sourced"
-    },
-    {
-      "id": "leadership-semis",
-      "from": "leadership",
-      "to": "semis",
-      "sign": "−",
-      "why": "NVIDIA succession risk can reduce the valuation investors pay for its earnings.",
-      "src": [],
-      "basis": "unsourced",
-      "via": 408
-    },
-    {
       "id": "coreweave-overcap",
       "from": "coreweave",
       "to": "overcap",
@@ -1186,6 +1118,26 @@
       ],
       "basis": "sourced",
       "signAt": 0.25
+    },
+    {
+      "id": "issuance-overcap",
+      "from": "issuance",
+      "to": "overcap",
+      "sign": "+",
+      "why": "Funding constraints can delay planned AI capacity.",
+      "basis": "unsourced",
+      "src": []
+    },
+    {
+      "id": "nvidia-overcap",
+      "from": "nvidia",
+      "to": "overcap",
+      "sign": "+",
+      "why": "Huang's departure leaves NVIDIA facing company execution uncertainty.",
+      "basis": "sourced",
+      "src": [
+        "ap_nvda_exit"
+      ]
     }
   ],
   "chains": [
@@ -1233,9 +1185,11 @@
         "aicapex-issuance",
         "issuance-y10",
         "y10-aicapex",
+        "issuance-overcap",
+        "overcap-semis",
         "y10-semis"
       ],
-      "script": "AI investment still needs external capital. Amazon guides roughly $220B of cash capex this year, while its trailing free cash flow is negative. Meta combines equity and debt, including its November bond offering. CoreWeave reports $46.9B of debt carrying value; Anthropic proposes an IPO and a conditional private placement. Debt supply competes for capital, although Treasury refunding includes replacement borrowing rather than all new cash. Higher capital costs can slow construction, while higher discount rates can weigh on chip valuations. I would compare funding terms and cash generation with demand, rather than explain a daily Treasury move with issuance alone.",
+      "script": "AI investment needs external capital. Amazon guides roughly $220B of cash capex, while CoreWeave's $46.9B debt carrying value shows financing exposure. Meta and Anthropic illustrate debt and equity funding. More debt competes for capital and can pressure yields. Higher Treasury yields can raise the financing hurdle for planned spending. Funding constraints can also delay capacity, reducing expected chip earnings. Higher discount rates can separately weigh on chip valuations. These are conditional financing and valuation channels, not proof that AI issuance caused a particular daily Treasury move. I would compare debt service and funding terms with cash generation and delivery commitments.",
       "topics": [
         "Term premium",
         "Bond supply",
@@ -1245,20 +1199,22 @@
     },
     {
       "key": "ai",
-      "name": "AI earnings, rules and rotation",
+      "name": "AI funding, execution and stocks",
       "edges": [
+        "issuance-overcap",
+        "nvidia-overcap",
         "coreweave-overcap",
         "aipolicy-overcap",
         "overcap-semis",
-        "semis-breadth",
-        "semis-factor"
+        "semis-breadth"
       ],
-      "script": "AI construction risk has both demand support and policy headwinds. CoreWeave's Nov 10 results raised its 2026 revenue outlook to $13.0–13.3B, and CRWV rose 24.7% on Nov 11 as expansion worries eased. The earlier election shock points the other way: feared restrictions could slow data-center building and reduce expected chip demand. Because large technology companies dominate cap-weighted indices, chip weakness can favour equal weight. It can also favour strong balance sheets over crowded momentum; October factor returns are dated context. I would compare earnings guidance with actual construction rules before extrapolating either a relief rally or a selloff.",
+      "script": "AI risks meet at the ability to fund and deliver capacity. Financing pressure can slow the build-out. NVIDIA's CEO exit adds company execution uncertainty, while CoreWeave's results eased expansion doubts. Feared construction rules add a separate policy risk. Delivery uncertainty can reduce expected chip profits or valuation multiples, which can affect a cap-weighted index more than equal weight. These funding and valuation links are conditional reasoning. NVIDIA's board expects its roadmap to continue, and other chip stocks rose on Nov 12. I would monitor funding access, actual construction rules and succession together before inferring a broad demand decline.",
       "topics": [
-        "AI capex cycle",
+        "AI financing",
+        "Execution risk",
+        "Leadership and policy",
         "Concentration risk",
-        "Equal vs cap weight",
-        "Momentum crash"
+        "Equal vs cap weight"
       ]
     },
     {
@@ -1292,22 +1248,6 @@
         "Quality factor",
         "Default risk",
         "Refinancing risk"
-      ]
-    },
-    {
-      "key": "nvidia",
-      "name": "NVIDIA's CEO exit and the index",
-      "edges": [
-        "nvidia-leadership",
-        "leadership-semis",
-        "semis-breadth"
-      ],
-      "script": "NVIDIA's CEO exit adds company risk to a concentrated market. The company announced Huang's departure on Nov 12 and named Colette Kress interim CEO. Succession uncertainty can reduce the valuation investors pay for NVIDIA's earnings, even if sector demand holds up. Through the largest chip names, that can affect a cap-weighted index more than equal weight. These valuation and concentration links are our reasoning. Other AI chip stocks rose that day, and NVIDIA's board expects its roadmap to continue without interruption. I would watch the permanent succession plan and the Nov 17 earnings call before assuming broader demand weakness.",
-      "topics": [
-        "Key-person risk",
-        "AI leadership",
-        "Concentration risk",
-        "Equal vs cap weight"
       ]
     }
   ]

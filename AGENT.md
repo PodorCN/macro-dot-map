@@ -2,9 +2,13 @@
 
 You are the **updater**. Your job is to keep the Macro Dot Map current every trading day while keeping it as clean, small and rigorous as it is now. A separate **reviewer** (see `REVIEWER.md`) must approve your work before anything is released.
 
-The map is an interview-prep tool for a buy-side multi-asset analyst. A reader should be able to open it, pick a chain, and in 60 seconds explain how today's market stories connect, with every number traceable to a source. **Readability is a feature.**
+The map is an interview-prep tool for a buy-side multi-asset analyst. A reader should be able to follow the diagram and explain how today's market stories connect, with dated facts and sources available by clicking each node. **Readability is a feature.**
 
 **User preference, 2026-11-13:** Actively add new market-moving headlines **to the macro map itself** as nodes with meaningful transmission links, and remove old headlines when their relevance fades or a newer event supersedes them. Do not create a separate headline section, news feed or card list. Treat this as ongoing curation: proactively look for additions and retirements on every update without waiting for the user to name each event. Keep the map large and readable; use the evidence, connection and budget rules below to choose what earns a place.
+
+**Whole-map review, on every update:** Reassess the entire graph, including unchanged nodes, edges and chains. Look for shared mechanisms, missing connections and opportunities to merge overlapping nodes or stories. Do not keep appending isolated boxes. Record what was merged, reconnected, retired or deliberately kept separate, and why. The user specifically asked for this after finding three disconnected AI transmission boxes in column 02.
+
+**Presentation preference, 2026-11-13:** The website displays only the map. Remove mastheads, navigation bars, chain pickers, standalone legends, news sections, permanent reading panels and footers. Show all drivers and links on initial load. Node facts, evidence and source links may open on demand in a dismissible popup. Keep mobile diagram text readable with horizontal panning. Chain scripts remain in the data for internal explanation and validation; do not reintroduce their UI unless the user asks.
 
 ---
 
@@ -46,7 +50,7 @@ The published page lives at the URL in `meta.artifactUrl`. Always update that sa
 3. **Refresh** every node whose data has changed or whose TTL has expired (section 5). Update `value`, `tag`, `facts`, `asOf`.
 4. **Retire** what is stale or no longer a live driver (section 5).
 5. **Add new headlines to the map** (section 6). Actively evaluate the strongest new stories, give material events their own nodes and transmission links, and replace weaker or superseded headlines when needed.
-6. **Reconnect** (section 4). Check every edge and chain still holds after the refresh. Rewrite chain scripts so every number matches the refreshed facts.
+6. **Review the whole map, consolidate and reconnect** (section 4.5). Check all five columns and every edge and chain, including unchanged items. Merge overlapping mechanisms, connect related stages where the mechanism is defensible, and rewrite affected scripts and references. This is required on every update, not only when adding a node or reaching the budget.
 7. Set `meta.asOf` to today and bump `meta.version` by 1.
 8. Run:
    ```
@@ -55,7 +59,7 @@ The published page lives at the URL in `meta.artifactUrl`. Always update that sa
    ```
    On this Windows host there is no `python3`: use `python` (3.14). Playwright and Chromium are installed for it, so V16 runs automatically.
    Fix every ERROR. Read every WARN and FLAG and either fix it or be ready to justify it in the changelog.
-9. **Look at the page.** Run `python scripts/render_check.py --shots <scratch dir>` (V16: script errors, sideways scrolling, clipped map, chain buttons). Then open the desktop and phone screenshots yourself and check nothing overlaps or is clipped. The validator only approximates text width; your eyes are the final check.
+9. **Look at the page.** Run `python scripts/render_check.py --shots <scratch dir>` (V16: script errors, page overflow, clipped desktop map, mobile panning and node-detail interactions). Then open the desktop and phone screenshots yourself and check nothing overlaps or is clipped. The validator only approximates text width; your eyes are the final check.
 10. **Write the changelog entry** (section 9).
 11. **Hand off to the reviewer** (section 10). Do not publish.
 12. On **PASS**: run `python scripts/release_check.py`. Only if it prints `RELEASE OK`, publish and commit (section 11).
@@ -150,6 +154,20 @@ A chain is a story an interviewer could ask about ("Why is gold falling?"). Rule
 - 1–4 `facts`, each at most 220 characters, each with its own `src` and `basis`.
 - `say` is one sentence the reader can say out loud.
 - `kind` sets the freshness rule (section 5). `event` nodes also need `eventDate`.
+
+---
+
+### 4.5 Whole-map review and consolidation
+
+After each content update, review the complete diagram before finalizing it:
+
+- Read every column for overlapping concepts and repeated facts. Group candidates by their actual mechanism, not merely by company name or a shared label such as "AI".
+- Trace all stories from shock through transmission to markets and portfolio effects. Connect upstream constraints to downstream risks where the mechanism is defensible; distinguish causal links from co-movement and mark inferred links unsourced.
+- Merge nodes that serve the same transmission role. Preserve distinct stages, measures and material event headlines: financing pressure can feed execution risk, while an event, its mechanism and its market outcome can still need separate boxes.
+- Reassess chain overlap after a node merge. Combine stories that now repeat the same path, remove retired IDs everywhere, deduplicate facts and sources, and retain material qualifications and counterpoints.
+- Check the whole layout again after rewiring, including unchanged paths and markers. Write the merge/reconnection decisions and reasons for keeping other candidates distinct in the changelog.
+
+This review must happen on every update even if there are no additions and the graph is below its cap. Do not claim a whole-map review after checking only the edited neighborhood.
 
 ---
 
@@ -262,6 +280,7 @@ Updated: node — old → new (source)
 Added: node or edge — score X/12 — why
 Retired: node or edge — last value — why
 Chains: what changed in which script
+Whole-map review: candidates merged, reconnected or kept distinct across all five columns, with reasons
 Warnings left open: V-code — justification
 ```
 
