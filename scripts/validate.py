@@ -11,6 +11,7 @@ past mistake gets an automated guard, the guard is listed here and in the
 lesson. Writes build/validate-report.json for release_check.py.
 """
 import argparse, collections, datetime as dt, hashlib, json, math, pathlib, re, sys
+from decimal import Decimal, ROUND_HALF_UP
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -61,9 +62,22 @@ def numbers(text):
 
 
 def supported(n, pool):
+    # A different measure within ten percent is not evidence.
+    # Below 100, an integer has too little precision to infer a safe rounding:
+    # e.g. CoreWeave's $9B cannot be backed by Alphabet's unrelated $9.07B.
     if 1900 <= n <= 2100 and float(n).is_integer():
         return n in pool
-    return any(abs(n - m) <= 0.1 * max(abs(m), 1e-9) for m in pool)
+    target = Decimal(str(n))
+    places = max(0, -target.normalize().as_tuple().exponent)
+    quantum = Decimal(1).scaleb(-places)
+    for m in pool:
+        if n == m:
+            return True
+        if places == 0 and abs(n) < 100:
+            continue
+        if Decimal(str(m)).quantize(quantum, rounding=ROUND_HALF_UP) == target:
+            return True
+    return False
 
 
 def check_basis(where, basis, src, sources):
