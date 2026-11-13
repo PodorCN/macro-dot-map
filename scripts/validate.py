@@ -19,7 +19,7 @@ import mapgeo  # noqa: E402
 
 # ---- readability budget (change only with an approved review that says why) ----
 CAPS = {
-    "nodes_total": 22, "nodes_per_column": 5, "edges_total": 26, "chains_total": 7,
+    "nodes_total": 32, "nodes_per_column": 7, "edges_total": 40, "chains_total": 8,
     "chain_edges_min": 3, "chain_edges_max": 6, "facts_min": 1, "facts_max": 4,
     "label": 19, "tag": 22, "value": 60, "fact": 220, "why": 110, "say": 170,
     "chain_name": 34, "script_words_min": 50, "script_words_max": 140, "topics_max": 5,

@@ -70,7 +70,7 @@ ul{margin:0;padding-left:18px;display:grid;gap:10px;color:var(--body)}
 @media(max-width:1099px){
   .workspace.has-details{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) minmax(0,45dvh)}
   .details{align-self:stretch;max-height:calc(45dvh - 20px);margin:10px 12px}
-  svg.map{min-height:584px}
+  svg.map{min-height:var(--map-readable-height,584px)}
 }
 @media(max-width:759px){.map-canvas{padding:8px}#panel{padding:0 20px 20px}h2{font-size:25px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
@@ -97,6 +97,7 @@ const num=i=>String(i+1).padStart(2,"0");
 const basis=b=>`<span class="tag ${b}">${{sourced:"sourced",weak:"verify",unsourced:"unsourced"}[b]}</span>`;
 const mk=(t,a={},p=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
 svg.setAttribute("viewBox",`0 0 ${LY.viewBox[0]} ${LY.viewBox[1]}`);
+svg.style.setProperty("--map-readable-height",`${980*LY.viewBox[1]/LY.viewBox[0]}px`);
 LY.layers.forEach((label,i)=>{
   const x=LY.columns[i],t=mk("text",{x,y:LY.headerY,class:"colhead","text-anchor":"middle"});
   const n=mk("tspan",{class:"colnum"},t);n.textContent=num(i)+"  ";t.appendChild(document.createTextNode(label));

@@ -41,6 +41,8 @@ python scripts/validate.py
 
 Review the whole graph, including unchanged columns, nodes, edges and chains. Check the changelog's whole-map review: were overlapping mechanisms consolidated, missing defensible links considered, and similar-looking nodes kept distinct for concrete reasons? After any merge, check all incoming/outgoing references, evidence bases, counterpoints and overlapping chains rather than only the edited neighborhood.
 
+The user also requested more content in every column. Check that expanded coverage earns its place through complete macro paths, that moved observations are not duplicated, and that rates, asset prices and portfolio effects have distinct roles. Any budget change still needs a concrete design reason and independent agreement. Structural mechanisms may use primary explanatory research, but that does not make a current-episode causal link sourced.
+
 For each new or changed edge:
 - Does it pass the four tests in `AGENT.md` 4.1 (mechanism, sentence, sign, evidence)?
 - Is the sign right for the direction the chain describes?

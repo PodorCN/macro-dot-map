@@ -166,6 +166,10 @@ def main():
                 if moved <= 0:
                     fails.append(f"{name}: readable mobile map cannot pan to later columns")
                 page.locator("#map-canvas").evaluate("e => e.scrollLeft=0")
+            if width < 1100:
+                scale = page.locator("#map").evaluate("e => e.getScreenCTM().a")
+                if scale < .9:
+                    fails.append(f"{name}: expanded diagram shrinks compact-screen text instead of panning")
             closed_canvas = page.locator("#map-canvas").bounding_box()
             ids = page.evaluate("Object.keys(DATA.nodes)")
             if page.locator("#map .node").count() != len(ids):
@@ -185,13 +189,15 @@ def main():
                 page.locator("#close-details").click()
                 page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
             for start, targets in (("nvidia", ("overcap", "semis", "breadth")),
-                                   ("issuance", ("overcap",))):
+                                   ("issuance", ("overcap",)),
+                                   ("jobs", ("wages", "fed", "front", "usd", "fx")),
+                                   ("auction", ("supply", "term", "treasuries", "duration"))):
                 page.locator(f'#map [data-node="{start}"]').click()
                 for target in targets:
                     page.locator(f'#panel [data-node-link="{target}"]').click()
                     expected = page.evaluate("id => DATA.nodes[id].label", target)
                     if page.locator("#detail-title").inner_text() != expected:
-                        fails.append(f"{name}: consolidated AI link to {target} failed")
+                        fails.append(f"{name}: map connection to {target} failed")
                 page.keyboard.press("Escape")
                 page.wait_for_function("document.getElementById('details').hidden && !document.querySelector('.node.sel')")
             page.locator('#map [data-node="nvidia"]').focus()

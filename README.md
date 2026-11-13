@@ -1,10 +1,12 @@
 # Macro Dot Map
 
-An interactive cause-and-effect map of what drives markets: oil, inflation, rates, AI, credit, gold and FX through to portfolio effects. The website displays only the diagram. Click a node to highlight its connections and show dated facts, mechanisms and sources in a floating card on the right. The map fits beside the card and stays clickable; closing details returns it to full width. Compact screens reserve space below the pannable map for details. The card has rounded corners, outer spacing and a shadow, and leaves the diagram visible.
+An interactive cause-and-effect map of what drives markets: jobs, wages, oil, inflation, AI, Treasury financing and rates through to asset prices and portfolio effects. The website displays only the diagram. Click a node to highlight its connections and show dated facts, mechanisms and sources in a floating card on the right. The map fits beside the card and stays clickable; closing details returns it to full width. Compact screens reserve space below the pannable map for details. The card has rounded corners, outer spacing and a shadow, and leaves the diagram visible.
 
 Live page: https://podor.org/macro-dot-map/ (GitHub Pages serves `index.html`). The legacy claude.ai artifact URL is not updated by the daily run.
 
 New headlines belong directly in the map. Each update must also review the entire graph for overlapping mechanisms, missing connections, repeated facts and chains that can be merged. The source data retains chain scripts for internal logic/numeric checks; the page has no chain picker, permanent reading panel, news section, masthead, legend or footer.
+
+Keep useful coverage across all five columns, including currency translation and duration effects alongside equity concentration and stock–bond hedging. The expansion budget allows 32 nodes, at most seven per column, 40 connections and eight internal stories; dated evidence and meaningful connections still decide what belongs.
 
 ## How it stays current and clean
 

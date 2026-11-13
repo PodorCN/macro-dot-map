@@ -8,6 +8,8 @@ The map is an interview-prep tool for a buy-side multi-asset analyst. A reader s
 
 **Whole-map review, on every update:** Reassess the entire graph, including unchanged nodes, edges and chains. Look for shared mechanisms, missing connections and opportunities to merge overlapping nodes or stories. Do not keep appending isolated boxes. Record what was merged, reconnected, retired or deliberately kept separate, and why. The user specifically asked for this after finding three disconnected AI transmission boxes in column 02.
 
+**Coverage preference, 2026-11-13:** The user asked for more content in every column. Broaden the map beyond AI and oil with connected macro drivers, transmission stages, rates, asset outcomes and portfolio effects. The reviewed expansion budget is 32 nodes, at most 7 per column, 40 connections and 8 internal chains. New material still needs dated evidence and a defensible role in a complete path; related observations should move into their own useful stages instead of being duplicated. Keep all-solid connections and the non-overlapping floating details card. Increase the drawing's height when needed and preserve readable compact-screen panning; never add cards by shrinking their text.
+
 **Presentation preference, 2026-11-13:** The website displays only the map. Remove mastheads, navigation bars, chain pickers, standalone legends, news sections, permanent reading panels and footers. Show all drivers and links on initial load. All map connections are solid lines, with no arrowheads or +/− markers. Retain causal direction, sign and evidence basis in the data; the details explain direction in words and label evidence as sourced, verify or unsourced. Clicking a node shows facts, evidence and source links in a dismissible, non-modal floating card on the right, with rounded corners, outer spacing and a shadow. Reserve space for the card and fit the whole desktop map into the remaining area; never cover or dim the overview with a popup or backdrop. Other map cards stay clickable while details are open. On compact screens, reserve a separate area below the readable, pannable map rather than overlaying it. Closing the card restores the full map area. Chain scripts remain in the data for internal explanation and validation; do not reintroduce their UI unless the user asks.
 
 ---
@@ -145,7 +147,7 @@ A chain is a story an interviewer could ask about ("Why is gold falling?"). Rule
   - walks the chain in order, one number per step at most,
   - uses only numbers that appear in that chain's nodes or edges (V12 enforces this; rounding within 10% is fine),
   - ends with a portfolio implication or what to watch.
-- At most 7 chains. Every node should sit on at least one chain (V08 warns if not).
+- At most 8 chains. Every node should sit on at least one chain (V08 warns if not).
 
 ### 4.4 Nodes
 
@@ -222,14 +224,14 @@ These headlines belong in the macro map, not in a separate news section. The exi
 A new node must pass every gate:
 
 1. **Material.** It moved an asset class or changed policy expectations, reported by at least one tier-1 source with numbers.
-2. **Connected.** It has at least one edge in and one edge out that pass the four edge tests (shocks need only an edge out). If you cannot draw its edges, it does not belong.
+2. **Connected.** It has at least one edge in and one edge out that pass the four edge tests. Shocks need only an edge out; terminal portfolio effects need only an edge in, as in the existing five-column design. If you cannot draw its edges, it does not belong.
 3. **Not redundant.** It is not another example of an existing node.
 4. **Interview-useful.** A PM could reasonably ask about it this month.
 
 Then score it 0–3 on each of materiality, recency, connectivity and interview value (maximum 12). Add it only if:
 
 - it scores **8 or more**, and
-- there is room under the budget (V03: 22 nodes, 5 per column, 26 edges, 7 chains), **or** it scores higher than the weakest existing node, which you then retire. Score the existing nodes the same way and write both scores in the changelog.
+- there is room under the budget (V03: 32 nodes, 7 per column, 40 edges, 8 chains), **or** it scores higher than the weakest existing node, which you then retire. Score the existing nodes the same way and write both scores in the changelog.
 
 A new chain must tell a story none of the existing chains tells. If it overlaps an existing chain by more than half its edges, extend or rewrite that chain instead.
 
