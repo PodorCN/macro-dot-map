@@ -151,6 +151,7 @@ def main():
                 err("V02", f"chain {c['key']}: unknown edge '{eid}'")
     if M.get("defaultChain") not in {c["key"] for c in C}:
         err("V02", "meta.defaultChain is not a chain key")
+    check_headlines(data, today)
     if errors:
         return finish(data, today)
 
@@ -173,7 +174,9 @@ def main():
     for nid, n in N.items():
         if not CAPS["facts_min"] <= len(n["facts"]) <= CAPS["facts_max"]:
             err("V03", f"node {nid}: {len(n['facts'])} facts, allowed {CAPS['facts_min']}-{CAPS['facts_max']}")
-    used = {k for n in N.values() for f in n["facts"] for k in f["src"]} | {k for e in E for k in e["src"]}
+    used = ({k for n in N.values() for f in n["facts"] for k in f["src"]}
+            | {k for e in E for k in e["src"]}
+            | {k for h in data.get("headlines", []) for k in h["src"]})
     for k in S:
         if k not in used:
             warn("V03", f"source {k} is not used; remove it")
@@ -411,6 +414,59 @@ def main():
     check_sweep(M["asOf"])
 
     return finish(data, today)
+
+
+def check_headlines(data, today):
+    """V21: news dates and sources are independent of the historical map snapshot."""
+    headlines = data.get("headlines", [])
+    if not isinstance(headlines, list):
+        err("V21", "headlines must be a list")
+        return
+    if not headlines:
+        return
+    try:
+        checked = dt.date.fromisoformat(data["meta"]["headlinesAsOf"])
+        if checked > today:
+            err("V21", "meta.headlinesAsOf is in the future")
+    except (KeyError, TypeError, ValueError):
+        err("V21", "headlines need a valid meta.headlinesAsOf date")
+        return
+    ids = set()
+    for h in headlines:
+        required = {"id", "title", "date", "category", "summary", "watch", "nodes", "src", "basis"}
+        if not isinstance(h, dict) or not required <= h.keys():
+            err("V21", "headline is missing required fields")
+            continue
+        hid = h["id"]
+        if not isinstance(hid, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", hid):
+            err("V21", "headline id must use lowercase letters, digits and hyphens")
+            continue
+        if hid in ids:
+            err("V21", f"duplicate headline id {hid}")
+        ids.add(hid)
+        for field, cap in (("title", 100), ("summary", 300), ("watch", 220)):
+            value = h[field]
+            if not isinstance(value, str) or not value.strip() or len(value) > cap:
+                err("V21", f"headline {hid}: {field} must contain 1–{cap} characters")
+            elif CJK.search(value):
+                err("V21", f"headline {hid}: {field} must use English")
+        if h["category"] not in ("AI", "Macro", "Markets", "Policy"):
+            err("V21", f"headline {hid}: unknown category")
+        try:
+            if dt.date.fromisoformat(h["date"]) > checked:
+                err("V21", f"headline {hid}: date is after headlinesAsOf")
+        except (TypeError, ValueError):
+            err("V21", f"headline {hid}: invalid reporting date")
+        for field, known in (("nodes", data["nodes"]), ("src", data["sources"])):
+            refs = h[field]
+            if not isinstance(refs, list) or not refs or any(not isinstance(k, str) for k in refs):
+                err("V21", f"headline {hid}: {field} needs a nonempty list of references")
+            elif any(k not in known for k in refs):
+                err("V21", f"headline {hid}: unknown {field} reference")
+        if not isinstance(h["basis"], str):
+            err("V21", f"headline {hid}: basis must be a string")
+        elif isinstance(h["src"], list) and all(isinstance(k, str) for k in h["src"]):
+            check_basis(f"headline {hid}", h["basis"], h["src"], data["sources"])
 
 
 # AGENT.md section 3 areas; every run must say what it found in each, with dates (V19)

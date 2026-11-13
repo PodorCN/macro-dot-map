@@ -39,7 +39,7 @@ def main():
     out.parent.mkdir(exist_ok=True)
     out.write_text(html, encoding="utf-8")
     head, sep, body = html.partition("</style>")
-    page = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+    page = ('<!doctype html>\n<html lang="en">\n<head>\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             f"{head}{sep}\n</head>\n<body>{body}</body>\n</html>\n")
     (ROOT / "index.html").write_text(page, encoding="utf-8")

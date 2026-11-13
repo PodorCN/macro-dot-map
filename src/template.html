@@ -1,9 +1,10 @@
+<meta charset="utf-8">
 <title>Macro Dot Map</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="macro-dot-map:content-hash" content="__CONTENT_HASH__">
 <style>
 /* Layout: Thematic Tracker house style. Black masthead, date rule, editorial headline,
-   chain picker, then the five-stage map (shock → portfolio) with a reading panel beside it. */
+   chain picker, full-width transmission map, then headlines and a reading panel. */
 :root{
   --paper:#ffffff; --ink:#111111; --mut:#6b7280; --body:#374151; --line:#e3e3e3; --line-2:#d1d5db;
   --soft:#f6f6f4; --red:#e51503; --up:#0a7d44; --warn:#b45309;
@@ -41,6 +42,7 @@ header.mast .wrap{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;j
 .dateline{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 14px;border-bottom:2px solid var(--ink);padding:8px 0;font:12px var(--f-mono);color:var(--mut)}
 .dateline b{color:var(--ink)}
 .dateline .pill{margin-left:auto}
+.snapshot{margin:10px 0 0;padding:10px 12px;background:var(--soft);border-left:2px solid var(--warn);font:12px/1.6 var(--f-mono);color:var(--body)}
 .pill{font:700 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 .kicker{position:relative;padding-left:11px;font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
 .kicker::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:6px;background:var(--red)}
@@ -58,11 +60,10 @@ header.mast .wrap{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;j
 
 /* map + panel */
 .main{display:grid;gap:24px;grid-template-columns:minmax(0,1fr);padding:22px 0 8px}
-@media (min-width:1240px){.main{grid-template-columns:minmax(0,1fr) 350px;align-items:start}}
-@media (min-width:1500px){.main{grid-template-columns:minmax(0,1fr) 400px}}
-.mapbox{min-width:0;border-top:1px solid var(--ink)}
+@media (min-width:1100px){.main{grid-template-columns:minmax(0,1.25fr) minmax(360px,1fr);align-items:start}}
+.mapbox{grid-column:1/-1;min-width:0;border-top:1px solid var(--ink);scroll-margin-top:16px}
 .maphead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding:8px 0 4px}
-.mapscroll{overflow-x:auto}
+.mapscroll{overflow-x:auto;max-width:1640px;margin-inline:auto}
 svg.map{display:block;width:100%;min-width:820px;height:auto}
 .colnum{font:700 10.5px var(--f-mono);letter-spacing:.14em;fill:var(--red)}
 .colhead{font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;fill:var(--mut)}
@@ -89,7 +90,9 @@ svg.map{display:block;width:100%;min-width:820px;height:auto}
 
 /* reading panel */
 aside{min-width:0;scroll-margin-top:12px;border-top:2px solid var(--ink);padding-top:14px;display:grid;gap:22px}
-@media (min-width:1240px){aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);max-height:calc(100vh - 32px);overflow:auto;padding-right:4px}}
+@media (min-width:1100px){aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);max-height:calc(100vh - 32px);overflow:auto;padding-right:4px}}
+.panelnav{display:flex;align-items:center;justify-content:space-between;gap:12px;font:11px var(--f-mono);color:var(--mut)}
+.panelnav button{font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--line-2);padding:6px 9px;cursor:pointer;flex:none}
 aside h2{font-family:var(--f-display);font-size:28px;line-height:1.15;margin:8px 0 0;text-wrap:balance}
 .big{font:700 15px var(--f-mono);font-variant-numeric:tabular-nums;margin-top:10px;color:var(--ink)}
 aside h3{font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
@@ -126,6 +129,32 @@ aside ul b{color:var(--ink)}
 footer{border-top:2px solid var(--ink);margin-top:18px;padding-block:14px 56px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 20px}
 footer a{color:var(--mut)}
 
+/* Dated news can point to existing drivers without inventing causal links. */
+.headlines{min-width:0;border-top:2px solid var(--ink);padding-top:14px;scroll-margin-top:16px}
+.newshead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px}
+.newshead h2{font:700 30px/1.1 var(--f-display);margin:8px 0 0}
+.newsintro{font:14px/1.6 var(--f-sans);color:var(--mut);margin:10px 0 14px}
+.newsfilters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.newsfilters button{font:700 11px var(--f-mono);background:var(--paper);color:var(--mut);border:1px solid var(--line-2);padding:7px 10px;cursor:pointer}
+.newsfilters button[aria-pressed="true"]{background:var(--hot);border-color:var(--hot);color:var(--hot-fg)}
+.newslist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.news{min-width:0;border:1px solid var(--line-2);padding:16px;display:flex;flex-direction:column;gap:10px}
+.news.lead{grid-column:1/-1;border-top:3px solid var(--red);background:var(--soft)}
+.news.active{border-color:var(--hot);box-shadow:inset 0 0 0 1px var(--hot)}
+.news[hidden]{display:none}
+.newsmeta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 10px;font:10px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--mut)}
+.newsmeta b{color:var(--red)}
+.news h3{margin:0;font:700 20px/1.25 var(--f-display);text-wrap:balance}
+.news.lead h3{font-size:28px}
+.newsopen{font:inherit;text-align:left;cursor:pointer;color:var(--ink);background:none;border:0;padding:0}
+.newsopen:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.news p{margin:0;font:13px/1.6 var(--f-sans);color:var(--body)}
+.newsnodes{display:flex;flex-wrap:wrap;gap:5px}
+.newsnodes span{font:10px/1.4 var(--f-mono);color:var(--mut);padding:3px 5px;background:var(--soft);border:1px solid var(--line)}
+.newssource{margin-top:auto;padding-top:2px;font:11px/1.5 var(--f-mono);color:var(--mut);text-underline-offset:3px;overflow-wrap:anywhere}
+.headline-summary{margin:0;font:17px/1.7 var(--f-body)}
+.related{display:flex;flex-wrap:wrap;gap:8px 16px}
+
 /* drivers as a stacked list: the phone's default map view */
 .view{display:none;gap:0}
 .view button{font:700 11px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;background:var(--paper);color:var(--mut);border:1px solid var(--line-2);padding:6px 12px;cursor:pointer}
@@ -150,7 +179,8 @@ footer a{color:var(--mut)}
   .picker{padding:16px 0}
   .chip{font-size:14px;padding:10px 11px;gap:8px}
   .main{gap:20px;padding-top:18px}
-  .mapbox{order:1}
+  .newslist{grid-template-columns:minmax(0,1fr)}
+  .news.lead h3{font-size:25px}
   aside h2{font-size:24px}
   .say p{font-size:15.5px}
   .maphead{align-items:center}
@@ -164,19 +194,20 @@ footer a{color:var(--mut)}
 
 <header class="mast"><div class="wrap">
   <span class="brand"><i></i>Macro Dot Map</span>
-  <nav aria-label="Sections"><a href="#chains-sec">Chains</a><a href="#map-sec">Map</a><a href="https://podor.org/" target="_blank" rel="noopener">podor.org</a></nav>
+  <nav aria-label="Sections"><a href="#chains-sec">Chains</a><a href="#map-sec">Map</a><a href="#headlines-sec">Headlines</a><a href="https://podor.org/" target="_blank" rel="noopener">podor.org</a></nav>
 </div></header>
 
 <div class="wrap">
   <div class="dateline"><span id="asof"></span><span id="counts"></span></div>
+  <p class="snapshot" id="snapshot" hidden></p>
 
   <section class="picker" id="chains-sec">
     <span class="kicker">Chains · the questions an interviewer asks</span>
     <nav class="chains" id="chains" aria-label="Chains"></nav>
   </section>
 
-  <div class="main" id="map-sec">
-    <section class="mapbox">
+  <div class="main">
+    <section class="mapbox" id="map-sec">
       <div class="maphead"><span class="kicker">Transmission map · left to right</span><span class="note hint">Tap a box</span>
         <div class="view" role="group" aria-label="Map view"><button type="button" data-v="list" aria-pressed="true">List</button><button type="button" data-v="diagram" aria-pressed="false">Diagram</button></div></div>
       <div class="stack" id="stack"></div>
@@ -188,7 +219,17 @@ footer a{color:var(--mut)}
         <span><b style="color:var(--ink)">+</b> same direction · <b style="color:var(--ink)">−</b> opposite direction</span>
       </div>
     </section>
-    <aside id="panel" aria-live="polite"></aside>
+    <section class="headlines" id="headlines-sec" aria-labelledby="headlines-title">
+      <div class="newshead"><div><span class="kicker">The news behind the dots</span><h2 id="headlines-title">Headlines to connect</h2></div><span class="note" id="newsdate"></span></div>
+      <p class="newsintro">Pick a headline to highlight its related drivers. Open the source for the reporting.</p>
+      <div class="newsfilters" id="newsfilters" role="group" aria-label="Filter headlines"></div>
+      <div class="newslist" id="headlines"></div>
+      <p class="note" id="newscount" role="status"></p>
+    </section>
+    <aside id="inspector" aria-label="Selected story">
+      <div class="panelnav"><span id="paneldate"></span><button type="button" id="back-map">↑ Back to map</button></div>
+      <div id="panel" aria-live="polite" style="display:grid;gap:22px"></div>
+    </aside>
   </div>
 
   <footer class="note">
@@ -200,10 +241,13 @@ footer a{color:var(--mut)}
 <script>const DATA=/*__DATA__*/null;</script>
 <script>
 const {layout:LY,nodes:N,edges:E,chains:C,sources:S,meta:M}=DATA;
+const HEADLINES=DATA.headlines||[];
 const W=LY.nodeW,H=LY.nodeH;
 const svg=document.getElementById("map"),NS="http://www.w3.org/2000/svg",panel=document.getElementById("panel");
 svg.setAttribute("viewBox",`0 0 ${LY.viewBox[0]} ${LY.viewBox[1]}`);
-document.getElementById("asof").innerHTML="Data as of <b>"+new Date(M.asOf+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})+"</b>";
+const dateLabel=d=>new Date(d+"T12:00:00").toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+document.getElementById("asof").innerHTML="Map snapshot <b>"+dateLabel(M.asOf)+"</b>";
+if(M.headlinesAsOf&&M.headlinesAsOf!==M.asOf){const notice=document.getElementById("snapshot");notice.hidden=false;notice.textContent=`Headlines checked ${dateLabel(M.headlinesAsOf)}. Map prices and chain scripts remain the ${dateLabel(M.asOf)} snapshot.`}
 document.getElementById("counts").textContent=`${C.length} chains · ${Object.keys(N).length} drivers · ${E.length} links`;
 document.getElementById("ver").textContent="Version "+M.version;
 const mk=(t,a={},p=svg)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e};
@@ -234,8 +278,8 @@ Object.entries(N).forEach(([id,n])=>{
   mk("rect",{class:"box",x:x-W/2,y:y-H/2,width:W,height:H,rx:1},g);
   mk("text",{x:x-W/2+12,y:y-4,class:"nl"},g).textContent=n.label;
   mk("text",{x:x-W/2+12,y:y+14,class:"nt"},g).textContent=n.tag;
-  g.addEventListener("click",()=>toggleNode(id));
-  g.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();toggleNode(id)}});
+  g.addEventListener("click",()=>{toggleNode(id);reveal()});
+  g.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();toggleNode(id);reveal()}});
   nodeEl[id]=g;
 });
 
@@ -255,8 +299,9 @@ document.querySelectorAll(".view button").forEach(b=>b.onclick=()=>{
   mapbox.classList.toggle("diagram",b.dataset.v==="diagram");
   document.querySelectorAll(".view button").forEach(x=>x.setAttribute("aria-pressed",x===b));
 });
-const phone=matchMedia("(max-width:759px)"),calm=matchMedia("(prefers-reduced-motion:reduce)");
-function reveal(){if(!phone.matches)return;const r=panel.getBoundingClientRect();if(r.top<0||r.top>innerHeight*.5)panel.scrollIntoView({behavior:calm.matches?"auto":"smooth",block:"start"})}
+const calm=matchMedia("(prefers-reduced-motion:reduce)");
+function reveal(){const inspector=document.getElementById("inspector"),r=inspector.getBoundingClientRect();if(r.top<0||r.top>innerHeight*.5)inspector.scrollIntoView({behavior:calm.matches?"auto":"smooth",block:"start"})}
+document.getElementById("back-map").onclick=()=>mapbox.scrollIntoView({behavior:calm.matches?"auto":"smooth",block:"start"});
 
 function highlight(edgeIds,nodeIds,selId){
   const es=new Set(edgeIds),ns=new Set(nodeIds);
@@ -275,6 +320,8 @@ const TAGS={sourced:"sourced",weak:"verify",unsourced:"unsourced"};
 const basis=b=>`<span class="tag ${b}">${TAGS[b]}</span>`;
 const srcList=keys=>{const ks=[...new Set(keys)].filter(k=>S[k]);return ks.length?'<ul class="src">'+ks.map(k=>`<li><a href="${S[k].url}" target="_blank" rel="noopener">${esc(S[k].name)}</a>${S[k].tier===3?basis("weak"):""}</li>`).join("")+"</ul>":'<p class="note" style="margin:0">No sources.</p>'};
 const nodeSrc=n=>n.facts.flatMap(f=>f.src);
+function panelContext(text){document.getElementById("paneldate").textContent=text;document.getElementById("inspector").scrollTop=0}
+function clearNewsSelection(){document.querySelectorAll(".news").forEach(a=>a.classList.remove("active"));document.querySelectorAll(".newsopen").forEach(b=>b.setAttribute("aria-pressed","false"))}
 function sayBlock(t){return `<div class="say"><h3>Say it · about 60 seconds</h3><p id="script">${esc(t)}</p><button type="button" id="copy">Copy text</button></div>`}
 function selectScript(){const p=document.getElementById("script");const r=document.createRange();r.selectNodeContents(p);const s=getSelection();s.removeAllRanges();s.addRange(r)}
 function wireCopy(t){const b=document.getElementById("copy");if(!b)return;b.onclick=()=>{const done=()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy text",1500)};try{navigator.clipboard.writeText(t).then(done,selectScript)}catch(_){selectScript()}}}
@@ -283,6 +330,7 @@ let selected=null;
 function toggleNode(id){selected===id?unselect():selectNode(id)}
 function unselect(){
   selected=null;
+  clearNewsSelection();panelContext("Map snapshot · "+dateLabel(M.asOf));
   document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false"));
   clearHighlight();
   panel.innerHTML=`<div><span class="kicker">Nothing selected</span><h2>Pick a chain or tap a box</h2></div>
@@ -293,6 +341,7 @@ function unselect(){
 function selectChain(k){
   const c=C.find(x=>x.key===k),ci=C.indexOf(c);
   selected=null;
+  clearNewsSelection();panelContext("Map snapshot · "+dateLabel(M.asOf));
   document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.k===k));
   const edges=c.edges.map(id=>EBY[id]);
   const nodes=[...new Set(edges.flatMap(e=>[e.from,e.to]))];
@@ -309,6 +358,7 @@ function selectChain(k){
 function selectNode(id){
   const n=N[id];
   selected=id;
+  clearNewsSelection();panelContext("Map snapshot · "+dateLabel(M.asOf));
   document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false"));
   const ins=E.filter(e=>e.to===id),outs=E.filter(e=>e.from===id);
   highlight([...ins,...outs].map(e=>e.id),[id,...ins.map(e=>e.from),...outs.map(e=>e.to)],id);
@@ -320,8 +370,43 @@ function selectNode(id){
    ${sayBlock(n.say)}
    <div><h3>Sources</h3>${srcList(nodeSrc(n))}</div>`;
   wireCopy(n.say);
-  panel.querySelectorAll(".lk").forEach(b=>b.onclick=()=>{selectNode(b.dataset.n);reveal()});
+  const relatedNews=HEADLINES.filter(h=>h.nodes.includes(id));
+  if(relatedNews.length){const section=document.createElement("div");section.innerHTML=`<h3>Related headlines</h3><ul class="src">${relatedNews.map(h=>`<li><button type="button" class="lk" data-h="${esc(h.id)}">${esc(h.title)}</button><br><span class="note">${dateLabel(h.date)}</span></li>`).join("")}</ul>`;panel.appendChild(section);section.querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>{selectHeadline(b.dataset.h);reveal()})}
+  panel.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{selectNode(b.dataset.n);reveal()});
 }
+
+function selectHeadline(id){
+  const h=HEADLINES.find(x=>x.id===id);if(!h)return;
+  selected=null;clearNewsSelection();
+  document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed","false"));
+  document.querySelectorAll(".news").forEach(a=>{const active=a.dataset.h===id;a.classList.toggle("active",active);a.querySelector(".newsopen").setAttribute("aria-pressed",active)});
+  highlight([],h.nodes,null);
+  panelContext("Headline · "+dateLabel(h.date));
+  panel.innerHTML=`<div><span class="kicker">${esc(h.category)} · ${dateLabel(h.date)}</span><h2>${esc(h.title)}</h2></div>
+    <div><h3>What happened ${basis(h.basis)}</h3><p class="headline-summary">${esc(h.summary)}</p></div>
+    <div><h3>What to watch ${basis("unsourced")}</h3><p class="headline-summary">${esc(h.watch)}</p></div>
+    <div><h3>Related drivers</h3><p class="note">These drivers show the map snapshot from ${dateLabel(M.asOf)}. Highlighting them indicates relevance, not a confirmed causal link.</p><div class="related">${h.nodes.map(n=>`<button type="button" class="lk" data-n="${esc(n)}">${esc(N[n].label)}</button>`).join("")}</div></div>
+    <div><h3>Sources</h3>${srcList(h.src)}</div>`;
+  panel.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{selectNode(b.dataset.n);reveal()});
+}
+
+const newslist=document.getElementById("headlines");
+HEADLINES.forEach((h,i)=>{
+  const article=document.createElement("article");article.className="news"+(i===0?" lead":"");article.dataset.h=h.id;article.dataset.category=h.category;
+  article.innerHTML=`<div class="newsmeta"><b>${i===0?"Lead story · ":""}${esc(h.category)}</b><time datetime="${esc(h.date)}">${dateLabel(h.date)}</time></div>
+    <h3><button type="button" class="newsopen" aria-pressed="false">${esc(h.title)}</button></h3><p>${esc(h.summary)}</p>
+    <div class="newsnodes">${h.nodes.map(id=>`<span>${esc(N[id].label)}</span>`).join("")}</div>
+    <a class="newssource" href="${esc(S[h.src[0]].url)}" target="_blank" rel="noopener">${esc(S[h.src[0]].name)} ↗</a>`;
+  article.querySelector(".newsopen").onclick=()=>{selectHeadline(h.id);reveal()};newslist.appendChild(article);
+});
+document.getElementById("newsdate").textContent=M.headlinesAsOf?"Checked "+dateLabel(M.headlinesAsOf):"";
+const filters=document.getElementById("newsfilters");
+["All",...new Set(HEADLINES.map(h=>h.category))].forEach(category=>{
+  const b=document.createElement("button");b.type="button";b.textContent=category;b.setAttribute("aria-pressed",category==="All");
+  b.onclick=()=>{filters.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));let count=0;newslist.querySelectorAll(".news").forEach(a=>{a.hidden=category!=="All"&&a.dataset.category!==category;if(!a.hidden)count++});document.getElementById("newscount").textContent=`${count} of ${HEADLINES.length} headlines`};filters.appendChild(b);
+});
+document.getElementById("newscount").textContent=`${HEADLINES.length} headlines · Dated reporting, linked to the map`;
+document.getElementById("headlines-sec").hidden=HEADLINES.length===0;
 
 const nav=document.getElementById("chains");
 C.forEach((c,i)=>{const b=document.createElement("button");b.type="button";b.className="chip";b.dataset.k=c.key;b.setAttribute("aria-pressed","false");b.innerHTML=`<span class="k">${String.fromCharCode(65+i)}</span>${esc(c.name)}`;b.onclick=()=>{selectChain(c.key);reveal()};nav.appendChild(b)});
